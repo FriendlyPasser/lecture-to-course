@@ -25,6 +25,11 @@ Python 3.12, pypdf 6.10.0, Playwright 1.62.1, and installed Google Chrome on mac
   have two pages; the final page remains an image-only table for low-text detection.
 - Extracting the page shell into a separate template preserved the generated DOM,
   attributes, and effective text, including metadata with special characters.
+- After consolidating local files under `.local/`, a clean source copy passed
+  dependency installation, all 13 Python tests, demo build, static checks, and
+  offline browser tests. No dependencies, demo build, or Python bytecode appeared
+  in their former source-tree locations. Installing dependencies preserved an
+  existing local-file fixture; 375 moved historical-course resource links resolved.
 
 GitHub Actions is configured to repeat lint, formatting, Python tests, demo build,
 static checks, and offline Chromium interactions on Ubuntu for pushes and pull

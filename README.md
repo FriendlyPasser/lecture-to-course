@@ -19,32 +19,32 @@
 ```bash
 git clone https://github.com/FriendlyPasser/lecture-to-course.git
 cd lecture-to-course
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python lecture-to-course/scripts/build_course.py demo/course.json --out demo/site
-python lecture-to-course/scripts/check_site.py demo/site
-python demo/site/launch_course.py
+python3 -m venv .local/venv
+source .local/venv/bin/activate
+python -m pip install --cache-dir .local/cache/pip -r requirements.txt
+python -B lecture-to-course/scripts/build_course.py demo/course.json --out .local/demo/site
+python -B lecture-to-course/scripts/check_site.py .local/demo/site
+python -B .local/demo/site/launch_course.py
 ```
 
-Windows 的虚拟环境激活命令为 `.venv\Scripts\activate`。启动器会打印当前本机地址并打开默认浏览器；学习期间保留终端窗口，按 `Ctrl+C` 停止。
+Windows 的虚拟环境激活命令为 `.local\venv\Scripts\activate`。启动器会打印当前本机地址并打开默认浏览器；学习期间保留终端窗口，按 `Ctrl+C` 停止。
 
-也可以直接打开 `demo/site/index.html`。macOS 用户可双击生成目录中的 `打开课程.command`，作为直接打开受限时的替代入口。生成的网站不需要 Node.js、API 密钥、CDN 或在线服务；本机启动器需要 Python 3。
+也可以直接打开 `.local/demo/site/index.html`。macOS 用户可双击生成目录中的 `打开课程.command`，作为直接打开受限时的替代入口。生成的网站不需要 Node.js、API 密钥、CDN 或在线服务；本机启动器需要 Python 3。
 
-构建器不会覆盖非空目录。重复构建时请使用新的输出目录，例如 `--out work/demo-v2`。
+构建器不会覆盖非空目录。重复构建时请使用新的输出目录，例如 `--out .local/work/demo-v2`。
 
 ## 用自己的课件创建课程
 
 1. **提取索引。** 按授课顺序传入本地 PDF。
 
    ```bash
-   python lecture-to-course/scripts/extract_pdf.py lecture-01.pdf lecture-02.pdf --out work/source-index
+   python -B lecture-to-course/scripts/extract_pdf.py .local/lecture-01.pdf .local/lecture-02.pdf --out .local/work/source-index
    ```
 
 2. **核对原始页面。** 安装 [Poppler](https://poppler.freedesktop.org/) 并确保 `pdftoppm` 在 PATH 中；macOS 可使用 `brew install poppler`，Ubuntu 可使用 `sudo apt-get install poppler-utils`。
 
    ```bash
-   python lecture-to-course/scripts/render_pages.py work/source-index/sources/01-lecture-01.pdf --pages 1-8 --out work/review/lecture-01
+   python -B lecture-to-course/scripts/render_pages.py .local/work/source-index/sources/01-lecture-01.pdf --pages 1-8 --out .local/work/review/lecture-01
    ```
 
    页码从 1 开始，以 PDF 实际页序为准。可通过 `--renderer /path/to/pdftoppm` 或 `PDFTOPPM` 指定渲染器。文本较少的标记只是线索，所有页面仍需视觉核对。
@@ -54,9 +54,9 @@ Windows 的虚拟环境激活命令为 `.venv\Scripts\activate`。启动器会�
 4. **构建和验证。**
 
    ```bash
-   python lecture-to-course/scripts/build_course.py work/course.json --out work/site
-   python lecture-to-course/scripts/check_site.py work/site
-   python work/site/launch_course.py
+   python -B lecture-to-course/scripts/build_course.py .local/work/course.json --out .local/work/site
+   python -B lecture-to-course/scripts/check_site.py .local/work/site
+   python -B .local/work/site/launch_course.py
    ```
 
    检查来源页码、公式和测验理由，并在 1024、1440 像素宽度下检查阅读和交互。静态检查用于发现常见依赖问题，不能证明教学内容正确，也不是任意 HTML 的安全沙箱。HTML 片段应由可信作者编写。
@@ -78,39 +78,41 @@ demo/                   自编示例源文件，不含真实教师课件
   course.json           可直接构建的课程配置
   lecture-*.html        课程章节内容
 tests/                  流水线、回归和浏览器测试
+scripts/                开发依赖安装与工具入口
+.local/                 本地资料、生成结果、依赖和缓存（不上传）
 .github/workflows/      自动检查
 ```
 
-真实课件、历史课程输出、截图、压缩包及临时目录保留在本地，由 `.gitignore` 排除。建议将新课件和课程工作文件放在 `work/` 下。示例图片直接随源码提供，首次构建不依赖已有截图目录或 Poppler。
+`.gitignore` 只包含 `/.local/` 一条规则。真实课件、历史课程输出、截图、压缩包、虚拟环境、开发依赖和缓存都放在 `.local/`，新课件与工作文件建议放在 `.local/work/`。`demo/` 只保留可版本管理的自编示例源文件；首次构建不依赖已有截图目录或 Poppler。
 
 ## 开发与测试
 
-Python 检查与测试：
+先按快速体验创建并激活 `.local/venv`，再运行 Python 检查与测试。使用 `-B` 防止在源码目录产生字节码缓存；Ruff 缓存自动放在 `.local/cache/ruff`。
 
 ```bash
-python -m pip install -r requirements-dev.txt
-python -m ruff check .
-python -m ruff format --check .
-python -m unittest discover -s tests -v
+python -m pip install --cache-dir .local/cache/pip -r requirements-dev.txt
+python -B -m ruff check .
+python -B -m ruff format --check .
+python -B -m unittest discover -s tests -v
 ```
 
-浏览器测试需要 Node.js 22 或更新版本：
+浏览器测试需要 Node.js 22 或更新版本。`npm run setup` 使用根目录的依赖声明与锁文件，将依赖安装到 `.local/node_modules`；npm 缓存与测试浏览器分别放在 `.local/cache/npm` 和 `.local/cache/playwright`。
 
 ```bash
-npm ci
-npx playwright install chromium
+npm run setup
+npm run browsers:install
 npm run format:check
-python lecture-to-course/scripts/build_course.py demo/course.json --out demo/site
+python -B lecture-to-course/scripts/build_course.py demo/course.json --out .local/demo/site
 npm run test:browser
 ```
 
-如果已经按快速体验构建了 `demo/site`，跳过上述构建步骤。可通过 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` 指定已安装的 Chrome/Chromium。浏览器测试使用离线模式和直接文件地址，截图写入被忽略的 `demo/review/`；Python 测试另外验证本机 HTTP 启动器。
+如果已经按快速体验构建了 `.local/demo/site`，跳过上述构建步骤。可通过 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` 指定已安装的 Chrome/Chromium。浏览器测试使用离线模式和直接文件地址，截图写入被忽略的 `.local/demo/review/`；Python 测试另外验证本机 HTTP 启动器。
 
 格式化代码：
 
 ```bash
-python -m ruff check --fix .
-python -m ruff format .
+python -B -m ruff check --fix .
+python -B -m ruff format .
 npm run format
 ```
 

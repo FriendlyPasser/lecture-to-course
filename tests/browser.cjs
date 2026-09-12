@@ -2,9 +2,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { chromium } = require('playwright');
 
-const demoDir = path.resolve(__dirname, '../demo');
+const localDir = path.resolve(__dirname, '../.local');
+process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
+const { chromium } = require(path.join(localDir, 'node_modules/playwright'));
+
+const demoDir = path.join(localDir, 'demo');
 const reviewDir = path.join(demoDir, 'review');
 
 async function main() {

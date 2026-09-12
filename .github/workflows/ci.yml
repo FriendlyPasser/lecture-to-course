@@ -11,6 +11,9 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PIP_CACHE_DIR: ${{ github.workspace }}/.local/cache/pip
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -24,8 +27,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install -r requirements-dev.txt
-          npm ci
-          npx playwright install --with-deps chromium
+          npm run setup
+          npm run browsers:install -- --with-deps
       - name: Check code style
         run: |
           python -m ruff check .
@@ -35,7 +38,7 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Build and check synthetic demo
         run: |
-          python lecture-to-course/scripts/build_course.py demo/course.json --out demo/site
-          python lecture-to-course/scripts/check_site.py demo/site
+          python lecture-to-course/scripts/build_course.py demo/course.json --out .local/demo/site
+          python lecture-to-course/scripts/check_site.py .local/demo/site
       - name: Test offline browser interactions
         run: npm run test:browser
