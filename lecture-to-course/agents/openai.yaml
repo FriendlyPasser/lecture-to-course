@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lecture to Course"
+  short_description: "Turn lecture PDFs into offline English learning websites"
+  default_prompt: "Use $lecture-to-course to turn my lecture PDFs into an offline English course with a Chinese-English glossary."

@@ -1,0 +1,81 @@
+<ul class="objectives">
+  <li>Test independence using conditional and marginal probabilities.</li>
+  <li>Read the same relationship from a two-way table.</li>
+</ul>
+<section id="independence-test">
+  <p class="eyebrow">01 / THE IDEA</p>
+  <h2>Does the information change the probability?</h2>
+  <p>
+    Events are <button class="term" data-term="independence">independent</button> when their joint
+    probability equals the product of their individual probabilities. If P(S) &gt; 0, an equivalent
+    test is P(E | S) = P(E).
+  </p>
+  <div class="equation">
+    <math display="block" aria-label="P of E intersect S equals P of E times P of S"
+      ><mi>P</mi><mo>(</mo><mi>E</mi><mo>∩</mo><mi>S</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo
+      ><mi>E</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo></math
+    >
+    <p>
+      The equality is the independence condition, not a formula that holds for every pair of events.
+    </p>
+  </div>
+  <p>
+    Fifty of all 100 students take economics. The
+    <button class="term" data-term="marginal">marginal probability</button> is therefore 0.50,
+    compared with 0.60 among statistics students. These events are not independent in this survey.
+  </p>
+  <a data-source="s2" data-page="1">Lecture 2 · PDF p. 1</a>
+</section>
+<section id="read-table">
+  <p class="eyebrow">02 / SOURCE FIGURE</p>
+  <h2>One table, two denominators.</h2>
+  <figure>
+    <img
+      src="assets/two-way-table.png"
+      alt="Two-way table: statistics students 24 economics, 16 not economics, total 40; other students 26 economics, 34 not economics, total 60; column totals 50, 50 and 100."
+    />
+    <figcaption>
+      Raster-only source page, reviewed visually.
+      <a data-source="s2" data-page="2">Lecture 2 · PDF p. 2</a>
+    </figcaption>
+  </figure>
+  <details>
+    <summary>Check independence using the product rule</summary>
+    <p>
+      The observed joint probability is 24/100 = 0.24. Independence would require (50/100) ×
+      (40/100) = 0.20. Since 0.24 ≠ 0.20, the condition fails.
+    </p>
+    <p class="muted">This calculation applies the rule from page 1 to the counts on page 2.</p>
+    <a data-source="s2" data-page="1">Rule · p. 1</a
+    ><a data-source="s2" data-page="2">Counts · p. 2</a>
+  </details>
+</section>
+<section id="independence-quiz">
+  <p class="eyebrow">03 / CHECK YOUR REASONING</p>
+  <h2>Compare like with like.</h2>
+  <div class="quiz" data-answer="0">
+    <h3>Why are E and S not independent in this survey?</h3>
+    <div class="options">
+      <button>P(E | S) = 0.60 differs from P(E) = 0.50.</button
+      ><button>Both subjects have at least one student.</button
+      ><button>Every pair of different subjects must be dependent.</button>
+    </div>
+    <p class="quiz-status" role="status"></p>
+    <div class="explanation" hidden>
+      <p>
+        The first comparison directly tests independence because P(S) is positive. Nonempty events
+        can be independent or dependent. Being different subjects tells us nothing by itself about
+        the probability relationship.
+      </p>
+      <a data-source="s2" data-page="1">Check the source · p. 1</a>
+    </div>
+    <button class="retry" hidden>Try again</button>
+  </div>
+  <div class="supplement">
+    <strong>Supplementary explanation</strong>
+    <p>
+      An association in these counts does not establish a causal effect of studying one subject on
+      choosing the other.
+    </p>
+  </div>
+</section>

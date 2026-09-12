@@ -1,0 +1,4 @@
+-r requirements.txt
+Pillow>=10.1,<13
+reportlab>=4,<5
+ruff==0.15.6

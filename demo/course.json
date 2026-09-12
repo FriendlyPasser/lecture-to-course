@@ -1,0 +1,64 @@
+{
+  "id": "probability-demo",
+  "title": "Probability, with perspective.",
+  "description": "Two short lectures on changing the reference group, reading probabilities, and testing independence.",
+  "notice": "Synthetic demonstration · These are self-authored sample handouts, not real teacher materials.",
+  "sources": [
+    {
+      "id": "s1",
+      "title": "01-conditional-probability.pdf",
+      "path": "input/01-conditional-probability.pdf"
+    },
+    {
+      "id": "s2",
+      "title": "02-independence.pdf",
+      "path": "input/02-independence.pdf"
+    }
+  ],
+  "assets": [
+    {
+      "path": "assets/two-way-table.png",
+      "name": "two-way-table.png"
+    }
+  ],
+  "glossary": [
+    {
+      "id": "conditional",
+      "en": "Conditional probability",
+      "zh": "条件概率",
+      "definition": "The probability of an event within a specified conditioning event of positive probability."
+    },
+    {
+      "id": "reference-group",
+      "en": "Reference group",
+      "zh": "参照群体",
+      "definition": "The group used as the denominator when calculating a proportion."
+    },
+    {
+      "id": "independence",
+      "en": "Independence",
+      "zh": "独立性",
+      "definition": "Two events are independent when their joint probability equals the product of their probabilities."
+    },
+    {
+      "id": "marginal",
+      "en": "Marginal probability",
+      "zh": "边缘概率",
+      "definition": "The probability of an event without conditioning on the other event in a joint distribution."
+    }
+  ],
+  "lectures": [
+    {
+      "id": "conditional-probability",
+      "title": "Change the reference group",
+      "summary": "Why 24% and 60% can describe the same students — and answer different questions.",
+      "file": "lecture-01.html"
+    },
+    {
+      "id": "independence",
+      "title": "When information makes a difference",
+      "summary": "Use a two-way table to test whether two events are independent.",
+      "file": "lecture-02.html"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "lecture-to-course",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offline lecture-course templates and browser verification tools",
+  "scripts": {
+    "format": "prettier --write lecture-to-course/assets/template/*.{js,css} tests/*.cjs demo/*.html demo/course.json package.json .prettierrc.json",
+    "format:check": "prettier --check lecture-to-course/assets/template/*.{js,css} tests/*.cjs demo/*.html demo/course.json package.json .prettierrc.json",
+    "test:browser": "node tests/browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "prettier": "3.8.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,98 @@
+<ul class="objectives">
+  <li>Identify the reference group in a probability question.</li>
+  <li>Calculate a conditional probability and distinguish it from a joint probability.</li>
+</ul>
+<section id="reference-group">
+  <p class="eyebrow">01 / THE IDEA</p>
+  <h2>The denominator tells the story.</h2>
+  <p>
+    A survey records 100 students. Forty take statistics; 24 of those also take economics. We want
+    the fraction taking economics <em>among statistics students</em>.
+  </p>
+  <div class="panel flow">
+    <div><span class="stat">100</span>All students</div>
+    <span>→</span>
+    <div><span class="stat">40</span>Take statistics</div>
+    <span>→</span>
+    <div><span class="stat">24</span>Also take economics</div>
+  </div>
+  <p>
+    The phrase “among statistics students” sets the
+    <button class="term" data-term="reference-group">reference group</button>. We count 24 successes
+    out of 40 eligible students, not out of all 100.
+  </p>
+  <a data-source="s1" data-page="1">Lecture 1 · PDF p. 1</a>
+</section>
+<section id="calculation">
+  <p class="eyebrow">02 / WORKED EXAMPLE</p>
+  <h2>Condition first. Then count.</h2>
+  <p>
+    <button class="term" data-term="conditional">Conditional probability</button> measures the share
+    of an event inside a specified group. Let E mean economics and S mean statistics.
+  </p>
+  <div class="equation">
+    <math display="block" aria-label="P of E given S equals P of E intersect S divided by P of S"
+      ><mi>P</mi><mo>(</mo><mi>E</mi><mo>|</mo><mi>S</mi><mo>)</mo><mo>=</mo
+      ><mfrac
+        ><mrow><mi>P</mi><mo>(</mo><mi>E</mi><mo>∩</mo><mi>S</mi><mo>)</mo></mrow
+        ><mrow><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo></mrow></mfrac
+      ></math
+    >
+    <p>
+      Divide the probability of both events by the probability of the conditioning event. This
+      requires P(S) &gt; 0.
+    </p>
+  </div>
+  <details>
+    <summary>Show the three calculation steps</summary>
+    <ol>
+      <li>The joint share is 24 / 100 = 0.24.</li>
+      <li>The conditioning group has share 40 / 100 = 0.40.</li>
+      <li>Divide: 0.24 / 0.40 = 24 / 40 = 0.60.</li>
+    </ol>
+  </details>
+  <div class="split">
+    <div class="panel">
+      <h3>Conditional</h3>
+      <span class="stat">60%</span>
+      <p>Among statistics students, the share who take economics.</p>
+    </div>
+    <div class="panel">
+      <h3>Joint</h3>
+      <span class="stat">24%</span>
+      <p>Among all students, the share who take both subjects.</p>
+    </div>
+  </div>
+  <a data-source="s1" data-page="2">Lecture 1 · PDF p. 2</a>
+  <div class="supplement">
+    <strong>Supplementary explanation</strong>
+    <p>
+      Think of conditioning as filtering a list before computing a percentage. It does not mean
+      statistics causes students to choose economics.
+    </p>
+  </div>
+</section>
+<section id="check-understanding">
+  <p class="eyebrow">03 / CHECK YOUR REASONING</p>
+  <h2>Which group are you counting?</h2>
+  <div class="quiz" data-answer="1">
+    <h3>What is P(E | S) in this survey?</h3>
+    <div class="options">
+      <button>24 / 100 = 0.24</button><button>24 / 40 = 0.60</button
+      ><button>40 / 100 = 0.40</button>
+    </div>
+    <p class="quiz-status" role="status"></p>
+    <div class="explanation" hidden>
+      <p>
+        Conditioning on S limits the group to 40 statistics students. Of those, 24 take economics.
+        The first choice is the joint probability; the third is the probability of statistics alone.
+      </p>
+      <a data-source="s1" data-page="2">Check the source · p. 2</a>
+    </div>
+    <button class="retry" hidden>Try again</button>
+  </div>
+  <p>
+    <strong>Common mistake:</strong> seeing the same numerator and assuming the probabilities mean
+    the same thing. Always name the denominator's group.
+  </p>
+</section>

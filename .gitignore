@@ -1,0 +1,31 @@
+# Local system files and development environments
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+.ruff_cache/
+.pytest_cache/
+.env
+.env.*
+!.env.example
+*.log
+
+# Generated demo output; source fixtures remain versioned
+/demo/review/
+/demo/site/
+/demo/source-index/
+
+# Local lecture materials, previous course exports, and archives
+/DSAI*.pdf
+/dsai5205-chapter2/
+/dsai5206-image-course/
+/dsai5206-image-course-v2/
+/dsai5206-image-work/
+*.zip
+
+# New course work and distribution output
+/work/
+/dist/
+/build/

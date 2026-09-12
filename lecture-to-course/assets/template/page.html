@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${page_title} · ${course_title}</title>
+    <meta name="description" content="${description}">
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+  </head>
+  <body data-course="${course_id}" data-lecture="${lecture_id}">
+    <a class="skip" href="#content">Skip to lesson</a>
+    <aside class="rail">
+      <a class="brand" href="index.html">Lecture<br>notes, unfolded.<span>READ · REASON · REVIEW</span></a>
+      <nav aria-label="Lectures">
+        <a href="index.html">Course overview</a>
+        ${lecture_navigation_html}
+      </nav>
+      <nav class="chapters" aria-label="Chapters">${chapter_navigation_html}</nav>
+      ${reading_progress_html}
+      <p class="rail-footer">English lessons.<br>中文术语随时查阅。</p>
+    </aside>
+    <main id="content">
+      <div class="topline"><span>${course_title}</span><span>Study edition</span></div>
+      ${content_html}
+    </main>
+    <button class="glossary-tab" aria-controls="glossary" aria-expanded="false">EN / 中文</button>
+    <aside class="drawer" id="glossary" role="dialog" aria-label="English–Chinese glossary" hidden>
+      <div class="drawer-head">
+        <h2>Words to know</h2>
+        <button class="close" aria-label="Close glossary">×</button>
+      </div>
+      <label for="term-search">Find an English or Chinese term</label>
+      <input id="term-search" type="search" placeholder="Search terms…">
+      ${glossary_html}
+      <p class="empty" hidden>No matching terms.</p>
+    </aside>
+  </body>
+</html>
