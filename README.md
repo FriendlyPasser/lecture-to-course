@@ -27,7 +27,12 @@ python -B lecture-to-course/scripts/check_site.py .local/demo/site
 python -B .local/demo/site/launch_course.py
 ```
 
-Windows 的虚拟环境激活命令为 `.local\venv\Scripts\activate`。启动器会打印当前本机地址并打开默认浏览器；学习期间保留终端窗口，按 `Ctrl+C` 停止。
+上面的虚拟环境激活命令适用于 macOS/Linux。Windows 请根据使用的终端，替换其中的 `source .local/venv/bin/activate`：
+
+- **PowerShell：** `.\.local\venv\Scripts\Activate.ps1`
+- **CMD：** `.local\venv\Scripts\activate.bat`
+
+激活后，继续运行其余安装、构建和启动命令。启动器会打印当前本机地址并打开默认浏览器；学习期间保留终端窗口，按 `Ctrl+C` 停止。
 
 也可以直接打开 `.local/demo/site/index.html`。macOS 用户可双击生成目录中的 `打开课程.command`，作为直接打开受限时的替代入口。生成的网站不需要 Node.js、API 密钥、CDN 或在线服务；本机启动器需要 Python 3。
 
