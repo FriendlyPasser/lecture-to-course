@@ -6,6 +6,17 @@
   <p class="eyebrow">01 / THE IDEA</p>
   <h2>Does the information change the probability?</h2>
   <p>
+    In the previous lecture, changing the reference group gave us 60% instead of 24%. Now ask a new
+    question: does knowing that a student takes statistics change the chance that they take
+    economics? Compare the same event, E, before and after learning S.
+  </p>
+  <p>
+    Fifty of all 100 students take economics: 50/100 = 0.50. Within the statistics group, the share
+    is 24/40 = 0.60. Since 0.50 and 0.60 differ, knowing S changes the probability of E in this
+    survey.
+  </p>
+  <a data-source="s2" data-page="1">Lecture 2 · PDF p. 1</a>
+  <p>
     Events are <button class="term" data-term="independence">independent</button> when their joint
     probability equals the product of their individual probabilities. If P(S) &gt; 0, an equivalent
     test is P(E | S) = P(E).
@@ -20,9 +31,9 @@
     </p>
   </div>
   <p>
-    Fifty of all 100 students take economics. The
-    <button class="term" data-term="marginal">marginal probability</button> is therefore 0.50,
-    compared with 0.60 among statistics students. These events are not independent in this survey.
+    The unconditional share of economics students is the
+    <button class="term" data-term="marginal">marginal probability</button>: 0.50, compared with
+    0.60 among statistics students. These events are not independent in this survey.
   </p>
   <a data-source="s2" data-page="1">Lecture 2 · PDF p. 1</a>
 </section>
@@ -35,25 +46,23 @@
       alt="Two-way table: statistics students 24 economics, 16 not economics, total 40; other students 26 economics, 34 not economics, total 60; column totals 50, 50 and 100."
     />
     <figcaption>
-      Raster-only source page, reviewed visually.
+      The same 24 students are counted against a row total of 40 or a grand total of 100.
       <a data-source="s2" data-page="2">Lecture 2 · PDF p. 2</a>
     </figcaption>
   </figure>
-  <details>
-    <summary>Check independence using the product rule</summary>
-    <p>
-      The observed joint probability is 24/100 = 0.24. Independence would require (50/100) ×
-      (40/100) = 0.20. Since 0.24 ≠ 0.20, the condition fails.
-    </p>
-    <p class="muted">This calculation applies the rule from page 1 to the counts on page 2.</p>
-    <a data-source="s2" data-page="1">Rule · p. 1</a
-    ><a data-source="s2" data-page="2">Counts · p. 2</a>
-  </details>
+  <h3>Check independence using the product rule</h3>
+  <p>
+    The observed joint probability is 24/100 = 0.24. Independence would require (50/100) × (40/100)
+    = 0.20. Since 0.24 ≠ 0.20, the condition fails.
+  </p>
+  <p class="muted">This calculation applies the rule from page 1 to the counts on page 2.</p>
+  <a data-source="s2" data-page="1">Rule · p. 1</a
+  ><a data-source="s2" data-page="2">Counts · p. 2</a>
 </section>
 <section id="independence-quiz">
   <p class="eyebrow">03 / CHECK YOUR REASONING</p>
   <h2>Compare like with like.</h2>
-  <div class="quiz" data-answer="0">
+  <div class="quiz" id="independence-quiz-question" data-answer="0">
     <h3>Why are E and S not independent in this survey?</h3>
     <div class="options">
       <button>P(E | S) = 0.60 differs from P(E) = 0.50.</button
@@ -71,11 +80,14 @@
     </div>
     <button class="retry" hidden>Try again</button>
   </div>
-  <div class="supplement">
-    <strong>Supplementary explanation</strong>
-    <p>
-      An association in these counts does not establish a causal effect of studying one subject on
-      choosing the other.
-    </p>
-  </div>
+  <details id="independence-background">
+    <summary>Optional background: association and causation</summary>
+    <div class="supplement">
+      <strong>Supplementary explanation</strong>
+      <p>
+        An association in these counts does not establish a causal effect of studying one subject on
+        choosing the other.
+      </p>
+    </div>
+  </details>
 </section>

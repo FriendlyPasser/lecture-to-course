@@ -1,16 +1,24 @@
 # Lecture to Course
 
-把一份或多份课程 PDF 整理成可以离线学习的桌面课程网站。默认使用英文讲解和测验，附可搜索的英中术语表；每个知识点可以链接回原始 PDF 的具体页码。
+把一份或多份课程 PDF 转化为可以离线学习的桌面课程网站：由 lecture 确定知识范围，围绕概念理解重新设计讲解。默认使用英文讲解和测验，附可搜索的英中术语表；每个知识点可以链接回原始 PDF 的具体页码。
 
 本项目包含一份 Codex 技能、PDF 辅助脚本、网站模板和自编概率论示例。**脚本负责提取、构建和检查；课程讲解需要结合原始页面阅读、编写和核对。** 它不是无需审核的一键 OCR 或自动授课服务。
 
 ## 功能
 
 - 为多份 PDF 建立有序索引，标记文本较少、需要视觉核对的页面。
-- 按课程章节组织目标、推导、例题、补充说明和来源引用。
+- 按概念及其前置知识组织讲解，在 lecture 内重组页面，同时保留重要推导、适用条件和关键例题。
 - 提供选择题反馈、答案解释、重试、章节导航和阅读进度。
 - 支持英中术语搜索、键盘操作及离线 MathML 公式。
 - 生成包含课件原件的静态网站，可直接打开，也可通过仅本机可访问的启动器阅读。
+
+## 怎样把概念讲清楚
+
+先建立“来源页面 → 概念 → 前置知识 → 学习目标 → 章节”的覆盖表，再编写正文。可从问题、直觉和简单例子切入，逐步连接到正式定义或公式，用误区辨析和变式题检查理解；按概念调整结构，不要求每节套用相同栏目。
+
+用自己的话解释原有概念时直接写入正文并附来源。新设计的情境简短标为“Author-created example / exercise”，超出 lecture 范围的背景标为“Supplementary explanation”并放入可展开阅读。核心推理和必要条件默认可见；简化讲解仍保留课程深度，原材料含糊处明确说明。
+
+自编概率论示例先用 100 人、40 人、24 人的群体图解释分母，再进入公式、条件概率与联合概率的比较，以及新情境练习。自检覆盖“用自己的话解释、判断适用条件、完成变式题”。阅读进度仅记录浏览位置，不能证明已经掌握。
 
 ## 快速体验
 
@@ -64,7 +72,7 @@ python -B .local/demo/site/launch_course.py --no-browser
 
    页码从 1 开始，以 PDF 实际页序为准。可通过 `--renderer /path/to/pdftoppm` 或 `PDFTOPPM` 指定渲染器。文本较少的标记只是线索，所有页面仍需视觉核对。
 
-3. **编写课程。** 参考 [教学要求](lecture-to-course/references/teaching.md)、[输入格式与组件](lecture-to-course/references/authoring.md) 和 [自编示例](demo/course.json)，准备课程 JSON、章节 HTML、术语表及必要图片。JSON 中的文件路径相对于 JSON 所在目录。
+3. **组织概念并编写课程。** 参考 [教学要求](lecture-to-course/references/teaching.md)、[输入格式与组件](lecture-to-course/references/authoring.md) 和 [自编示例](demo/course.json)，先写覆盖表，再准备课程 JSON、章节 HTML、术语表及必要图片。保留 lecture 边界，内部可按理解依赖重排；节选应声明页码范围和未覆盖部分。覆盖表是编写资料，不增加 JSON 字段。JSON 中的文件路径相对于 JSON 所在目录。
 
 4. **构建和验证。**
 
@@ -122,6 +130,8 @@ npm run test:browser
 ```
 
 如果已经按快速体验构建了 `.local/demo/site`，跳过上述构建步骤。可通过 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` 指定已安装的 Chrome/Chromium。浏览器测试使用离线模式和直接文件地址，截图写入被忽略的 `.local/demo/review/`；Python 测试另外验证本机 HTTP 启动器。
+
+测试新目录中的自编示例时，可传入站点和截图目录：`npm run test:browser -- .local/work/demo-v2 .local/work/demo-v2-review`。不传参数时仍使用上述默认目录。
 
 格式化代码：
 

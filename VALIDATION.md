@@ -1,5 +1,36 @@
 # Validation
 
+## Concept-focused teaching revision — 2026-09-15
+
+- The repository skill now maps concepts, prerequisites and learning objectives before
+  authoring. Its entrypoint, teaching guide, authoring guide and README agree on
+  regrouping within lectures, visible core reasoning, and inline provenance labels.
+  The installed skill copy was not modified.
+- The skill validator, Ruff checks, Prettier checks and all 13 existing Python tests
+  passed. No course JSON fields, builder interfaces or runtime dependencies changed.
+- Both synthetic PDFs (four pages) were visually rechecked. The probability demo
+  retains the source calculations, adds an original group diagram, exposes the core
+  derivation, and adds explanation, applicability and transfer checks. Fraction
+  calculations were verified independently, including two numerically equal options
+  that answer different questions.
+- Updated browser tests passed in offline direct-file mode, including independent
+  state for two quizzes, retry, glossary search and keyboard operation, visible
+  derivation, diagram label bounds, next-lecture navigation and denied localStorage.
+  The test accepts optional site and screenshot directories; defaults are unchanged.
+- A separate local perspective-projection excerpt was authored from eight reviewed
+  source pages. It includes original SVGs, the original triangle-pair derivation,
+  explicit coordinate/sign conditions, and independently checked numeric examples.
+  A source text/diagram convention mismatch is disclosed. No claim is made about
+  the remainder of that lecture; its source and generated files stay under `.local/`.
+- Both delivered artifacts passed static resource checks, direct-file interaction
+  checks, and visual review at 1024 and 1440 pixels. Their actual launchers served
+  HTML, styles, scripts, PDFs and selected images byte-for-byte over loopback HTTP;
+  quiz and glossary interactions also passed over HTTP. External requests were
+  blocked in that HTTP browser check, separately from direct-file offline mode.
+- Local test servers were stopped. Browser and loopback checks required permission
+  to run outside the process sandbox. Automated checks establish mechanics, not
+  measured learning gains; learner feedback remains the next pedagogical check.
+
 ## Repository verification — 2026-09-12
 
 The public source files were copied into a new temporary directory without any local

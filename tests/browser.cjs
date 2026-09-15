@@ -8,7 +8,8 @@ process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright')
 const { chromium } = require(path.join(localDir, 'node_modules/playwright'));
 
 const demoDir = path.join(localDir, 'demo');
-const reviewDir = path.join(demoDir, 'review');
+const siteDir = path.resolve(process.argv[2] ?? path.join(demoDir, 'site'));
+const reviewDir = path.resolve(process.argv[3] ?? path.join(demoDir, 'review'));
 
 async function main() {
   await fs.mkdir(reviewDir, { recursive: true });
@@ -26,7 +27,7 @@ async function main() {
     const errors = [];
     const page = await context.newPage();
     page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto(pathToFileURL(path.join(demoDir, 'site/index.html')).href);
+    await page.goto(pathToFileURL(path.join(siteDir, 'index.html')).href);
     await page.screenshot({ path: path.join(reviewDir, 'overview.png') });
     await page.locator('.lecture-card').first().click();
 
@@ -50,14 +51,28 @@ async function main() {
     await page.keyboard.press('Escape');
 
     // Worked examples and quizzes remain usable without a network connection.
-    await page.locator('details summary').click();
-    assert.equal(await page.locator('details').getAttribute('open'), '');
-    await page.locator('.quiz .options button').first().click();
-    assert.match(await page.locator('.quiz-status').innerText(), /Not quite/);
-    assert.equal(await page.locator('.explanation').isVisible(), true);
-    await page.locator('.retry').click();
-    await page.locator('.quiz .options button').nth(1).click();
-    assert.match(await page.locator('.quiz-status').innerText(), /Correct/);
+    const explanation = page.locator('#denominator-explanation');
+    await explanation.locator('summary').click();
+    assert.equal(await explanation.getAttribute('open'), '');
+    const survey = page.locator('#survey-quiz');
+    const transfer = page.locator('#transfer-quiz');
+    await survey.locator('.options button').first().click();
+    assert.match(await survey.locator('.quiz-status').innerText(), /Not quite/);
+    assert.equal(await survey.locator('.explanation').isVisible(), true);
+    await survey.locator('.retry').click();
+    await survey.locator('.options button').nth(1).click();
+    assert.match(await survey.locator('.quiz-status').innerText(), /Correct/);
+    // The same numerical answer can come from the wrong reference group.
+    await transfer.locator('.options button').nth(1).click();
+    assert.match(await transfer.locator('.quiz-status').innerText(), /Not quite/);
+    await transfer.locator('.retry').click();
+    assert.match(await survey.locator('.quiz-status').innerText(), /Correct/);
+    assert.equal(await survey.locator('.options button').first().isDisabled(), true);
+    await transfer.locator('.options button').nth(2).click();
+    assert.match(await transfer.locator('.quiz-status').innerText(), /Correct/);
+    // Reading the central derivation must not require opening an answer panel.
+    assert.equal(await page.locator('#calculation .equation').isVisible(), true);
+    assert.equal(await page.locator('#calculation details .equation').count(), 0);
     await page.screenshot({ path: path.join(reviewDir, 'quiz.png') });
     assert.match(await page.locator('[data-source]').first().getAttribute('href'), /#page=1$/);
 
@@ -69,6 +84,26 @@ async function main() {
         true,
       );
       await page.screenshot({ path: path.join(reviewDir, `lecture-${width}.png`) });
+      await page.locator('#reference-group figure').scrollIntoViewIfNeeded();
+      await page.screenshot({ path: path.join(reviewDir, `groups-${width}.png`) });
+      // SVG labels must stay inside the diagram at both supported reading widths.
+      assert.equal(
+        await page.locator('svg').evaluateAll((diagrams) =>
+          diagrams.every((svg) => {
+            const view = svg.viewBox.baseVal;
+            return [...svg.querySelectorAll('text')].every((text) => {
+              const box = text.getBBox();
+              return (
+                box.x >= view.x &&
+                box.y >= view.y &&
+                box.x + box.width <= view.x + view.width &&
+                box.y + box.height <= view.y + view.height
+              );
+            });
+          }),
+        ),
+        true,
+      );
     }
 
     // Browsers that deny localStorage should still allow glossary interaction.
@@ -82,10 +117,17 @@ async function main() {
     await page.reload();
     await page.locator('.glossary-tab').click();
     assert.equal(await page.locator('.drawer').isVisible(), true);
+    await page.keyboard.press('Escape');
+    await page.locator('a.next').click();
+    const independence = page.locator('#independence-quiz-question');
+    await independence.locator('.options button').first().click();
+    assert.match(await independence.locator('.quiz-status').innerText(), /Correct/);
+    await page.screenshot({ path: path.join(reviewDir, 'independence.png') });
     assert.deepEqual(errors, []);
     console.log(
       'PASS: offline file navigation, glossary, keyboard, search, quizzes, retry, ' +
-        'details, source links, desktop widths, blocked storage, no page errors.',
+        'independent quiz state, visible derivation, SVG labels, details, source links, ' +
+        'desktop widths, blocked storage, next lecture, no page errors.',
     );
   } finally {
     await browser.close();

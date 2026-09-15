@@ -1,81 +1,140 @@
 <ul class="objectives">
-  <li>Identify the reference group in a probability question.</li>
-  <li>Calculate a conditional probability and distinguish it from a joint probability.</li>
+  <li>Explain how a question chooses the group used in its denominator.</li>
+  <li>Calculate conditional and joint probabilities, and say why they differ.</li>
+  <li>Apply the same reasoning to a new situation and check when the formula is defined.</li>
 </ul>
 <section id="reference-group">
-  <p class="eyebrow">01 / THE IDEA</p>
-  <h2>The denominator tells the story.</h2>
+  <p class="eyebrow">01 / START WITH THE QUESTION</p>
+  <h2>Among which students?</h2>
   <p>
-    A survey records 100 students. Forty take statistics; 24 of those also take economics. We want
-    the fraction taking economics <em>among statistics students</em>.
-  </p>
-  <div class="panel flow">
-    <div><span class="stat">100</span>All students</div>
-    <span>→</span>
-    <div><span class="stat">40</span>Take statistics</div>
-    <span>→</span>
-    <div><span class="stat">24</span>Also take economics</div>
-  </div>
-  <p>
-    The phrase “among statistics students” sets the
-    <button class="term" data-term="reference-group">reference group</button>. We count 24 successes
-    out of 40 eligible students, not out of all 100.
+    A survey records 100 students. Forty take statistics; 24 of those also take economics. The
+    question is: <strong>among statistics students, what fraction take economics?</strong>
+    Before calculating, decide who is eligible to be counted.
   </p>
   <a data-source="s1" data-page="1">Lecture 1 · PDF p. 1</a>
+  <figure>
+    <svg viewBox="0 0 640 300" width="100%" role="img" aria-labelledby="groups-title groups-desc">
+      <title id="groups-title">Start with 100 students, then restrict attention to 40</title>
+      <desc id="groups-desc">
+        All 100 students contain a group of 40 statistics students. Within that group, 24 also take
+        economics and 16 do not. Sixty students are outside the statistics group.
+      </desc>
+      <rect x="2" y="2" width="636" height="296" rx="8" fill="#efeee5" stroke="#65695f" />
+      <text x="24" y="38" font-size="22" fill="#292d29">100 students in the survey</text>
+      <rect
+        x="20"
+        y="64"
+        width="366"
+        height="214"
+        rx="6"
+        fill="#e4eee5"
+        stroke="#245c48"
+        stroke-width="2"
+      />
+      <text x="38" y="99" font-size="21" fill="#245c48">40 take statistics (S)</text>
+      <text x="38" y="132" font-size="18" fill="#292d29">16 do not take economics</text>
+      <rect x="36" y="154" width="334" height="106" rx="4" fill="#a74326" />
+      <text x="54" y="192" font-size="21" fill="#fffdf8">24 also take economics</text>
+      <text x="54" y="228" font-size="18" fill="#fffdf8">Both subjects: E ∩ S</text>
+      <text x="414" y="124" font-size="21" fill="#292d29">60 outside S</text>
+      <text x="414" y="160" font-size="18" fill="#65695f">Excluded when</text>
+      <text x="414" y="186" font-size="18" fill="#65695f">we ask “among S”</text>
+    </svg>
+    <figcaption>
+      Original group diagram from the source counts; box areas are schematic. The inner box shows
+      economics students <em>within S</em>, not everyone taking economics. The remaining counts are
+      40 − 24 = 16 and 100 − 40 = 60.
+      <a data-source="s1" data-page="1">Counts · p. 1</a>
+    </figcaption>
+  </figure>
+  <p>
+    “Among statistics students” restricts the
+    <button class="term" data-term="reference-group">reference group</button> to the 40 students in
+    S. Twenty-four of these 40 meet the condition we are measuring. So the answer is
+    <strong>24 / 40 = 0.60, or 60%</strong>.
+  </p>
+  <p>
+    Think of filtering a list to S before computing a percentage. The excluded students still exist;
+    they simply do not belong in this question's denominator. This is a way of organizing the count,
+    not a claim that taking statistics causes a student to take economics.
+  </p>
+  <p><strong>Explain it:</strong> Why would dividing by 100 answer a different question?</p>
+  <details id="denominator-explanation">
+    <summary>Compare your explanation</summary>
+    <p>
+      Dividing by 100 measures the share of the entire survey taking both subjects. Dividing by 40
+      measures the share taking economics within the statistics group. Name the group before naming
+      its size.
+    </p>
+    <a data-source="s1" data-page="2">Reasoning · p. 2</a>
+  </details>
 </section>
 <section id="calculation">
-  <p class="eyebrow">02 / WORKED EXAMPLE</p>
-  <h2>Condition first. Then count.</h2>
+  <p class="eyebrow">02 / GIVE THE IDEA A FORMULA</p>
+  <h2>The formula keeps track of the group.</h2>
   <p>
-    <button class="term" data-term="conditional">Conditional probability</button> measures the share
-    of an event inside a specified group. Let E mean economics and S mean statistics.
+    <button class="term" data-term="conditional">Conditional probability</button> measures the
+    probability of an event within a specified event. Let E mean economics and S mean statistics.
+    Read P(E | S) as “the probability of E, given S”; the event after the bar sets the group. E ∩ S
+    means that both events occur.
+  </p>
+  <p>
+    To use the formula, <strong>P(S) must be greater than zero</strong>. A group with zero
+    probability cannot be used as this formula's denominator. The survey has P(S) = 40/100, so the
+    condition is satisfied.
   </p>
   <div class="equation">
-    <math display="block" aria-label="P of E given S equals P of E intersect S divided by P of S"
-      ><mi>P</mi><mo>(</mo><mi>E</mi><mo>|</mo><mi>S</mi><mo>)</mo><mo>=</mo
-      ><mfrac
+    <math display="block" aria-label="P of E given S equals P of E intersect S divided by P of S">
+      <mi>P</mi><mo>(</mo><mi>E</mi><mo>|</mo><mi>S</mi><mo>)</mo><mo>=</mo>
+      <mfrac
         ><mrow><mi>P</mi><mo>(</mo><mi>E</mi><mo>∩</mo><mi>S</mi><mo>)</mo></mrow
         ><mrow><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo></mrow></mfrac
-      ></math
-    >
-    <p>
-      Divide the probability of both events by the probability of the conditioning event. This
-      requires P(S) &gt; 0.
-    </p>
+      >
+    </math>
+    <p>Take the share in both events and divide by the share in the conditioning event.</p>
   </div>
-  <details>
-    <summary>Show the three calculation steps</summary>
-    <ol>
-      <li>The joint share is 24 / 100 = 0.24.</li>
-      <li>The conditioning group has share 40 / 100 = 0.40.</li>
-      <li>Divide: 0.24 / 0.40 = 24 / 40 = 0.60.</li>
-    </ol>
-  </details>
+  <ol>
+    <li><strong>Count both:</strong> 24/100 = 0.24 of the whole survey take both subjects.</li>
+    <li><strong>Count the eligible group:</strong> 40/100 = 0.40 take statistics.</li>
+    <li>
+      <strong>Rescale to that group:</strong> (24/100) / (40/100) = 24/40 = 0.60. The common total
+      of 100 cancels.
+    </li>
+  </ol>
+  <a data-source="s1" data-page="2">Source formula and calculation · p. 2</a>
   <div class="split">
     <div class="panel">
-      <h3>Conditional</h3>
+      <h3>Conditional: given S</h3>
       <span class="stat">60%</span>
-      <p>Among statistics students, the share who take economics.</p>
+      <p>24 out of 40 statistics students also take economics.</p>
     </div>
     <div class="panel">
-      <h3>Joint</h3>
+      <h3>Joint: E and S</h3>
       <span class="stat">24%</span>
-      <p>Among all students, the share who take both subjects.</p>
+      <p>24 out of all 100 students take both subjects.</p>
     </div>
   </div>
-  <a data-source="s1" data-page="2">Lecture 1 · PDF p. 2</a>
-  <div class="supplement">
-    <strong>Supplementary explanation</strong>
+  <p>
+    <strong>Common mistake:</strong> the same 24 students appear in both numerators, but the
+    reference groups differ. These answers can both be correct.
+  </p>
+  <p>
+    <strong>Check the condition:</strong> If nobody in the survey takes statistics, can this formula
+    return P(E | S) = 0?
+  </p>
+  <details id="zero-group-explanation">
+    <summary>Check when the formula applies</summary>
     <p>
-      Think of conditioning as filtering a list before computing a percentage. It does not mean
-      statistics causes students to choose economics.
+      No. Both counts would be zero, giving 0/0. This formula is undefined when P(S) = 0; that is
+      different from a defined probability of zero.
     </p>
-  </div>
+    <a data-source="s1" data-page="2">Positive-denominator condition · p. 2</a>
+  </details>
 </section>
 <section id="check-understanding">
-  <p class="eyebrow">03 / CHECK YOUR REASONING</p>
-  <h2>Which group are you counting?</h2>
-  <div class="quiz" data-answer="1">
+  <p class="eyebrow">03 / APPLY THE IDEA</p>
+  <h2>Choose the group before the arithmetic.</h2>
+  <div class="quiz" id="survey-quiz" data-answer="1">
     <h3>What is P(E | S) in this survey?</h3>
     <div class="options">
       <button>24 / 100 = 0.24</button><button>24 / 40 = 0.60</button
@@ -91,8 +150,39 @@
     </div>
     <button class="retry" hidden>Try again</button>
   </div>
+  <p class="muted">Author-created exercise · A new situation using the same rule.</p>
+  <div class="quiz" id="transfer-quiz" data-answer="2">
+    <h3>
+      A library has 80 books. Twenty are borrowed, and 5 of the borrowed books are damaged. Among
+      borrowed books, what fraction are damaged?
+    </h3>
+    <div class="options">
+      <button>5 / 80 = 6.25%</button><button>20 / 80 = 25%</button><button>5 / 20 = 25%</button>
+    </div>
+    <p class="quiz-status" role="status"></p>
+    <div class="explanation" hidden>
+      <p>
+        “Among borrowed books” selects 20 books; 5 are damaged, so 5/20 = 25%. The first choice uses
+        the entire library. The second measures the share borrowed; its percentage happens to match
+        the correct answer, but its reasoning answers a different question.
+      </p>
+      <a data-source="s1" data-page="2">Underlying rule · p. 2</a>
+    </div>
+    <button class="retry" hidden>Try again</button>
+  </div>
   <p>
-    <strong>Common mistake:</strong> seeing the same numerator and assuming the probabilities mean
-    the same thing. Always name the denominator's group.
+    Before moving on, explain the difference between “both” and “given,” state the denominator
+    condition, and solve the library question without copying the survey's numbers.
   </p>
+  <details id="causal-background">
+    <summary>Optional background: does “given” mean “caused by”?</summary>
+    <div class="supplement">
+      <strong>Supplementary explanation</strong>
+      <p>
+        Conditioning describes a probability within a group. It does not by itself establish a
+        causal effect. The calculation says nothing about what would happen if we made a student
+        take statistics.
+      </p>
+    </div>
+  </details>
 </section>
