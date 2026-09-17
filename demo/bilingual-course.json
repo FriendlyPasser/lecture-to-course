@@ -1,0 +1,61 @@
+{
+  "id": "bilingual-demo",
+  "title": "Conditional probability",
+  "description": "An original bilingual example for offline interaction checks.",
+  "notice": "Synthetic teaching example, not a teacher lecture.",
+  "default_language": "en",
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Synthetic conditional probability",
+      "path": "input/01-conditional-probability.pdf"
+    }
+  ],
+  "glossary": [
+    {
+      "id": "conditional",
+      "en": "Conditional probability",
+      "zh": "条件概率",
+      "definition": "Probability within the group specified by a condition."
+    }
+  ],
+  "lectures": [
+    {
+      "id": "conditional",
+      "title": "Conditional probability",
+      "summary": "Choose the reference group.",
+      "file": "bilingual-lecture.html"
+    },
+    {
+      "id": "review",
+      "title": "Review",
+      "summary": "Try the same exercise again.",
+      "file": "bilingual-lecture.html"
+    }
+  ],
+  "translations": {
+    "zh": {
+      "Conditional probability": "条件概率",
+      "Review": "复习",
+      "An original bilingual example for offline interaction checks.": "用于离线交互验证的原创双语示例。",
+      "Synthetic teaching example, not a teacher lecture.": "原创教学示例，并非教师课件。",
+      "Choose the reference group.": "选择参照群体。",
+      "Try the same exercise again.": "再次尝试这道练习。",
+      "Probability within the group specified by a condition.": "在给定条件所限定的群体中计算的概率。",
+      "Conditioning changes the reference group": "条件改变了参照群体",
+      "Start with everyone, then keep only the people who satisfy the condition.": "从所有人出发，再只保留满足条件的人。",
+      "A conditional probability uses that smaller reference group as its denominator.": "条件概率使用这个更小的参照群体作为分母。",
+      "Source · page 1": "来源 · 第 1 页",
+      "The condition tells us which group to count within.": "条件告诉我们应在哪个群体内进行计数。",
+      "Choose the denominator": "选择分母",
+      "Of 40 club members, 10 play chess. Of those 10 chess players, 4 also play tennis.": "40 名俱乐部成员中有 10 人下棋，这 10 人中有 4 人也打网球。",
+      "We want the probability of playing tennis given that the member plays chess.": "我们要求的是：已知成员下棋，他也打网球的概率。",
+      "The numerator counts members who satisfy both properties. There are four.": "分子统计同时满足两个条件的人数，共 4 人。",
+      "The denominator counts all members who satisfy the condition.": "分母统计所有满足给定条件的成员。",
+      "Which denominator should we use?": "应该用哪个分母？",
+      "40 club members": "40 名俱乐部成员",
+      "10 chess players": "10 名下棋成员",
+      "Use 10: only chess players belong to the reference group. The answer is 4/10.": "使用 10：只有下棋成员属于参照群体，因此答案是 4/10。"
+    }
+  }
+}

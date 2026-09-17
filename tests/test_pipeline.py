@@ -171,5 +171,48 @@ class PipelineTests(unittest.TestCase):
                     process.communicate(timeout=5)
 
 
+class BilingualBuildTests(unittest.TestCase):
+    def test_bilingual_assets_and_legacy_compatibility(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            shutil.copytree(ROOT / "demo", root / "demo")
+            spec = root / "demo/course.json"
+            data = json.loads(spec.read_text())
+            data["translations"] = {"zh": {"Conditional probability": "条件概率"}}
+            data["default_language"] = "zh"
+            spec.write_text(json.dumps(data))
+            builder.build(spec, root / "site")
+            self.assertEqual(site_checker.check(root / "site"), [])
+            self.assertTrue((root / "site/language.js").is_file())
+            self.assertIn("language-toggle", (root / "site/index.html").read_text())
+            js = (root / "site/translations.js").read_text()
+            self.assertIn('window.courseDefaultLanguage = "zh"', js)
+            self.assertNotIn("COMP5423", js)
+            del data["translations"]
+            data["default_language"] = "en"
+            spec.write_text(json.dumps(data))
+            builder.build(spec, root / "legacy")
+            self.assertFalse((root / "legacy/language.js").exists())
+            self.assertNotIn("language-toggle", (root / "legacy/index.html").read_text())
+
+    def test_invalid_translation_config_fails_before_output(self):
+        for config in [
+            {"translations": []},
+            {"translations": {"fr": {}}},
+            {"translations": {"zh": []}},
+            {"translations": {"zh": {"A": 4}}},
+            {"translations": {"zh": {}}},
+            {"default_language": "zh"},
+            {"default_language": "fr"},
+        ]:
+            with self.subTest(config=config), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                spec = root / "course.json"
+                spec.write_text(json.dumps({"id": "test", **config}))
+                with self.assertRaises(ValueError):
+                    builder.build(spec, root / "site")
+                self.assertFalse((root / "site").exists())
+
+
 if __name__ == "__main__":
     unittest.main()
