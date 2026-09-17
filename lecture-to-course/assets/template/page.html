@@ -6,6 +6,7 @@
     <title>${page_title} · ${course_title}</title>
     <meta name="description" content="${description}">
     <link rel="stylesheet" href="styles.css">
+${language_scripts_html}
     <script src="main.js" defer></script>
   </head>
   <body data-course="${course_id}" data-lecture="${lecture_id}">
@@ -18,13 +19,13 @@
       </nav>
       <nav class="chapters" aria-label="Chapters">${chapter_navigation_html}</nav>
       ${reading_progress_html}
-      <p class="rail-footer">English lessons.<br>中文术语随时查阅。</p>
+      <p class="rail-footer">${lesson_languages}<br>中文术语随时查阅。</p>
     </aside>
     <main id="content">
-      <div class="topline"><span>${course_title}</span><span>Study edition</span></div>
+      <div class="topline"><span>${course_title}</span>${language_toggle_html}</div>
       ${content_html}
     </main>
-    <button class="glossary-tab" aria-controls="glossary" aria-expanded="false">EN / 中文</button>
+    <button class="glossary-tab" aria-controls="glossary" aria-expanded="false">术语</button>
     <aside class="drawer" id="glossary" role="dialog" aria-label="English–Chinese glossary" hidden>
       <div class="drawer-head">
         <h2>Words to know</h2>

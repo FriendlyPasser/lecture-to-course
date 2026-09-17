@@ -40,5 +40,9 @@ jobs:
         run: |
           python lecture-to-course/scripts/build_course.py demo/course.json --out .local/demo/site
           python lecture-to-course/scripts/check_site.py .local/demo/site
+          python lecture-to-course/scripts/build_course.py demo/bilingual-course.json --out .local/demo/bilingual
+          python lecture-to-course/scripts/check_site.py .local/demo/bilingual
       - name: Test offline browser interactions
-        run: npm run test:browser
+        run: |
+          npm run test:browser
+          node tests/bilingual.cjs

@@ -12,6 +12,9 @@ A **Codex skill** for working through the concepts in your course. Keep the orig
 
 *Actual output from the included, self-authored probability demo. English lessons and quizzes, with an English–Chinese glossary.*
 
+
+Courses support English–Chinese explanations and quizzes, a language switch fixed at the upper right while scrolling, and a separate “术语” glossary tab. The language choice persists across lessons; switching preserves answers and reading position. See the [bilingual authoring contract](lecture-to-course/references/authoring.md#bilingual-lessons).
+
 ## What you get
 
 | While studying | In your course |

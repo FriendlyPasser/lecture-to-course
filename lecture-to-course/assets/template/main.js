@@ -1,4 +1,6 @@
 'use strict';
+const courseText = (en) =>
+  window.courseLanguage === 'zh' ? window.courseTranslations[en] || en : en;
 (() => {
   const panel = document.querySelector('.drawer'),
     tab = document.querySelector('.glossary-tab'),
@@ -74,8 +76,10 @@
           b.classList.toggle('correct', i === answer);
         });
         button.classList.toggle('incorrect', index !== answer);
-        status.textContent =
-          index === answer ? 'Correct — here is why.' : 'Not quite — compare the reasoning below.';
+        status.textContent = courseText(
+          index === answer ? 'Correct — here is why.' : 'Not quite — compare the reasoning below.',
+        );
+        quiz.dataset.result = index === answer ? 'correct' : 'incorrect';
         explanation.hidden = false;
         retry.hidden = false;
       }),
@@ -86,6 +90,7 @@
         b.classList.remove('correct', 'incorrect');
       });
       status.textContent = '';
+      delete quiz.dataset.result;
       explanation.hidden = true;
       retry.hidden = true;
       buttons[0].focus();
@@ -101,7 +106,7 @@
       const value =
         span <= 0 ? 100 : Math.max(0, Math.min(100, Math.round((scrollY / span) * 100)));
       progress.value = value;
-      label.textContent = value + '% read';
+      label.textContent = window.courseLanguage === 'zh' ? '已读 ' + value + '%' : value + '% read';
       try {
         localStorage.setItem(key, String(value));
       } catch {}
@@ -109,7 +114,18 @@
     update();
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
+    addEventListener('course-language-change', update);
   }
+  addEventListener('course-language-change', () => {
+    filter();
+    document.querySelectorAll('.quiz[data-result]').forEach((quiz) => {
+      quiz.querySelector('.quiz-status').textContent = courseText(
+        quiz.dataset.result === 'correct'
+          ? 'Correct — here is why.'
+          : 'Not quite — compare the reasoning below.',
+      );
+    });
+  });
   const sections = [...document.querySelectorAll('main section[id]')];
   function highlight() {
     let current = sections[0];

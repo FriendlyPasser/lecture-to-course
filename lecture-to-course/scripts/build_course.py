@@ -193,6 +193,22 @@ def build(spec, out):
     root = spec.parent
     data = json.loads(spec.read_text(encoding="utf-8"))
     cid = slug(data["id"])
+    translations = data.get("translations", {})
+    if not isinstance(translations, dict) or set(translations) - {"zh"}:
+        raise ValueError("translations must contain only a zh text dictionary")
+    chinese = translations.get("zh")
+    if chinese is not None and (
+        not isinstance(chinese, dict)
+        or not chinese
+        or any(
+            not isinstance(k, str) or not k.strip() or not isinstance(v, str) or not v.strip()
+            for k, v in chinese.items()
+        )
+    ):
+        raise ValueError("translations.zh must map nonempty English text to Chinese text")
+    default_language = data.get("default_language", "en")
+    if default_language not in ("en", "zh") or (default_language == "zh" and not chinese):
+        raise ValueError("default_language must be en, or zh with translations.zh")
     if out.exists() and any(out.iterdir()):
         raise ValueError("Output directory must be new or empty")
     sources = {}
@@ -241,6 +257,35 @@ def build(spec, out):
     out.mkdir(parents=True, exist_ok=True)
     for file in ("styles.css", "main.js", "launch_course.py", "打开课程.command"):
         shutil.copy2(template / file, out / file)
+    if chinese:
+        dictionary = json.loads((template / "ui-zh.json").read_text(encoding="utf-8"))
+        dictionary.update(chinese)
+
+        # Translate labels synthesized by the builder from translated metadata.
+        def translated(text):
+            return dictionary.get(text, text)
+
+        dictionary["THE COURSE / " + f"{len(lectures):02d}" + " LECTURES"] = (
+            f"课程 / 共 {len(lectures)} 讲"
+        )
+        dictionary["Overview · " + data["title"]] = "课程总览 · " + translated(data["title"])
+        for i, lecture in enumerate(lectures, 1):
+            title = lecture["title"]
+            dictionary[f"{i:02d} \u00a0 {title}"] = f"{i:02d}　{translated(title)}"
+            dictionary[f"LECTURE {i:02d}"] = f"第 {i} 讲"
+            dictionary["Next lecture: " + title + " →"] = "下一讲：" + translated(title) + " →"
+            dictionary[title + " · " + data["title"]] = (
+                translated(title) + " · " + translated(data["title"])
+            )
+        (out / "translations.js").write_text(
+            "window.courseTranslations = "
+            + json.dumps(dictionary, ensure_ascii=True)
+            + ";\nwindow.courseDefaultLanguage = "
+            + json.dumps(default_language)
+            + ";\n",
+            encoding="utf-8",
+        )
+        shutil.copy2(template / "language.js", out / "language.js")
     (out / "打开课程.command").chmod(0o755)
     for src, dst in copies:
         target = out / dst
@@ -264,6 +309,22 @@ def build(spec, out):
             else ""
         )
         return page_template.substitute(
+            language_scripts_html=(
+                '    <script src="translations.js" defer></script>\n'
+                '    <script src="language.js" defer></script>'
+                if chinese
+                else ""
+            ),
+            language_toggle_html=(
+                '<button class="language-toggle" type="button" '
+                'aria-label="Switch lesson language" aria-pressed="false">'
+                '<span lang="zh-Hans" data-language="zh">中文</span>'
+                '<span aria-hidden="true"> / </span>'
+                '<span lang="en" data-language="en">English</span></button>'
+                if chinese
+                else "<span>Study edition</span>"
+            ),
+            lesson_languages="English / 中文 lessons." if chinese else "English lessons.",
             page_title=esc(title),
             course_title=esc(data["title"]),
             description=esc(data["description"]),
