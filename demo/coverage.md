@@ -19,6 +19,34 @@ Both self-authored PDFs have two physical pages. All four were visually rechecke
 - Independence retains both source tests: 24/40 = 0.60 differs from 50/100 = 0.50; 24/100 = 0.24 differs from (50/100)(40/100) = 0.20.
 - No uncertain source claims are tested. Reading position and quiz completion do not establish learning outcomes.
 
+## Question-led sections and learning routes
+
+Each primary lecture and the bilingual fixture keeps its three existing core sections and stable
+section IDs. The opening route is optional navigation: its question links show the order and explain
+why each step is needed. Every core section has a question heading, a visible section objective, an
+opening connection to prior knowledge, and an ending question that motivates the next step. The
+prerequisite checks remain optional and separate from this core sequence; no sections were added to
+meet a length or count target.
+
+| Lecture / section | Question and section objective | Starting dependency | Ending question / next step |
+|---|---|---|---|
+| 1 / `reference-group` | Among which students? Identify the eligible group and justify the denominator 40. | Part-to-whole fractions and overlapping groups, optionally reviewed in the precheck. | How can the same restriction be expressed with probabilities? Continue to `calculation`. |
+| 1 / `calculation` | How does the formula keep the same reference group? Derive 24/40, distinguish it from 24/100, and state the positive-denominator condition. | The 40 statistics students have already been selected as the reference group. | Can the learner select the group without the worked steps? Continue to `check-understanding`. |
+| 1 / `check-understanding` | Can you choose the group in a new problem? Solve the survey and library questions by naming the group first. | The numerator counts both events within the group selected by the denominator. | Does knowing S change the probability of E? Lecture 2 supplies the missing marginal share. |
+| 2 / `independence-test` | Does the information change the probability? Compare P(E given S) with P(E) and interpret the difference. | Lecture 1's distinction between conditional and joint probability; compare the same event before and after learning S. | How can all the counts check the same conclusion? Continue to `read-table`. |
+| 2 / `read-table` | How can the table check the same conclusion? Calculate joint and marginal shares from totals and apply the product equality. | The prior conditional comparison and the equivalent product test. | Which comparison is valid evidence, and why are subject names insufficient? Continue to `independence-quiz`. |
+| 2 / `independence-quiz` | Which comparison justifies the conclusion? Explain a valid comparison and reject unsupported reasons. | Both numerical checks and the conditional test's applicability condition. | Which probabilities and conditions would another pair of events require? A final transfer prompt, not a new lecture or a scored claim of mastery. |
+| Bilingual / `conditional-intuition` | How does the condition choose the group? Identify the selected group in the source survey and club case. | A fraction compares a part with a chosen whole; optional prerequisite review is available. | Which group should the four members be compared with? Continue to `conditional-practice`. |
+| Bilingual / `conditional-practice` | Which group belongs in the denominator? Choose the club denominator and explain why using all members answers a different question. | The selected chess group and intersection idea. | How can probabilities recover the answer 4/10? Continue to `conditional-general-rule`. |
+| Bilingual / `conditional-general-rule` | How can probabilities recover the same answer? Derive 4/10 from probability shares and explain the positive denominator. | The club's count ratio, with the reference group held fixed. | For a new condition, which group supplies the denominator and is its probability positive? A final application prompt. |
+
+The routes, section objectives, dependency explanations, and transition questions are author-created
+teaching structure. They retain the source-supported counts, complete worked steps, conditions,
+citations, lecture boundaries, and existing quiz answers. The bilingual route, its accessible label,
+and all new section prose have matching Chinese translations. These synthetic examples demonstrate
+the structure and navigation; they do not establish that shorter sections or route links improve
+learning, nor do they validate the approach on unseen teacher PDFs.
+
 ## Optional prerequisite checks
 
 The first primary lesson and the bilingual fixture each start with two optional author-created checks. They test needed prior knowledge, not the conditional-probability rule that the lesson will teach. The source does not supply these check scenarios or refreshers; all are explicitly added background. The skip links lead to `reference-group` and `conditional-intuition`, respectively. All main content remains accessible without answering.

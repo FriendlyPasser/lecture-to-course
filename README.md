@@ -22,6 +22,7 @@ Quizzes can give a specific hint for each wrong choice, keep that hint visible d
 | While studying | In your course |
 |---|---|
 | “Am I missing a prerequisite?” | An optional short check points to the specific refresher you need, then returns you to the question. |
+| “How do these ideas connect?” | Question-led sections state their goals and build on earlier results; a short learning route links the steps when useful. |
 | “Why does this formula work?” | An intuitive explanation, a small example, and the steps connecting them to the formula. |
 | “I understand this example. Can I do another?” | New scenarios with feedback explaining both the answer and the tempting mistakes. |
 | “What does this term mean?” | A searchable English–Chinese glossary beside the lesson. |

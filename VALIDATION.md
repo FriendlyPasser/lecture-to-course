@@ -1,5 +1,29 @@
 # Validation
 
+## Question-led sections and learning routes — 2026-09-19
+
+- Issue #5 item 3 is implemented in the skill workflow, teaching/authoring guides,
+  reusable styles and both synthetic courses. The nine existing core sections in
+  the three lesson fragments retain their IDs and lecture boundaries, with guiding
+  questions, visible objectives, prior-knowledge connections and next-question
+  bridges. Optional learning routes explain the sequence through native links;
+  no new course JSON fields, runtime scripts or completion gates were introduced.
+- All 28 Python tests passed, including the local HTTP launcher regression. Both
+  courses built and passed resource/fragment checks. Ruff, Prettier and the skill
+  validator passed.
+- Both offline direct-file browser suites passed at 1024 and 1440 pixels. New
+  coverage verifies keyboard route/bridge navigation, destination focus and
+  visible headings, sidebar target consistency, translated route labels and
+  accessible names, and English–Chinese roundtrips for objectives and transitions.
+  Existing quiz, hint, prerequisite, glossary and blocked-storage checks also
+  passed with no page errors.
+- English and Chinese learning-route screenshots were visually reviewed at both
+  widths, along with the lesson and transition layout at 1024 pixels. Independent
+  content review checked the objective/dependency map, translation equivalence,
+  preserved source citations, worked examples and formula conditions. These checks
+  establish synthetic-content consistency and navigation behavior, not measured
+  learning gains or accuracy on unseen teacher PDFs.
+
 ## Browser navigation synchronization — 2026-09-19
 
 - The first push check for PR #7 failed when the bilingual test reloaded while

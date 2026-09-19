@@ -200,6 +200,51 @@ section[tabindex='-1'] {
 .objectives li {
   padding: 5px;
 }
+.learning-route {
+  margin: 30px 0;
+  padding: 24px 28px;
+  background: var(--wash);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.learning-route > p {
+  margin: 0 0 16px;
+}
+.learning-route ol {
+  margin: 0;
+  padding-left: 24px;
+}
+.learning-route li {
+  padding-left: 8px;
+}
+.learning-route li + li {
+  margin-top: 16px;
+}
+.learning-route li::marker {
+  color: var(--green);
+  font-weight: 650;
+}
+.learning-route a {
+  font-weight: 650;
+}
+.learning-route li p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.section-context {
+  color: var(--muted);
+}
+.section-next {
+  margin-top: 28px;
+  border-left: 3px solid var(--green);
+  padding: 12px 20px;
+  background: var(--wash);
+}
+section[tabindex='-1']:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 6px;
+}
 .panel {
   background: var(--wash);
   padding: 28px 32px;

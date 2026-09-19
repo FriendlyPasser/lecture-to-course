@@ -4,6 +4,7 @@ const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { checkPrerequisites } = require('./prerequisites.cjs');
 const { checkBilingualQuizHints } = require('./quiz-hints.cjs');
+const { checkLearningRoute } = require('./learning-route.cjs');
 const localDir = path.resolve(__dirname, '../.local');
 process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
 const { chromium } = require(path.join(localDir, 'node_modules/playwright'));
@@ -37,6 +38,10 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
     for (const width of [1024, 1440]) {
       await page.setViewportSize({ width, height: 800 });
       await page.goto(base + '?lang=en');
+      await checkLearningRoute(page, {
+        bilingual: true,
+        screenshot: path.join(reviewDir, `learning-route-zh-${width}.png`),
+      });
       await checkPrerequisites(page, {
         bilingual: true,
         screenshot: path.join(reviewDir, `prerequisites-zh-${width}.png`),
@@ -51,9 +56,8 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
       assert.equal((await toggle.boundingBox()).y, box.y);
       await toggle.click();
       assert.equal(await page.locator('html').getAttribute('lang'), 'zh-Hans');
-      assert.equal(await page.locator('#conditional-practice h2').innerText(), '选择分母');
       assert.equal(
-        await page.locator('#conditional-general-rule > p').first().innerText(),
+        await page.locator('#conditional-general-rule > p:not([class])').first().innerText(),
         '用 C 表示下棋，用 T 表示打网球。俱乐部的人数保持不变：P(C) = 10/40，P(T ∩ C) = 4/40。',
       );
       assert.equal(
@@ -96,7 +100,8 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
     await openReview();
     assert.deepEqual(errors, []);
     console.log(
-      'PASS bilingual offline switching, optional checks, refresher/return focus, fixed button, ' +
+      'PASS bilingual offline switching, question-led routes, translated guidance, stable section links, ' +
+        'optional checks, refresher/return focus, fixed button, ' +
         'hint/retry/reveal/correct/unanswered state, quiz/detail state, glossary, both widths, ' +
         'navigation, reload and blocked storage',
     );

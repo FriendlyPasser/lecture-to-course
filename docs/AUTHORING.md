@@ -52,7 +52,7 @@ Review all relevant pages in bounded batches, including diagrams, legends, subsc
 
 ## 3. Plan concepts and write the lessons
 
-Map **source page → concept → prerequisites → learning objective → destination chapter** before authoring. Keep lecture boundaries, regrouping within a lecture when dependencies or explanation benefit. For excerpts, state the page range and what is excluded. The coverage map is a working document, not an additional JSON field.
+Map **source page → concept → prerequisites → learning objective → destination chapter** before authoring. For each core section, record its guiding question, the prior result it depends on and the next question it motivates. Keep lecture boundaries, regrouping within a lecture when dependencies or explanation benefit. For excerpts, state the page range and what is excluded. The coverage map is a working document, not an additional JSON field.
 
 Use these references:
 
@@ -61,6 +61,8 @@ Use these references:
 - [Probability example](../demo/course.json) and [coverage map](../demo/coverage.md): a complete self-authored input set.
 
 Prepare the course JSON, lecture HTML fragments, glossary entries and necessary images. Paths in the JSON are relative to that JSON file. Preserve important derivations, assumptions and key teacher examples. Rewritten explanations belong in the main lesson; label author-created scenarios and extra background appropriately.
+
+Organize each core section around a question and a clear learning objective. Briefly connect its opening to relevant prior knowledge, then close by explaining why the next question follows from the result. Keep a complete argument together; there is no fixed section count. Where a lesson needs extra orientation, add a concise learning route or concept map that explains relationships and links to the relevant sections. The [section and learning-route example](../lecture-to-course/references/authoring.md#question-led-sections-and-learning-routes) uses ordinary HTML and existing translations, with no new course JSON fields.
 
 For necessary prior knowledge, add a small optional check at the start of the course, usually two or three questions. Map each question to a focused, supplementary refresher; students can skip the check or visit the matching refresher after a wrong answer and return to the question. The [prerequisite component contract](../lecture-to-course/references/authoring.md#optional-prerequisite-check) supplies the markup. Keep all lesson content available from the start.
 
@@ -80,7 +82,9 @@ python -B .local/work/site/launch_course.py
 
 Choose a new or empty output directory. For a revision, use a new directory such as `.local/work/site-v2`.
 
-Check source pages, formulas and quiz reasoning, then inspect reading and interactions at 1024 and 1440 pixels. Verify source links, retry, glossary search and keyboard operation. For quizzes with hints, confirm each wrong choice shows its own prompt without exposing the correct choice or full reasoning; retry retains that prompt, another wrong choice replaces it, and a correct choice reveals the explanation. Also reveal a solution before answering, confirm it is not graded correct, and retry afterward. For prerequisite checks, verify skip, the wrong-answer link to the correct refresher, return to the originating question, and the same flow after language switching. In a quiz with hints, retry should preserve its refresher link and return route; a correct answer should clear them. Check bilingual hints in both languages throughout retry and reveal. Read the running case's transitions to confirm that the next concept answers the problem just raised. The static checker can identify common resource problems, but cannot establish teaching accuracy or learning outcomes.
+Check source pages, formulas and quiz reasoning, then inspect reading and interactions at 1024 and 1440 pixels. Verify source links, retry, glossary search and keyboard operation. For quizzes with hints, confirm each wrong choice shows its own prompt without exposing the correct choice or full reasoning; retry retains that prompt, another wrong choice replaces it, and a correct choice reveals the explanation. Also reveal a solution before answering, confirm it is not graded correct, and retry afterward. For prerequisite checks, verify skip, the wrong-answer link to the correct refresher, return to the originating question, and the same flow after language switching. In a quiz with hints, retry should preserve its refresher link and return route; a correct answer should clear them. Check bilingual hints in both languages throughout retry and reveal.
+
+Read the section objectives, prior-knowledge connections and closing bridges in order, including any running case. Confirm that each objective matches the explanation and practice, and that the next section answers the question just raised. Check learning-route and bridge links with the keyboard, including focus at the destination, and verify route labels, relationship text and transitions in both languages. The static checker can identify broken anchors and common resource problems, but cannot establish teaching accuracy, valid conceptual dependencies or learning outcomes.
 
 ## Open and share the output
 

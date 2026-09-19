@@ -4,6 +4,7 @@ const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { checkPrerequisites, checkSharedPrerequisite } = require('./prerequisites.cjs');
 const { checkQuizHints } = require('./quiz-hints.cjs');
+const { checkLearningRoute } = require('./learning-route.cjs');
 
 const localDir = path.resolve(__dirname, '../.local');
 process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
@@ -38,6 +39,7 @@ async function main() {
       }),
       page.locator('.lecture-card').first().click(),
     ]);
+    await checkLearningRoute(page, { screenshot: path.join(reviewDir, 'learning-route-1440.png') });
     await checkPrerequisites(page, { screenshot: path.join(reviewDir, 'prerequisites-1440.png') });
 
     // Glossary terms support focus, keyboard dismissal, and Chinese search.
@@ -90,6 +92,9 @@ async function main() {
       await page.setViewportSize({ width, height: 900 });
       if (width === 1024) {
         await page.reload();
+        await checkLearningRoute(page, {
+          screenshot: path.join(reviewDir, 'learning-route-1024.png'),
+        });
         await checkPrerequisites(page, {
           screenshot: path.join(reviewDir, 'prerequisites-1024.png'),
         });
@@ -138,7 +143,17 @@ async function main() {
     await page.locator('.glossary-tab').click();
     assert.equal(await page.locator('.drawer').isVisible(), true);
     await page.keyboard.press('Escape');
-    await page.locator('a.next').click();
+    await Promise.all([
+      page.waitForURL(pathToFileURL(path.join(siteDir, 'independence.html')).href, {
+        waitUntil: 'load',
+        timeout: 10000,
+      }),
+      page.locator('a.next').click(),
+    ]);
+    for (const width of [1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await checkLearningRoute(page);
+    }
     const independence = page.locator('#independence-quiz-question');
     await independence.locator('.options button').first().click();
     assert.match(await independence.locator('.quiz-status').innerText(), /Correct/);
@@ -148,7 +163,7 @@ async function main() {
       'PASS: offline file navigation, glossary, keyboard, search, quizzes, retry, ' +
         'optional prerequisite checks, targeted refreshers, return focus, shared targets, ' +
         'targeted hints, explicit reveal, legacy quizzes, incomplete hints, independent quiz state, ' +
-        'visible derivation, SVG labels, details, source links, ' +
+        'question-led routes, section/dependency links, visible derivation, SVG labels, details, source links, ' +
         'desktop widths, blocked storage, next lecture, no page errors.',
     );
   } finally {
