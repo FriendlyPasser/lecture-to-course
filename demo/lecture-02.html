@@ -2,10 +2,31 @@
   <li>Test independence using conditional and marginal probabilities.</li>
   <li>Read the same relationship from a two-way table.</li>
 </ul>
-<section id="independence-test">
+<nav class="learning-route" aria-label="Learning route">
+  <p><strong>Learning route</strong></p>
+  <p>Build on Lecture 1's conditional probability to ask whether the given information matters.</p>
+  <ol>
+    <li>
+      <a href="#independence-test">Does the information change the probability?</a>
+      <p>Compare the same event before and after conditioning to define independence.</p>
+    </li>
+    <li>
+      <a href="#read-table">How can the table check the same conclusion?</a>
+      <p>Use the table totals to connect that comparison to the product test.</p>
+    </li>
+    <li>
+      <a href="#independence-quiz">Which comparison justifies the conclusion?</a>
+      <p>Choose and explain valid evidence before applying the test to another pair of events.</p>
+    </li>
+  </ol>
+</nav>
+<section id="independence-test" tabindex="-1">
   <p class="eyebrow">01 / THE IDEA</p>
   <h2>Does the information change the probability?</h2>
-  <p>
+  <ul class="objectives">
+    <li>Compare P(E | S) with P(E) and explain what their difference says about independence.</li>
+  </ul>
+  <p class="section-context">
     In the previous lecture, changing the reference group gave us 60% instead of 24%. Now ask a new
     question: does knowing that a student takes statistics change the chance that they take
     economics? Compare the same event, E, before and after learning S.
@@ -42,15 +63,24 @@
     0.60 among statistics students. These events are not independent in this survey.
   </p>
   <a data-source="s2" data-page="1">Lecture 2 · PDF p. 1</a>
+  <p class="section-next">
+    The conditional comparison shows a difference. How can all the survey counts check that same
+    conclusion? <a href="#read-table">Read the table and apply the product test.</a>
+  </p>
 </section>
-<section id="read-table">
+<section id="read-table" tabindex="-1">
   <p class="eyebrow">02 / SOURCE FIGURE</p>
-  <h2>One table, two denominators.</h2>
-  <p>
-    <strong>The survey case, next step:</strong> The conditional comparison settles independence,
-    but how can we check it directly from all the counts? The source table shows the same survey
-    organized into rows and columns. Its totals let us calculate the marginal probabilities and
-    apply the equivalent product test.
+  <h2>How can the table check the same conclusion?</h2>
+  <ul class="objectives">
+    <li>
+      Use row and column totals to calculate joint and marginal probabilities and test the product
+      equality.
+    </li>
+  </ul>
+  <p class="section-context">
+    The previous comparison used 60% within S and 50% overall. The source table organizes the same
+    survey into rows and columns. Its totals let us calculate the marginal probabilities and apply
+    the equivalent product test introduced above.
   </p>
   <figure>
     <img
@@ -70,10 +100,24 @@
   <p class="muted">This calculation applies the rule from page 1 to the counts on page 2.</p>
   <a data-source="s2" data-page="1">Rule · p. 1</a
   ><a data-source="s2" data-page="2">Counts · p. 2</a>
+  <p class="section-next">
+    Both tests now give the same conclusion. Which comparison provides evidence for it, and why are
+    the subject names alone insufficient? <a href="#independence-quiz">Explain your choice.</a>
+  </p>
 </section>
-<section id="independence-quiz">
+<section id="independence-quiz" tabindex="-1">
   <p class="eyebrow">03 / CHECK YOUR REASONING</p>
-  <h2>Compare like with like.</h2>
+  <h2>Which comparison justifies the conclusion?</h2>
+  <ul class="objectives">
+    <li>
+      Justify the independence decision with a valid probability comparison and reject unsupported
+      reasons.
+    </li>
+  </ul>
+  <p class="section-context">
+    You have checked the same survey with a conditional comparison and a product comparison. Use
+    that numerical evidence to explain the decision, including why the conditional test applies.
+  </p>
   <div class="quiz" id="independence-quiz-question" data-answer="0">
     <h3>Why are E and S not independent in this survey?</h3>
     <div class="options">
@@ -110,4 +154,9 @@
       </p>
     </div>
   </details>
+  <p class="section-next">
+    For the next pair of events you encounter, which probabilities would you need to compare? Choose
+    a test, check its conditions, and use the counts to justify your conclusion as you did for this
+    survey.
+  </p>
 </section>
