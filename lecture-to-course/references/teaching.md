@@ -14,7 +14,21 @@ Start with what the student will learn to explain or do. A useful teaching progr
 
 Explain why each important step follows. Introduce variables, units and assumptions before using a formula. Keep the core explanation, essential derivation and applicable conditions visible by default. Use expandable sections for alternative derivations, extra practice, reference answers or optional background. Students should not need the original PDF to fill a gap in the main reasoning.
 
-Use one running example when it connects related ideas. Add a simpler entry example when the source example demands too many new ideas at once, then return to the source example. A simpler explanation must preserve the course's depth, not just shorten the text.
+### Let a running case motivate the next concept
+
+For a substantive lesson with related concepts, choose a case that can develop as the learner's tools improve. Begin with a concrete question, use the current concept to solve part of it, then make the remaining difficulty explicit before introducing the next concept. Reusing a name or dataset alone does not establish this connection: the reader should be able to say what the next idea lets them do that they could not do before. State what stays fixed, what new information is introduced, and why a new method is justified.
+
+For example, keep a survey's counts fixed while moving from “which students belong in this fraction?” to “how can we express that restriction for any event?” After conditional probability is available, ask “does knowing the subject change the probability?” That last question needs a marginal probability and an independence test; a comparison of conditional and joint probabilities alone cannot answer it.
+
+In the working coverage map, note **case step → unresolved problem → next concept**, plus whether its scenario/counts come from the source or are author-created. This is a planning aid, not a new JSON schema or a fixed number of steps. Prefer a suitable source case; when it is too demanding as an entry point, introduce a simpler labeled case and explicitly return to the teacher's key worked example. Keep original assumptions, derivations and citations. A running case need not span unrelated lectures or very small excerpts, and a separate transfer exercise can check whether the learner can generalize beyond it.
+
+## Diagnose only the prerequisites this course needs
+
+When the course relies on prior knowledge, begin with a brief optional check, usually two or three questions. Adapt its size to the actual gaps; omit it when no meaningful prerequisite needs checking. Check existing knowledge rather than asking students to know the new lesson already. Record each question's prerequisite concept, where it is needed in the main lesson, and its focused refresher in the coverage map.
+
+Give every diagnostic question one clear concept target and explain its plausible distractors. A wrong answer offers a link to the corresponding short refresher; opening it must allow a return to the same question for another attempt. Keep refreshers expandable and label added background “Supplementary explanation,” with author-created examples identified. Supply a visible skip link to the first main section, allow direct manual access to refreshers, and keep the entire lesson available regardless of answers. Correct answers do not prove mastery and must not unlock or hide lesson content.
+
+Keep each refresher local to the gap: a definition or small worked step that prepares the student for this lesson. For conditional probability, a part-to-whole fraction and the meaning of an intersection may be enough; do not add an entire foundational mathematics course. Preserve source citations when a refresher uses material from the supplied lectures, and do not imply that newly added prerequisite explanations came from the teacher.
 
 ## Separate provenance from the teaching flow
 

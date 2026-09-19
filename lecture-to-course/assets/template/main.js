@@ -63,12 +63,52 @@ const courseText = (en) =>
       }
     }
   });
+  const prerequisiteOrigins = new WeakMap();
+  function focusAt(element, block = 'center') {
+    if (element.tabIndex < 0) element.tabIndex = -1;
+    element.focus({ preventScroll: true });
+    element.scrollIntoView({ block });
+  }
+  document.querySelectorAll('.precheck-skip').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const target = document.getElementById(link.hash.slice(1));
+      if (!target) return;
+      event.preventDefault();
+      focusAt(target, 'start');
+    });
+  });
+  document.querySelectorAll('details.prerequisite').forEach((refresher) => {
+    refresher.querySelector('.prerequisite-return')?.addEventListener('click', () => {
+      const quiz = prerequisiteOrigins.get(refresher);
+      if (!quiz) return;
+      focusAt(quiz, 'start');
+    });
+  });
   document.querySelectorAll('.quiz').forEach((quiz) => {
     const buttons = [...quiz.querySelectorAll('.options button')],
       answer = Number(quiz.dataset.answer),
       explanation = quiz.querySelector('.explanation'),
       retry = quiz.querySelector('.retry'),
       status = quiz.querySelector('.quiz-status');
+    const refresher = quiz.dataset.prerequisite
+      ? document.getElementById(quiz.dataset.prerequisite)
+      : null;
+    let review;
+    if (refresher) {
+      review = document.createElement('a');
+      review.className = 'prerequisite-review';
+      review.href = '#' + refresher.id;
+      review.textContent = courseText('Review this prerequisite');
+      review.hidden = true;
+      explanation.append(review);
+      review.addEventListener('click', (event) => {
+        event.preventDefault();
+        prerequisiteOrigins.set(refresher, quiz);
+        refresher.open = true;
+        refresher.querySelector('.prerequisite-return').hidden = false;
+        focusAt(refresher.querySelector(':scope > summary'));
+      });
+    }
     buttons.forEach((button, index) =>
       button.addEventListener('click', () => {
         buttons.forEach((b, i) => {
@@ -82,6 +122,7 @@ const courseText = (en) =>
         quiz.dataset.result = index === answer ? 'correct' : 'incorrect';
         explanation.hidden = false;
         retry.hidden = false;
+        if (review) review.hidden = index === answer;
       }),
     );
     retry.addEventListener('click', () => {
@@ -93,6 +134,13 @@ const courseText = (en) =>
       delete quiz.dataset.result;
       explanation.hidden = true;
       retry.hidden = true;
+      if (review) {
+        review.hidden = true;
+        if (prerequisiteOrigins.get(refresher) === quiz) {
+          prerequisiteOrigins.delete(refresher);
+          refresher.querySelector('.prerequisite-return').hidden = true;
+        }
+      }
       buttons[0].focus();
     });
   });
@@ -118,6 +166,9 @@ const courseText = (en) =>
   }
   addEventListener('course-language-change', () => {
     filter();
+    document.querySelectorAll('.prerequisite-review').forEach((link) => {
+      link.textContent = courseText('Review this prerequisite');
+    });
     document.querySelectorAll('.quiz[data-result]').forEach((quiz) => {
       quiz.querySelector('.quiz-status').textContent = courseText(
         quiz.dataset.result === 'correct'

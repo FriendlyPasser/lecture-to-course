@@ -38,7 +38,8 @@ button {
 button:focus-visible,
 a:focus-visible,
 summary:focus-visible,
-input:focus-visible {
+input:focus-visible,
+.quiz:focus-visible {
   outline: 3px solid #2c715c;
   outline-offset: 4px;
 }
@@ -188,6 +189,9 @@ section {
   border-top: 1px solid var(--line);
   scroll-margin-top: 24px;
 }
+section[tabindex='-1'] {
+  scroll-margin-top: 80px;
+}
 .objectives {
   border-left: 2px solid var(--accent);
   padding-left: 28px;
@@ -281,6 +285,7 @@ details[open] summary {
   background: #fffdf8;
   border: 1px solid var(--line);
   padding: 26px;
+  scroll-margin-top: 80px;
 }
 .quiz h3 {
   margin-top: 0;
@@ -318,12 +323,20 @@ details[open] summary {
   border-top: 1px solid var(--line);
   padding-top: 8px;
 }
-.retry {
+.retry,
+.prerequisite-return {
   border: 0;
   border-bottom: 1px solid var(--accent);
   background: none;
   color: var(--accent);
   padding: 3px 0;
+}
+.prerequisite-return {
+  margin-top: 18px;
+}
+.prerequisite-review {
+  display: inline-block;
+  margin: 8px 0 16px;
 }
 .glossary-tab {
   position: fixed;

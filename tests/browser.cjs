@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
+const { checkPrerequisites, checkSharedPrerequisite } = require('./prerequisites.cjs');
 
 const localDir = path.resolve(__dirname, '../.local');
 process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
@@ -30,6 +31,7 @@ async function main() {
     await page.goto(pathToFileURL(path.join(siteDir, 'index.html')).href);
     await page.screenshot({ path: path.join(reviewDir, 'overview.png') });
     await page.locator('.lecture-card').first().click();
+    await checkPrerequisites(page, { screenshot: path.join(reviewDir, 'prerequisites-1440.png') });
 
     // Glossary terms support focus, keyboard dismissal, and Chinese search.
     await page.locator('[data-term="conditional"]').click();
@@ -78,6 +80,12 @@ async function main() {
 
     for (const width of [1024, 1440]) {
       await page.setViewportSize({ width, height: 900 });
+      if (width === 1024) {
+        await page.reload();
+        await checkPrerequisites(page, {
+          screenshot: path.join(reviewDir, 'prerequisites-1024.png'),
+        });
+      }
       await page.evaluate(() => scrollTo(0, 0));
       assert.equal(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
@@ -106,7 +114,9 @@ async function main() {
       );
     }
 
-    // Browsers that deny localStorage should still allow glossary interaction.
+    await checkSharedPrerequisite(page);
+
+    // Browsers that deny localStorage should still allow optional checks and glossary interaction.
     await context.addInitScript(() => {
       Object.defineProperty(window, 'localStorage', {
         get() {
@@ -115,6 +125,7 @@ async function main() {
       });
     });
     await page.reload();
+    await checkPrerequisites(page);
     await page.locator('.glossary-tab').click();
     assert.equal(await page.locator('.drawer').isVisible(), true);
     await page.keyboard.press('Escape');
@@ -126,6 +137,7 @@ async function main() {
     assert.deepEqual(errors, []);
     console.log(
       'PASS: offline file navigation, glossary, keyboard, search, quizzes, retry, ' +
+        'optional prerequisite checks, targeted refreshers, return focus, shared targets, ' +
         'independent quiz state, visible derivation, SVG labels, details, source links, ' +
         'desktop widths, blocked storage, next lecture, no page errors.',
     );

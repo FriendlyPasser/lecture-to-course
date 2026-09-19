@@ -49,6 +49,9 @@ npm run format:check
 python -B lecture-to-course/scripts/build_course.py demo/course.json --out .local/demo/site
 python -B lecture-to-course/scripts/check_site.py .local/demo/site
 npm run test:browser
+python -B lecture-to-course/scripts/build_course.py demo/bilingual-course.json --out .local/demo/bilingual
+python -B lecture-to-course/scripts/check_site.py .local/demo/bilingual
+node tests/bilingual.cjs
 ```
 
 If the demo output already exists and is current, skip the build. If it is stale, build into a new directory and pass that directory to the browser test:
@@ -56,9 +59,11 @@ If the demo output already exists and is current, skip the build. If it is stale
 ```bash
 python -B lecture-to-course/scripts/build_course.py demo/course.json --out .local/work/demo-v2
 npm run test:browser -- .local/work/demo-v2 .local/work/demo-v2-review
+python -B lecture-to-course/scripts/build_course.py demo/bilingual-course.json --out .local/work/bilingual-v2
+node tests/bilingual.cjs .local/work/bilingual-v2 .local/work/bilingual-v2-review
 ```
 
-`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can select an installed Chrome/Chromium executable. Tests use offline mode and direct file addresses. Default screenshots go under `.local/demo/review/`; Python tests separately verify the local HTTP launcher.
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can select an installed Chrome/Chromium executable. Tests use offline mode and direct file addresses, including optional prerequisite checks, targeted refreshers, keyboard return, retry, and bilingual state preservation. Both browser scripts accept a generated site directory followed by a screenshot directory. Default screenshots go under `.local/demo/review/` and `.local/demo/bilingual-review/`; Python tests separately verify the local HTTP launcher.
 
 GitHub Actions runs style checks, Python tests, the synthetic demo build, resource checks and offline browser interactions. See [VALIDATION.md](../VALIDATION.md) for recorded results and their limits.
 

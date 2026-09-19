@@ -1,18 +1,100 @@
+<section class="precheck" id="prerequisites">
+  <h2>Before you begin: two useful building blocks</h2>
+  <p>This optional check covers fractions and overlapping groups. Review only what you need.</p>
+  <p class="muted">Author-created prerequisite checks · Added background for this lesson.</p>
+  <a class="precheck-skip" href="#conditional-intuition">Skip the check and start the lesson</a>
+  <div
+    class="quiz"
+    id="bilingual-fractions-check"
+    data-answer="0"
+    data-prerequisite="bilingual-fraction-refresher"
+  >
+    <h3>Three of twelve counters are blue. What percentage of the counters is blue?</h3>
+    <div class="options"><button>25%</button><button>36%</button><button>75%</button></div>
+    <p class="quiz-status" role="status"></p>
+    <div class="explanation" hidden>
+      <p>
+        Divide the part by the whole: 3/12 = 0.25 = 25%. Multiplying 3 by 12 gives 36, not a share;
+        75% describes the nine counters that are not blue.
+      </p>
+    </div>
+    <button class="retry" hidden>Try again</button>
+  </div>
+  <details class="prerequisite" id="bilingual-fraction-refresher">
+    <summary>Refresher: a part-to-whole fraction</summary>
+    <div class="supplement">
+      <strong>Supplementary explanation</strong>
+      <p>
+        In the author-created counter example, the numerator counts the three blue counters. The
+        denominator counts all twelve counters in the chosen group. Divide 3 by 12 to get 0.25, then
+        multiply by 100 to write 25%.
+      </p>
+      <p>In this lesson, first name the group, then use its size as the denominator.</p>
+      <button class="prerequisite-return" hidden>Return to question</button>
+    </div>
+  </details>
+  <div
+    class="quiz"
+    id="bilingual-overlap-check"
+    data-answer="1"
+    data-prerequisite="bilingual-overlap-refresher"
+  >
+    <h3>
+      Six people read, four swim, and two do both. How many belong to the intersection of readers
+      and swimmers?
+    </h3>
+    <div class="options">
+      <button>10 people</button><button>2 people</button><button>8 people</button>
+    </div>
+    <p class="quiz-status" role="status"></p>
+    <div class="explanation" hidden>
+      <p>
+        The intersection contains the two people who do both. Adding 6 and 4 counts those two twice;
+        8 counts everyone who does at least one activity.
+      </p>
+    </div>
+    <button class="retry" hidden>Try again</button>
+  </div>
+  <details class="prerequisite" id="bilingual-overlap-refresher">
+    <summary>Refresher: an intersection means both</summary>
+    <div class="supplement">
+      <strong>Supplementary explanation</strong>
+      <p>
+        In the author-created activity example, label the reader group R and the swimmer group W. R
+        ∩ W keeps only people satisfying both descriptions, so its count is 2. It is not the sum of
+        the two group sizes.
+      </p>
+      <p>In the club example, C ∩ T will likewise mean members who play both chess and tennis.</p>
+      <button class="prerequisite-return" hidden>Return to question</button>
+    </div>
+  </details>
+</section>
 <section id="conditional-intuition">
   <h2>Conditioning changes the reference group</h2>
   <p>Start with everyone, then keep only the people who satisfy the condition.</p>
   <p>A conditional probability uses that smaller reference group as its denominator.</p>
   <button class="term" data-term="conditional">Conditional probability</button>
   <a data-source="s1" data-page="1">Source · page 1</a>
+  <p>
+    The source survey has 100 students, 40 taking statistics, and 24 of those also taking economics.
+    Among statistics students, the economics share is 24/40 = 60%.
+  </p>
   <details id="reference-answer">
     <summary>Compare your explanation</summary>
     <p>The condition tells us which group to count within.</p>
   </details>
+  <p class="muted">Author-created running example</p>
+  <p>Of 40 club members, 10 play chess. Of those 10 chess players, 4 also play tennis.</p>
+  <p>
+    The club wants to offer tennis sessions to chess players. We know who plays both, but which
+    group should we compare those four members with?
+  </p>
+  <a href="#conditional-practice">Use the question to choose the denominator.</a>
 </section>
 <section id="conditional-practice">
   <h2>Choose the denominator</h2>
   <p>Author-created exercise</p>
-  <p>Of 40 club members, 10 play chess. Of those 10 chess players, 4 also play tennis.</p>
+  <p>Keep the same club: 40 members, 10 chess players, and 4 playing both chess and tennis.</p>
   <p>We want the probability of playing tennis given that the member plays chess.</p>
   <p>The numerator counts members who satisfy both properties. There are four.</p>
   <p>The denominator counts all members who satisfy the condition.</p>
@@ -22,7 +104,43 @@
     <p class="quiz-status" role="status"></p>
     <div class="explanation" hidden>
       <p>Use 10: only chess players belong to the reference group. The answer is 4/10.</p>
+      <p>
+        Using 40 instead gives the share of the entire club doing both activities, which answers a
+        different question.
+      </p>
+      <a data-source="s1" data-page="2">Underlying rule · page 2</a>
     </div>
     <button class="retry" hidden>Try again</button>
   </div>
+  <p>
+    We can now count 4 out of 10. But if a report gives only probabilities, how can we recover that
+    same answer?
+  </p>
+  <a href="#conditional-general-rule"
+    >Turn the club counts into the conditional probability formula.</a
+  >
+</section>
+<section id="conditional-general-rule">
+  <h2>The same club, expressed as probabilities</h2>
+  <p>
+    Let C mean playing chess and T mean playing tennis. The club counts stay fixed: P(C) = 10/40 and
+    P(T ∩ C) = 4/40.
+  </p>
+  <div class="equation">
+    <p>P(T | C) = P(T ∩ C) / P(C) = (4/40) / (10/40) = 4/10 = 40%.</p>
+    <p>
+      The common total of 40 cancels. The formula rescales the share doing both activities to the
+      chess group.
+    </p>
+  </div>
+  <p>
+    This formula requires P(C) &gt; 0. Here 10/40 is positive; if nobody played chess, this ratio
+    would be undefined.
+  </p>
+  <a data-source="s1" data-page="2">Underlying rule · page 2</a>
+  <p>
+    Return to the source survey: (24/100) / (40/100) = 24/40 = 60%. The same rule explains the
+    source example and our new club case.
+  </p>
+  <a data-source="s1" data-page="2">Source calculation · page 2</a>
 </section>
