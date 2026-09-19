@@ -52,6 +52,7 @@ npm run test:browser
 python -B lecture-to-course/scripts/build_course.py demo/bilingual-course.json --out .local/demo/bilingual
 python -B lecture-to-course/scripts/check_site.py .local/demo/bilingual
 node tests/bilingual.cjs
+npm run test:review
 ```
 
 If the demo output already exists and is current, skip the build. If it is stale, build into a new directory and pass that directory to the browser test:
@@ -61,9 +62,12 @@ python -B lecture-to-course/scripts/build_course.py demo/course.json --out .loca
 npm run test:browser -- .local/work/demo-v2 .local/work/demo-v2-review
 python -B lecture-to-course/scripts/build_course.py demo/bilingual-course.json --out .local/work/bilingual-v2
 node tests/bilingual.cjs .local/work/bilingual-v2 .local/work/bilingual-v2-review
+npm run test:review -- .local/work/demo-v2 .local/work/bilingual-v2 .local/work/concept-review
 ```
 
 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can select an installed Chrome/Chromium executable. Tests use offline mode and direct file addresses, including learning-route and section-bridge keyboard navigation, visible destination headings, bilingual route/objective/transition text, targeted wrong-option hints, retry with the hint retained, explicit answer reveal, legacy quizzes, optional prerequisite checks, targeted refreshers, keyboard return, and bilingual state preservation. Practice checks cover typed decimals, fractions and percentages; malformed and non-finite input; inclusive absolute tolerances and the default tolerance; independent form state; optional hints; explicit solution reveal; reset and focus; and reflection self-assessment. Both desktop widths and blocked storage are exercised. Bilingual checks preserve unfinished text, feedback, hints and revealed solutions while switching languages. The controlled-change diagrams are checked at every attainable overlap, including fixed table margins, complementary probabilities, keyboard input, independent instances, retained notes, bilingual feedback, rounding and static reading with JavaScript disabled. Both browser scripts accept a generated site directory followed by a screenshot directory. Default screenshots go under `.local/demo/review/` and `.local/demo/bilingual-review/`; Python tests separately verify the local HTTP launcher.
+
+The dedicated concept-review suite exercises honest evidence for quizzes, numeric practice and reflection; same-day retry, reset and reload protection; offline persistence and course isolation; 1-, 3- and 7-day review intervals with a controlled clock; fresh and oldest question recommendations; keyboard operation and bilingual state; and malformed, unavailable or full storage. It accepts the main demo directory, bilingual demo directory and screenshot directory, in that order. Default screenshots go under `.local/demo/concept-review/`. Build both demos before running it.
 
 GitHub Actions runs style checks, Python tests, the synthetic demo build, resource checks and offline browser interactions. See [VALIDATION.md](../VALIDATION.md) for recorded results and their limits.
 

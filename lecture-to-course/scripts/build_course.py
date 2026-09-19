@@ -53,12 +53,16 @@ def local(value):
 
 
 class Fragment(HTMLParser):
-    def __init__(self, sources, terms):
+    def __init__(self, sources, terms, concepts=None):
         super().__init__(convert_charrefs=False)
         self.sources = sources
         self.terms = terms
+        self.concepts = concepts or {}
+        self.activities = []
         self.parts = []
-        self.ids = {"content", "glossary", "term-search"} | {"term-" + t for t in terms}
+        self.ids = {"content", "glossary", "term-search", "concept-review"} | {
+            "term-" + t for t in terms
+        }
         self.chapters = []
         self.section = None
         self.heading = False
@@ -71,6 +75,7 @@ class Fragment(HTMLParser):
         self.id_nodes = {}
         self.quiz_depth = None
         self.options_depth = None
+        self.text_events = []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -104,6 +109,18 @@ class Fragment(HTMLParser):
             )
         ) and len(a) != len(attrs):
             raise ValueError("Practice and exploration markup cannot contain duplicate attributes")
+        if (
+            "data-concept" in a
+            or any("data-concept" in parent["attrs"] for parent in self.element_nodes)
+        ) and len(a) != len(attrs):
+            raise ValueError("Concept activity markup cannot contain duplicate attributes")
+        if "data-concept" in a:
+            if "quiz" not in classes and not (tag == "form" and "practice" in classes):
+                raise ValueError("data-concept requires a quiz or practice")
+            if a["data-concept"] not in self.concepts:
+                raise ValueError(f"Unknown concept: {a['data-concept']}")
+            if not a.get("id"):
+                raise ValueError("Concept activity needs a unique id")
         if tag == "form" and "practice" not in classes:
             raise ValueError("Only practice forms are supported")
         if "practice" in classes and tag != "form":
@@ -197,11 +214,18 @@ class Fragment(HTMLParser):
 
     def handle_endtag(self, tag):
         if any(
-            {"practice", "exploration"}.intersection(node["classes"]) for node in self.element_nodes
+            {"practice", "exploration"}.intersection(node["classes"])
+            or "data-concept" in node["attrs"]
+            for node in self.element_nodes
         ) and (not self.elements or self.elements[-1] != tag):
-            raise ValueError(
-                "Practice and exploration markup must have correctly nested closing tags"
+            kind = (
+                "Practice"
+                if any("practice" in node["classes"] for node in self.element_nodes)
+                else "Exploration"
+                if any("exploration" in node["classes"] for node in self.element_nodes)
+                else "Concept activity"
             )
+            raise ValueError(f"{kind} markup must have correctly nested closing tags")
         if tag == "h2" and self.heading:
             self.chapters.append((self.section, "".join(self.headingtext)))
             self.heading = False
@@ -243,6 +267,7 @@ class Fragment(HTMLParser):
     def record_text(self, text):
         if self.element_nodes:
             self.element_nodes[-1]["text"].append(text)
+            self.text_events.append((text, tuple(self.element_nodes)))
 
     def descendants(self, node):
         return [
@@ -563,6 +588,40 @@ class Fragment(HTMLParser):
                 if hint["tag"] != "details":
                     raise ValueError(f"Practice hint must be details: {name}")
 
+    def validate_concepts(self):
+        self.activities = []
+        for activity in (node for node in self.nodes if "data-concept" in node["attrs"]):
+            attrs = activity["attrs"]
+            name = attrs["id"]
+            context = (*activity["ancestors"], activity)
+            if self.hint_blocked(context) or any(
+                "quiz" in node["classes"] or "practice" in node["classes"]
+                for node in activity["ancestors"]
+            ):
+                raise ValueError(f"Concept activity is unreachable: {name}")
+            children = self.descendants(activity)
+            if any(not node["closed"] for node in [activity, *children]):
+                raise ValueError(f"Concept activity markup has an unclosed element: {name}")
+            title = self.concepts[attrs["data-concept"]]["title"]
+            for heading in (node for node in children if node["tag"] == "h3"):
+                text = "".join(
+                    text
+                    for text, ancestors in self.text_events
+                    if any(node is heading for node in ancestors)
+                    and not self.hint_blocked(ancestors)
+                )
+                if text.strip():
+                    title = " ".join(text.split())
+                    break
+            self.activities.append(
+                {
+                    "concept": attrs["data-concept"],
+                    "id": name,
+                    "kind": "quiz" if "quiz" in activity["classes"] else attrs["data-kind"],
+                    "title": title,
+                }
+            )
+
     def validate_explorations(self):
         components = {
             "exploration-goal": "p",
@@ -782,6 +841,7 @@ class Fragment(HTMLParser):
         self.validate_hints()
         self.validate_prerequisites()
         self.validate_practices()
+        self.validate_concepts()
         self.validate_explorations()
         return "".join(self.parts)
 
@@ -792,6 +852,24 @@ def build(spec, out):
     root = spec.parent
     data = json.loads(spec.read_text(encoding="utf-8"))
     cid = slug(data["id"])
+    concepts = {}
+    declarations = data.get("concepts", [])
+    if not isinstance(declarations, list):
+        raise ValueError("concepts must be a list of objects with id and title")
+    for concept in declarations:
+        if not isinstance(concept, dict):
+            raise ValueError("Each concept must be an object with id and title")
+        concept_id = slug(concept.get("id"))
+        if concept_id in concepts:
+            raise ValueError(f"Duplicate concept ID: {concept_id}")
+        title = concept.get("title")
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError(f"Concept needs a nonempty title: {concept_id}")
+        concepts[concept_id] = {
+            "id": concept_id,
+            "title": " ".join(title.split()),
+            "activities": [],
+        }
     translations = data.get("translations", {})
     if not isinstance(translations, dict) or set(translations) - {"zh"}:
         raise ValueError("translations must contain only a zh text dictionary")
@@ -834,12 +912,27 @@ def build(spec, out):
         if lid in ids or lid == "index":
             raise ValueError("Duplicate/reserved lecture ID")
         ids.add(lid)
-        parser = Fragment(sources, terms)
+        parser = Fragment(sources, terms, concepts)
         parser.feed((root / local(lecture["file"])).read_text(encoding="utf-8"))
         parser.close()
         lectures.append({**lecture, "html": parser.finish(), "chapters": parser.chapters})
+        for activity in parser.activities:
+            concepts[activity["concept"]]["activities"].append(
+                {
+                    "id": activity["id"],
+                    "lecture": lid,
+                    "href": f"{lid}.html#{activity['id']}",
+                    "kind": activity["kind"],
+                    "title": activity["title"],
+                }
+            )
     if not lectures:
         raise ValueError("At least one lecture required")
+    for concept in concepts.values():
+        if not any(activity["kind"] in ("quiz", "numeric") for activity in concept["activities"]):
+            raise ValueError(
+                f"Concept needs at least one graded quiz or numeric practice: {concept['id']}"
+            )
     assetnames = set()
     for asset in data.get("assets", []):
         name = local(asset["name"])
@@ -856,6 +949,16 @@ def build(spec, out):
     out.mkdir(parents=True, exist_ok=True)
     for file in ("styles.css", "main.js", "launch_course.py", "打开课程.command"):
         shutil.copy2(template / file, out / file)
+    if concepts:
+        shutil.copy2(template / "review.js", out / "review.js")
+        (out / "review-data.js").write_text(
+            "window.courseReview = "
+            + json.dumps({"concepts": list(concepts.values())}, ensure_ascii=True).replace(
+                "<", "\\u003c"
+            )
+            + ";\n",
+            encoding="utf-8",
+        )
     if chinese:
         dictionary = json.loads((template / "ui-zh.json").read_text(encoding="utf-8"))
         dictionary.update(chinese)
@@ -908,6 +1011,12 @@ def build(spec, out):
             else ""
         )
         return page_template.substitute(
+            review_scripts_html=(
+                '    <script src="review-data.js" defer></script>\n'
+                '    <script src="review.js" defer></script>'
+                if concepts
+                else ""
+            ),
             language_scripts_html=(
                 '    <script src="translations.js" defer></script>\n'
                 '    <script src="language.js" defer></script>'

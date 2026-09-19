@@ -21,10 +21,12 @@ Both self-authored PDFs have two physical pages. All four were visually rechecke
 
 ## Question-led sections and learning routes
 
-Lecture 1 keeps its three core sections. Lecture 2 has four, including the overlap exploration;
-the bilingual fixture has five, including its exploration and separate scaffolded-practice section.
-Existing section IDs remain stable, and both new exploration sections join the same learning route
-and transition chain. The opening route is optional navigation: its question links show the order and explain
+Lecture 1 keeps its three core sections. Lecture 2 has five, including the overlap exploration and
+later clinic retrieval. The bilingual first lecture has five, including its exploration and separate
+scaffolded-practice section, followed by a clinic review section in the next lecture. Existing section
+IDs remain stable, and the new exploration and primary clinic sections join their learning routes
+and transition chains. The bilingual practice section links to its later review, which links back to
+the earlier rule. The opening route is optional navigation: its question links show the order and explain
 why each step is needed. Every core section has a question heading, a visible section objective, an
 opening connection to prior knowledge, and an ending question that motivates the next step. The
 prerequisite checks remain optional and separate from this core sequence; no sections were added to
@@ -38,12 +40,14 @@ meet a length or count target.
 | 2 / `independence-test` | Does the information change the probability? Compare P(E given S) with P(E) and interpret the difference. | Lecture 1's distinction between conditional and joint probability; compare the same event before and after learning S. | How can all the counts check the same conclusion? Continue to `read-table`. |
 | 2 / `read-table` | How can the table check the same conclusion? Calculate joint and marginal shares from totals and apply the product equality. | The prior conditional comparison and the equivalent product test. | Could another overlap satisfy independence with both subject totals fixed? Continue to `explore-independence`. |
 | 2 / `explore-independence` | How much overlap would make the events independent? Predict and explain which overlap satisfies both tests. | The source table and both independence tests, keeping the table margins fixed. | Which comparison justifies the conclusion, and why are subject names insufficient? Return to the original survey in `independence-quiz`. |
-| 2 / `independence-quiz` | Which comparison justifies the conclusion? Explain a valid comparison and reject unsupported reasons. | Both numerical checks and the conditional test's applicability condition. | Which probabilities and conditions would another pair of events require? A final transfer prompt, not a new lecture or a scored claim of mastery. |
+| 2 / `independence-quiz` | Which comparison justifies the conclusion? Explain a valid comparison and reject unsupported reasons. | Both numerical checks and the conditional test's applicability condition. | Which probabilities and conditions would another pair of events require? First retrieve the earlier reference-group decision in `cumulative-review`. |
+| 2 / `cumulative-review` | Can you retrieve the reference group in a new setting? Choose and justify the conditional denominator in a clinic problem. | The independence comparison still depends on the reference group; retrieve the earlier method in a new setting. | Which group would a new condition select, and how would it affect an independence comparison? Return to `independence-test` if needed. |
 | Bilingual / `conditional-intuition` | How does the condition choose the group? Identify the selected group in the source survey and club case. | A fraction compares a part with a chosen whole; optional prerequisite review is available. | Which group should the four members be compared with? Continue to `conditional-practice`. |
 | Bilingual / `conditional-practice` | Which group belongs in the denominator? Choose the club denominator and explain why using all members answers a different question. | The selected chess group and intersection idea. | How can probabilities recover the answer 4/10? Continue to `conditional-general-rule`. |
 | Bilingual / `conditional-general-rule` | How can probabilities recover the same answer? Derive 4/10 from probability shares and explain the positive denominator. | The club's count ratio, with the reference group held fixed; the visible table connects words, counts, and symbols. | What changes when the overlap varies with group totals fixed? Continue to `conditional-exploration`. |
 | Bilingual / `conditional-exploration` | How does changing the overlap change the probability? Predict and explain a changed probability while preserving group totals. | The formula identifies the overlap as numerator and chess group as denominator; the diagram is a labeled hypothetical extension. | Can the learner keep choosing the group as worked steps are removed? Continue to `conditional-transfer`. |
-| Bilingual / `conditional-transfer` | Can you choose the group without worked steps? Complete the club calculation, solve the garden problem, explain applicability, and distinguish exact fractions from rounded decimals. | The worked formula and its group interpretation, first with a completed counting step and then without intermediate steps. | For a new condition, which group supplies the denominator and is its probability positive? A final application prompt. |
+| Bilingual / `conditional-transfer` | Can you choose the group without worked steps? Complete the club calculation, solve the garden problem, explain applicability, and distinguish exact fractions from rounded decimals. | The worked formula and its group interpretation, first with a completed counting step and then without intermediate steps. | For a new condition, which group supplies the denominator and is its probability positive? Try the clinic problem in the later review lecture. |
+| Bilingual review / `cumulative-review` | Can you retrieve the reference group in a new setting? Choose and justify the clinic denominator. | Recall the method from the earlier club/garden lesson; optional hint and full reasoning remain available. | With another condition, which group would you use? The return link revisits `conditional-general-rule` in the first lecture. |
 
 The routes, section objectives, dependency explanations, and transition questions are author-created
 teaching structure. They retain the source-supported counts, complete worked steps, conditions,
@@ -96,7 +100,7 @@ On an incorrect attempt, only the matching hint is shown; the correct choice and
 | Bilingual club: 40 members, 10 playing chess, 4 playing both | Which group should the club use when asking about chess players? | Reference group and denominator choice in `conditional-practice` | Author-created case; first introduced alongside the source's 100/40/24 example |
 | Bilingual club: calculate 4/10 | What if only probabilities are supplied? | (4/40)/(10/40) = 40%, with positive-denominator condition | New counts applying Lecture 1 p. 2; return to original source calculation 24/40 = 60% afterward |
 
-The bilingual fixture covers the two pages of the conditional-probability source only and reuses the same fragment for a review page. It does not cover the independence lecture. Its source survey and return calculation preserve the source example; the club case and prerequisite questions are author-created. All substantive new prose and controls have Chinese translations; mathematical notation is preserved.
+The bilingual fixture covers the two pages of the conditional-probability source and uses a separate clinic scenario in its later review fragment. It does not cover the independence lecture. Its source survey and return calculation preserve the source example; the club case and prerequisite questions are author-created. All substantive new prose and controls have Chinese translations; mathematical notation is preserved.
 
 ## Formula meanings and practice progression
 
@@ -110,6 +114,20 @@ The visible tables in `survey-formula-meaning` and `club-formula-meaning` connec
 Each completion provides the initial counting step and leaves the choice of group and final calculation to the learner. Independent prompts provide no intermediate steps or hints. Their hidden solutions explain notation, rescaling, the positive denominator and why the whole-population denominator answers a different question. The source worked steps remain visible.
 
 Numeric completion answers use zero absolute tolerance because they are exact terminating values. Independent answers use the numeric target 0.3333333333333333 with absolute tolerance 0.0005, matching rounding to three decimal places: 0.333 and exact 1/3 are accepted, whereas 0.332 and 0.334 are not. Inputs accept equivalent decimals, fractions and percentages; prompts name the unitless probability. Reflection submissions reveal self-check points rather than grading prose. All added bilingual text has reviewed Chinese translations, including labels, hints and full solutions; common control translations come from the template. These synthetic checks verify the examples, not learning outcomes.
+
+## Concept evidence and later retrieval
+
+The concept lists are separate from the glossary. Prerequisite checks remain unmapped because they diagnose supporting knowledge rather than the declared course targets. The mappings below describe authoring, not measured learning outcomes.
+
+| Course / concept | First-lecture activities | Later-lecture activities | Purpose and verified reasoning |
+|---|---|---|---|
+| Primary / `reference-denominator` | `survey-quiz`, `survey-completion`, `library-independent`, `library-reflection`, `transfer-quiz` in `conditional-probability` | `clinic-review` in `independence` | Retrieve the earlier conditional reference-group decision while studying independence. New clinic counts: 120 appointments, 30 in the morning, 9 morning follow-ups. P(F \| M) = (9/120)/(30/120) = 9/30 = 0.3 = 30%, exact; P(M) > 0. Uniform selection is stated. Neither the joint share 9/120 nor the marginal morning share 30/120 answers the question. |
+| Primary / `independence` | None: introduced in Lecture 2 | `independence-quiz-question` in `independence` | Preserve the source comparison P(E \| S) = 0.60 ≠ P(E) = 0.50 with P(S) > 0. This concept has one authored graded question, so the review panel may recommend it again; it has no claimed extra variant. |
+| Bilingual / `reference-denominator` | `bilingual-quiz`, `club-completion`, `garden-independent`, `garden-reflection` in `conditional` | `bilingual-clinic-review` in `review`, from separate `bilingual-review.html` | Move from club/garden to the new clinic setting rather than repeat the same lesson fragment. The clinic calculation and conditions match the primary course's verified new scenario; the prompt, optional hint, exact-answer label and complete reasoning have Chinese translations. |
+
+The clinic exercises are labeled “Author-created cumulative review · New setting and numbers.” Both cite Lecture 1 physical page 2 for the conditional-probability rule; their appointment counts are newly authored, not attributed to the source. The optional hint asks which appointments can be selected and directs attention to the eligible denominator without giving its numerical size or the final probability. No intermediate calculation is supplied in the prompt. The numeric target is `0.3` with zero absolute tolerance, matching the exact-answer request; decimal `0.3`, fraction `9/30` and percentage `30%` represent the same value.
+
+Mapped reflection activities record self-assessment, not correctness. The concept-review panel distinguishes recorded hints, wrong answers, voluntary solution views, supported correct answers and answers correct without recorded support. It links back to authored activities; it does not invent variants. The later question is immediately available, so its location alone does not prove a time interval or independent recall. Reading progress remains separate. The 1/3/7-day recommendations use activity evidence and elapsed time as a simple heuristic, with recent history kept in browser storage when available; they make no mastery or learning-effect claim.
 
 ## Predict → operate → explain explorations
 

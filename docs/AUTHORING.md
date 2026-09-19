@@ -72,6 +72,8 @@ Where related concepts support a running case, make each new concept answer an u
 
 For key formulas, visibly connect plain-language meaning, concrete numbers and symbols. Explain quantities, units, number origins and conditions, distinguishing exact steps from assumptions and approximations. For application objectives, follow a worked example with completion of a missing step and an independent variation. The [typed practice contract](../lecture-to-course/references/authoring.md#typed-practice) supports numeric entry and short explanations with reference solutions. Map each objective and formula to its exercises; specify answer units and rounding, verify tolerances, and give short explanations a self-check rubric rather than an automatic correctness claim.
 
+For cumulative review, declare optional course `concepts` separately from the glossary and add a stable activity ID plus `data-concept` to each mapped quiz or practice form. Each declared concept needs a graded quiz or numeric problem; reflections can contribute self-assessment only. In a later lecture, author a new scenario for an earlier concept and map it to the same concept ID. Record its changed context, verified answer and earlier source citation in the coverage map. Follow the [concept-review contract](../lecture-to-course/references/authoring.md#concept-evidence-and-cumulative-review) for metadata, evidence and review behavior. The template recommends existing questions; it does not generate variants.
+
 HTML fragments are trusted author-written content. The builder rejects common executable and remote dependencies, but it is not a security sandbox for arbitrary HTML copied from a PDF or third party.
 
 ## 4. Build and verify
@@ -87,6 +89,8 @@ Choose a new or empty output directory. For a revision, use a new directory such
 Check source pages, formulas and exercise reasoning, then inspect reading and interactions at 1024 and 1440 pixels. Verify source links, typed answers and tolerances, solution reveal/reset, glossary search and keyboard operation. Check that typed responses and exercise state survive a language switch.
 
 For quizzes with hints, confirm each wrong choice shows its own prompt without exposing the correct choice or full reasoning; retry retains that prompt, another wrong choice replaces it, and a correct choice reveals the explanation. Also reveal a solution before answering, confirm it is not graded correct, and retry afterward. Check bilingual hints in both languages throughout retry and reveal.
+
+For concept review, verify the overview and lecture entry points, links to mapped activities, wrong-answer priority, hint use, supported versus independent correct answers, solution viewing and reflection self-assessment. Check that retry/reset/reload after recent solution exposure does not create another independent success or extend the interval. Confirm a different question is recommended when available, and check a success at least 24 hours later for the 1/3/7-day spacing progression. Check storage failure, reload and language switching. Reading progress must remain separate, and no state should claim mastery. Browser storage is local, recent history; file-origin behavior and launcher ports can change which history is visible.
 
 For prerequisite checks, verify skip, the wrong-answer link to the correct refresher, return to the originating question, and the same flow after language switching. In a quiz with hints, retry should preserve its refresher link and return route; a correct answer should clear them.
 

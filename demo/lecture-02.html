@@ -1,6 +1,7 @@
 <ul class="objectives">
   <li>Test independence using conditional and marginal probabilities.</li>
   <li>Read the same relationship from a two-way table.</li>
+  <li>Retrieve the earlier reference-group method in a new setting.</li>
 </ul>
 <nav class="learning-route" aria-label="Learning route">
   <p><strong>Learning route</strong></p>
@@ -21,6 +22,10 @@
     <li>
       <a href="#independence-quiz">Which comparison justifies the conclusion?</a>
       <p>Choose and explain valid evidence before applying the test to another pair of events.</p>
+    </li>
+    <li>
+      <a href="#cumulative-review">Can you retrieve the reference group in a new setting?</a>
+      <p>Return to the earlier conditional-probability idea with a new clinic problem.</p>
     </li>
   </ol>
 </nav>
@@ -220,7 +225,7 @@
     survey with a conditional comparison and a product comparison. Use that numerical evidence to
     explain the decision, including why the conditional test applies.
   </p>
-  <div class="quiz" id="independence-quiz-question" data-answer="0">
+  <div class="quiz" id="independence-quiz-question" data-concept="independence" data-answer="0">
     <h3>Why are E and S not independent in this survey?</h3>
     <div class="options">
       <button>P(E | S) = 0.60 differs from P(E) = 0.50.</button
@@ -259,6 +264,71 @@
   <p class="section-next">
     For the next pair of events you encounter, which probabilities would you need to compare? Choose
     a test, check its conditions, and use the counts to justify your conclusion as you did for this
-    survey.
+    survey. First, can you retrieve the reference-group decision that both methods rely on?
+    <a href="#cumulative-review">Try an earlier idea in a new clinic setting.</a>
+  </p>
+</section>
+<section id="cumulative-review" tabindex="-1">
+  <p class="eyebrow">05 / RETURN TO AN EARLIER IDEA</p>
+  <h2>Can you retrieve the reference group in a new setting?</h2>
+  <ul class="objectives">
+    <li>
+      Choose the conditional reference group and justify its denominator in a new clinic problem.
+    </li>
+  </ul>
+  <p class="section-context">
+    Independence compares probabilities, so choosing the right reference group still matters.
+    Retrieve that earlier idea before applying another rule. Try this new setting without opening
+    the hint or solution first; both remain available if you need support.
+  </p>
+  <form
+    class="practice"
+    id="clinic-review"
+    data-concept="reference-denominator"
+    data-kind="numeric"
+    data-answer="0.3"
+    data-tolerance="0"
+  >
+    <h3>Follow-up appointments among morning appointments</h3>
+    <p class="muted">Author-created cumulative review · New setting and numbers.</p>
+    <p>
+      A clinic recorded 120 appointments. Thirty were in the morning, and 9 of those morning
+      appointments were follow-ups. Select one morning appointment uniformly at random. What is the
+      probability that it was a follow-up? Enter the exact probability.
+    </p>
+    <label for="clinic-review-response"
+      >Probability (no units; decimal, fraction, or percentage)</label
+    >
+    <input class="practice-response" id="clinic-review-response" type="text" inputmode="decimal" />
+    <details class="practice-hint">
+      <summary>Hint: identify the group selected from</summary>
+      <p>
+        Which appointments could be selected under the stated condition? Use the size of that
+        eligible group, rather than every appointment recorded, as the denominator.
+      </p>
+    </details>
+    <button class="practice-check" type="submit">Check answer</button>
+    <button class="practice-reveal" type="button">Show solution</button>
+    <button class="practice-reset" type="button">Start again</button>
+    <p class="practice-status" role="status"></p>
+    <div class="practice-solution" hidden>
+      <p>
+        Let F mean follow-up and M mean morning. There are 30 eligible morning appointments and 9
+        satisfy both conditions, so P(F | M) = (9/120)/(30/120) = 9/30 = 0.3 = 30%, exactly. P(M) =
+        30/120 is positive; uniform selection justifies the count ratio. No independence assumption
+        is needed.
+      </p>
+      <p>
+        Dividing 9 by 120 gives the joint share of appointments that were both morning and
+        follow-up. Dividing 30 by 120 gives the morning share. Neither gives the follow-up share
+        within morning appointments.
+      </p>
+      <a data-source="s1" data-page="2">Earlier rule · Lecture 1, p. 2</a>
+    </div>
+  </form>
+  <p class="section-next">
+    Which group would a new condition select, and how would that choice affect an independence
+    comparison? Name the group before applying either rule. If you need the connection again,
+    <a href="#independence-test">return to the two probabilities compared for independence.</a>
   </p>
 </section>

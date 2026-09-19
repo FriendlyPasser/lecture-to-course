@@ -166,7 +166,7 @@
   <p>We want the probability of playing tennis given that the member plays chess.</p>
   <p>The numerator counts members who satisfy both properties. There are four.</p>
   <p>The denominator counts all members who satisfy the condition.</p>
-  <div class="quiz" id="bilingual-quiz" data-answer="1">
+  <div class="quiz" id="bilingual-quiz" data-concept="reference-denominator" data-answer="1">
     <h3>Which denominator should we use?</h3>
     <div class="options"><button>40 club members</button><button>10 chess players</button></div>
     <p class="quiz-status" role="status"></p>
@@ -391,6 +391,7 @@
   <form
     class="practice"
     id="club-completion"
+    data-concept="reference-denominator"
     data-kind="numeric"
     data-answer="0.6"
     data-tolerance="0"
@@ -434,6 +435,7 @@
   <form
     class="practice"
     id="garden-independent"
+    data-concept="reference-denominator"
     data-kind="numeric"
     data-answer="0.3333333333333333"
     data-tolerance="0.0005"
@@ -472,7 +474,12 @@
       <a data-source="s1" data-page="2">Underlying rule · page 2</a>
     </div>
   </form>
-  <form class="practice" id="garden-reflection" data-kind="reflection">
+  <form
+    class="practice"
+    id="garden-reflection"
+    data-concept="reference-denominator"
+    data-kind="reflection"
+  >
     <h3>Explain your choice</h3>
     <p>
       In one or two sentences, explain why you used your denominator in the garden problem, when the
@@ -500,5 +507,6 @@
   <p class="section-next">
     With a new condition, which group would become the denominator, and would its probability be
     positive? Use those two checks before applying the rule again.
+    <a href="review.html#cumulative-review">Try an earlier idea in a new clinic setting.</a>
   </p>
 </section>

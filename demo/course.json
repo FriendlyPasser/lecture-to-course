@@ -60,5 +60,15 @@
       "summary": "Use a two-way table to test whether two events are independent.",
       "file": "lecture-02.html"
     }
+  ],
+  "concepts": [
+    {
+      "id": "reference-denominator",
+      "title": "Choose the conditional reference group"
+    },
+    {
+      "id": "independence",
+      "title": "Test whether events are independent"
+    }
   ]
 }
