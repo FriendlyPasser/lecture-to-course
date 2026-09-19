@@ -47,6 +47,10 @@ Choose checks that reveal a meaningful difficulty: predict a change, explain a s
 
 For multiple-choice questions, explain why the correct answer follows and why plausible alternatives fail. Cite the supported idea and distinguish author-created scenarios. Validate calculations independently; never test unresolved OCR or uncertain claims. Do not call scrolling or a single correct choice evidence of mastery. Actual learning needs learner feedback.
 
+Before giving the complete answer after an incorrect choice, help the learner reconsider the specific mistake. Author a short hint for every plausible distractor, including prerequisite checks, using the [quiz-hint contract](authoring.md#hints-before-the-full-answer). A denominator error should prompt the learner to name the eligible group; confusing an intersection with a union should prompt a comparison of “both” with “at least one.” Point to the reasoning step to revisit without naming the correct option or supplying the final calculation. Keep all worked steps and distractor explanations in the separate full explanation.
+
+Students should be able to retry with their latest hint visible or explicitly reveal the full answer whenever they choose. A correct attempt may reveal the explanation automatically; revealing it without answering must not count as answering correctly. This adds an opportunity to reason again, not evidence of mastery or a gate on lesson content. Preserve the prompt's meaning and restraint in Chinese translations, and check that switching languages does not reset an attempt or reveal a hidden solution. Legacy quizzes without authored hints keep their immediate-explanation behavior; use hints for newly authored questions.
+
 ## Use visuals and terminology purposefully
 
 Prefer diagrams for relationships and processes, paired views for a controlled change, and tables for comparisons. Label what stays fixed in before/after examples. Use readable labels and adjacent text that conveys the essential relationship without relying on color. No visual-percentage requirement, compulsory animation or metaphor.

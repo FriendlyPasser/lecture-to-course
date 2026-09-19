@@ -3,6 +3,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { checkPrerequisites, checkSharedPrerequisite } = require('./prerequisites.cjs');
+const { checkQuizHints } = require('./quiz-hints.cjs');
 
 const localDir = path.resolve(__dirname, '../.local');
 process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
@@ -30,7 +31,13 @@ async function main() {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto(pathToFileURL(path.join(siteDir, 'index.html')).href);
     await page.screenshot({ path: path.join(reviewDir, 'overview.png') });
-    await page.locator('.lecture-card').first().click();
+    await Promise.all([
+      page.waitForURL(pathToFileURL(path.join(siteDir, 'conditional-probability.html')).href, {
+        waitUntil: 'load',
+        timeout: 10000,
+      }),
+      page.locator('.lecture-card').first().click(),
+    ]);
     await checkPrerequisites(page, { screenshot: path.join(reviewDir, 'prerequisites-1440.png') });
 
     // Glossary terms support focus, keyboard dismissal, and Chinese search.
@@ -60,7 +67,8 @@ async function main() {
     const transfer = page.locator('#transfer-quiz');
     await survey.locator('.options button').first().click();
     assert.match(await survey.locator('.quiz-status').innerText(), /Not quite/);
-    assert.equal(await survey.locator('.explanation').isVisible(), true);
+    assert.equal(await survey.locator('.explanation').isVisible(), false);
+    assert.equal(await survey.locator('.quiz-hint:visible').count(), 1);
     await survey.locator('.retry').click();
     await survey.locator('.options button').nth(1).click();
     assert.match(await survey.locator('.quiz-status').innerText(), /Correct/);
@@ -115,6 +123,7 @@ async function main() {
     }
 
     await checkSharedPrerequisite(page);
+    await checkQuizHints(page);
 
     // Browsers that deny localStorage should still allow optional checks and glossary interaction.
     await context.addInitScript(() => {
@@ -138,7 +147,8 @@ async function main() {
     console.log(
       'PASS: offline file navigation, glossary, keyboard, search, quizzes, retry, ' +
         'optional prerequisite checks, targeted refreshers, return focus, shared targets, ' +
-        'independent quiz state, visible derivation, SVG labels, details, source links, ' +
+        'targeted hints, explicit reveal, legacy quizzes, incomplete hints, independent quiz state, ' +
+        'visible derivation, SVG labels, details, source links, ' +
         'desktop widths, blocked storage, next lecture, no page errors.',
     );
   } finally {

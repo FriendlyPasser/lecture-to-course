@@ -15,6 +15,8 @@ A **Codex skill** for working through the concepts in your course. Keep the orig
 
 Courses support English–Chinese explanations and quizzes, a language switch fixed at the upper right while scrolling, and a separate “术语” glossary tab. The language choice persists across lessons; switching preserves answers and reading position. See the [bilingual authoring contract](lecture-to-course/references/authoring.md#bilingual-lessons).
 
+Quizzes can give a specific hint for each wrong choice, keep that hint visible during a retry, and let students choose when to reveal the full explanation. Hints and answer states stay consistent when switching languages. See the [quiz authoring contract](lecture-to-course/references/authoring.md#hints-before-the-full-answer).
+
 ## What you get
 
 | While studying | In your course |

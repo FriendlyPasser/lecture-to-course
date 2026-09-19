@@ -3,6 +3,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { checkPrerequisites } = require('./prerequisites.cjs');
+const { checkBilingualQuizHints } = require('./quiz-hints.cjs');
 const localDir = path.resolve(__dirname, '../.local');
 process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
 const { chromium } = require(path.join(localDir, 'node_modules/playwright'));
@@ -22,6 +23,17 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
     const errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
     const base = pathToFileURL(path.join(siteDir, 'conditional.html')).href;
+    const reviewURL = pathToFileURL(path.join(siteDir, 'review.html')).href + '?lang=zh';
+    async function openReview() {
+      // A click can return while Chromium is still replacing the document/session.
+      // Wait for the destination to load before reading its state or reloading it.
+      await Promise.all([
+        page.waitForURL(reviewURL, { waitUntil: 'load', timeout: 10000 }),
+        page.locator('a.next').click(),
+      ]);
+      assert.equal(await page.locator('body').getAttribute('data-lecture'), 'review');
+      assert.equal(await page.locator('html').getAttribute('lang'), 'zh-Hans');
+    }
     for (const width of [1024, 1440]) {
       await page.setViewportSize({ width, height: 800 });
       await page.goto(base + '?lang=en');
@@ -29,6 +41,7 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
         bilingual: true,
         screenshot: path.join(reviewDir, `prerequisites-zh-${width}.png`),
       });
+      await checkBilingualQuizHints(page);
       const toggle = page.locator('.language-toggle');
       await page.locator('#reference-answer summary').click();
       const box = await toggle.boundingBox();
@@ -64,8 +77,10 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
       assert.equal(await page.locator('.glossary-item:visible').count(), 1);
       await page.keyboard.press('Escape');
       assert(await page.locator('.glossary-tab').evaluate((el) => el === document.activeElement));
-      await page.locator('a.next').click();
+      await openReview();
       await page.reload();
+      assert.equal(page.url(), reviewURL);
+      assert.equal(await page.locator('body').getAttribute('data-lecture'), 'review');
       assert.equal(await page.locator('html').getAttribute('lang'), 'zh-Hans');
     }
     await context.addInitScript(() => {
@@ -78,12 +93,12 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
     await page.goto(base + '?lang=en');
     await checkPrerequisites(page, { bilingual: true });
     await page.locator('.language-toggle').click();
-    await page.locator('a.next').click();
-    assert.equal(await page.locator('html').getAttribute('lang'), 'zh-Hans');
+    await openReview();
     assert.deepEqual(errors, []);
     console.log(
       'PASS bilingual offline switching, optional checks, refresher/return focus, fixed button, ' +
-        'quiz/detail state, glossary, both widths, navigation, reload and blocked storage',
+        'hint/retry/reveal/correct/unanswered state, quiz/detail state, glossary, both widths, ' +
+        'navigation, reload and blocked storage',
     );
   } finally {
     await browser.close();

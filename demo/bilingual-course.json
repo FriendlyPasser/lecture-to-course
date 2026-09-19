@@ -89,7 +89,12 @@
       "The common total of 40 cancels. The formula rescales the share doing both activities to the chess group.": "共同的总人数 40 相消。这个公式把两项活动都参加的成员比例，重新换算为下棋成员群体内的比例。",
       "This formula requires P(C) > 0. Here 10/40 is positive; if nobody played chess, this ratio would be undefined.": "这个公式要求 P(C) > 0。这里 10/40 为正；如果没有人下棋，这个比值就没有定义。",
       "Return to the source survey: (24/100) / (40/100) = 24/40 = 60%. The same rule explains the source example and our new club case.": "回到原始调查：(24/100) / (40/100) = 24/40 = 60%。同一规则既解释了讲义中的示例，也解释了我们新编的俱乐部案例。",
-      "Source calculation · page 2": "原始计算 · 第 2 页"
+      "Source calculation · page 2": "原始计算 · 第 2 页",
+      "Check which color your percentage counts. Is the question asking about blue counters or the counters left over?": "检查你的百分比统计了哪种颜色。题目问的是蓝色计数片，还是剩下的计数片？",
+      "Adding the group sizes counts a person who does both more than once. Which people belong in both groups at the same time?": "把两个群体的人数相加，会重复计算两项活动都参加的人。哪些人同时属于这两个群体？",
+      "You have counted everyone doing at least one activity. How is that different from belonging to both groups?": "你统计的是至少参加一项活动的所有人。这与同时属于两个群体有什么区别？",
+      "Using the entire club includes members who do not meet the given condition. Which words in the question restrict the group?": "使用整个俱乐部的人数，会把不满足给定条件的成员也算进去。题目中的哪些词限定了参照群体？",
+      "Multiplying the counts does not measure a share. How could you compare the blue count with the total instead?": "把两个数量相乘，不能得到所占比例。你可以怎样比较蓝色计数片的数量与总数量？"
     }
   }
 }
