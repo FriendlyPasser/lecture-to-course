@@ -42,6 +42,49 @@ Components:
 
 Answers are zero-based option indexes. The template handles quiz feedback, retry, glossary search/open/close, keyboard focus and reading progress. No custom script is needed. Define every referenced glossary term. Use only local image assets (declared above) or inline SVG; include math text that can be reviewed directly, not raw unrendered LaTeX. Formula overflow scrolls horizontally within its container.
 
+## Glossary as a learning aid
+
+The existing `id`, `en`, `zh` and `definition` fields remain sufficient. Add any of these optional fields when they help explain an important course term:
+
+| Field | Contract | Teaching purpose |
+|---|---|---|
+| `plain_language` | Nonempty plain-text string | Explain the idea in everyday words without removing essential conditions. |
+| `example` | Nonempty plain-text string | Apply it to a specific course scenario, with verified numbers or reasoning. |
+| `confused_with` | Array of objects with `term` and `distinction` | Identify another glossary entry and explain the meaningful difference. |
+
+Each `confused_with` object's `term` is an existing glossary ID; `distinction` is a nonempty plain-text string. A term cannot refer to itself or repeat the same target. An empty array is valid, and omitting unused fields preserves the compact four-field entry. These fields render as text, never HTML. No minimum number of examples or comparisons is required.
+
+```json
+{
+  "glossary": [
+    {
+      "id": "conditional",
+      "en": "Conditional probability",
+      "zh": "条件概率",
+      "definition": "The probability of an event within a conditioning event of positive probability.",
+      "plain_language": "Keep only the people who satisfy the condition, then find the requested share within that group.",
+      "example": "Of 40 statistics students, 24 also take economics: P(E | S) = 24/40 = 60%.",
+      "confused_with": [
+        {
+          "term": "joint",
+          "distinction": "Both count the same 24 students, but conditional uses 40 statistics students as the denominator; joint uses all 100 students."
+        }
+      ]
+    },
+    {
+      "id": "joint",
+      "en": "Joint probability",
+      "zh": "联合概率",
+      "definition": "The probability that both events occur."
+    }
+  ]
+}
+```
+
+The drawer labels the optional content “In plain language”, “In this course” and “Distinguish from”, resolving comparison headwords from their referenced entries. Search includes this explanatory text. Keep the example and contrasts consistent with the lesson, equations and quiz feedback; source/new-example provenance remains in the lesson and coverage map. See [teaching guidance](teaching.md#use-visuals-and-terminology-purposefully).
+
+For bilingual courses, include the full `definition`, `plain_language`, `example` and each `distinction` in `translations.zh`, using the English string as the key. The template translates the labels and preserves English/Chinese headwords in both modes. At a key term's first substantive introduction in a lesson, retain its English original in the authored Chinese translation, for example `"conditional probability": "条件概率（conditional probability）"`. A separate lowercase inline text node can use that translation while a title's `"Conditional probability"` still translates naturally as `"条件概率"`. Later occurrences need not repeat the English. The template does not annotate terms automatically.
+
 ## Hints before the full answer
 
 Add a hidden `<p class="quiz-hint" data-option="0" hidden>…</p>` for each plausible wrong option. `data-option` is the zero-based index of that incorrect option, in the same order as the buttons in `.options`. Keep each hint inside its quiz but outside `.options` and `.explanation`; give each wrong option at most one hint, and never attach a hint to the correct option. Use a short, nonempty prompt aimed at that distractor's misconception. For example, a whole-population denominator calls for reconsidering the reference group; a numerator counting the wrong property calls for naming what is measured. Do not state the correct option, calculate the final answer, or copy the full explanation into a hint.
@@ -164,7 +207,7 @@ Use a small number of questions, normally two or three, each tied to a specific 
 
 ## Bilingual lessons
 
-Author English fragments and add a `translations.zh` dictionary to the course JSON. Keys are decoded English text nodes trimmed at both ends; values are reviewed plain Chinese text, not HTML. Exact matches take priority; otherwise the switch collapses whitespace in both keys and text so formatting line breaks do not prevent translation. Translate each text node separately around inline terms, subscripts and emphasis so the sentences still read naturally when joined. Translate course/lecture titles, summaries, notice, section headings, body text, table explanations, quiz questions/options/hints/reasoning, glossary definitions, image captions/alt text and custom UI labels. Preserve source examples, mathematical notation and formal tags when translating would change their meaning. Original source images may remain in their original language with Chinese captions and explanations.
+Author English fragments and add a `translations.zh` dictionary to the course JSON. Keys are decoded English text nodes trimmed at both ends; values are reviewed plain Chinese text, not HTML. Exact matches take priority; otherwise the switch collapses whitespace in both keys and text so formatting line breaks do not prevent translation. Translate each text node separately around inline terms, subscripts and emphasis so the sentences still read naturally when joined. Translate course/lecture titles, summaries, notice, section headings, body text, table explanations, quiz questions/options/hints/reasoning, glossary definitions and optional explanations/examples/distinctions, image captions/alt text and custom UI labels. Preserve source examples, mathematical notation and formal tags when translating would change their meaning. Original source images may remain in their original language with Chinese captions and explanations.
 
 ```json
 {

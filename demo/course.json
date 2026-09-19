@@ -26,25 +26,71 @@
       "id": "conditional",
       "en": "Conditional probability",
       "zh": "条件概率",
-      "definition": "The probability of an event within a specified conditioning event of positive probability."
+      "definition": "The probability of an event within a specified conditioning event of positive probability.",
+      "plain_language": "Keep only the students who meet the condition, then ask what share of that group has the property of interest.",
+      "example": "In the 100-student survey, 24 of the 40 statistics students take economics: P(E | S) = 24/40 = 0.60. The conditioning group is nonempty.",
+      "confused_with": [
+        {
+          "term": "joint",
+          "distinction": "The same 24 students take both subjects, but P(E | S) uses the 40 statistics students as its denominator; P(E ∩ S) uses all 100 students and equals 0.24."
+        },
+        {
+          "term": "marginal",
+          "distinction": "P(E | S) = 0.60 counts economics within statistics students; P(E) = 0.50 counts economics across all 100 students. Compare these to test independence when P(S) > 0."
+        }
+      ]
+    },
+    {
+      "id": "joint",
+      "en": "Joint probability",
+      "zh": "联合概率",
+      "definition": "The probability that both events occur.",
+      "plain_language": "Count the students who satisfy both descriptions, then compare them with everyone in the survey.",
+      "example": "Twenty-four of all 100 students take both economics and statistics: P(E ∩ S) = 24/100 = 0.24.",
+      "confused_with": [
+        {
+          "term": "conditional",
+          "distinction": "Joint P(E ∩ S) = 0.24 asks about both subjects in the whole survey; conditional P(E | S) = 0.60 asks about economics within the statistics group."
+        },
+        {
+          "term": "marginal",
+          "distinction": "Joint probability requires both E and S, giving 24/100. Marginal P(E) includes economics students outside S as well, giving 50/100."
+        }
+      ]
     },
     {
       "id": "reference-group",
       "en": "Reference group",
       "zh": "参照群体",
-      "definition": "The group used as the denominator when calculating a proportion."
+      "definition": "The group used as the denominator when calculating a proportion.",
+      "plain_language": "Name the whole group for your question before deciding which count belongs in the denominator.",
+      "example": "“Among statistics students” selects the 40 students in S. The other 60 survey participants stay outside this question’s denominator."
     },
     {
       "id": "independence",
       "en": "Independence",
       "zh": "独立性",
-      "definition": "Two events are independent when their joint probability equals the product of their probabilities."
+      "definition": "Two events are independent when their joint probability equals the product of their probabilities.",
+      "plain_language": "Knowing that one event happened leaves the probability of the other unchanged, when the conditioning event has positive probability.",
+      "example": "In this survey, P(E | S) = 0.60 differs from P(E) = 0.50, so E and S are not independent. The equivalent product check also fails: 0.24 ≠ 0.50 × 0.40 = 0.20."
     },
     {
       "id": "marginal",
       "en": "Marginal probability",
       "zh": "边缘概率",
-      "definition": "The probability of an event without conditioning on the other event in a joint distribution."
+      "definition": "The probability of an event without conditioning on the other event in a joint distribution.",
+      "plain_language": "Ask about one event across the whole survey, without restricting to the other event.",
+      "example": "Fifty of all 100 students take economics, whether or not they take statistics: P(E) = 50/100 = 0.50.",
+      "confused_with": [
+        {
+          "term": "conditional",
+          "distinction": "Marginal P(E) uses all 100 students; conditional P(E | S) uses only the 40 statistics students. Their economics counts are 50 and 24, respectively."
+        },
+        {
+          "term": "joint",
+          "distinction": "P(E) counts all 50 economics students; P(E ∩ S) counts only the 24 who take both subjects. Both are shares of all 100 students."
+        }
+      ]
     }
   ],
   "lectures": [

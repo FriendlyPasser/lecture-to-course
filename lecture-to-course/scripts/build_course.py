@@ -52,6 +52,86 @@ def local(value):
     return value
 
 
+def validate_glossary(glossary):
+    if not isinstance(glossary, list):
+        raise ValueError("glossary must be a list of term objects")
+    terms = {}
+    for term in glossary:
+        if not isinstance(term, dict):
+            raise ValueError("Each glossary term must be an object")
+        tid = slug(term.get("id"))
+        if tid in terms:
+            raise ValueError("Duplicate term ID")
+        for field in ("en", "zh", "definition", "plain_language", "example"):
+            if field in ("plain_language", "example") and field not in term:
+                continue
+            value = term.get(field)
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"Glossary {field} must be a nonempty string: {tid}")
+        terms[tid] = term
+    # Resolve references only after all IDs are known, including later terms.
+    for tid, term in terms.items():
+        comparisons = term.get("confused_with", [])
+        if not isinstance(comparisons, list):
+            raise ValueError(f"Glossary confused_with must be a list: {tid}")
+        targets = set()
+        for comparison in comparisons:
+            if not isinstance(comparison, dict):
+                raise ValueError(f"Glossary confused_with entries must be objects: {tid}")
+            target = comparison.get("term")
+            if not isinstance(target, str) or target not in terms:
+                raise ValueError(f"Unknown glossary comparison term: {target}")
+            if target == tid:
+                raise ValueError(f"Glossary term cannot compare with itself: {tid}")
+            if target in targets:
+                raise ValueError(f"Duplicate glossary comparison term: {target}")
+            targets.add(target)
+            distinction = comparison.get("distinction")
+            if not isinstance(distinction, str) or not distinction.strip():
+                raise ValueError(f"Glossary distinction must be a nonempty string: {tid}")
+    return terms
+
+
+def render_glossary(terms):
+    entries = []
+    for tid, term in terms.items():
+        details = "".join(
+            f"<dt>{label}</dt><dd>{esc(term[field])}</dd>"
+            for field, label in (
+                ("plain_language", "In plain language"),
+                ("example", "In this course"),
+            )
+            if field in term
+        )
+        if details:
+            details = f'<dl class="glossary-details">{details}</dl>'
+        comparisons = []
+        for comparison in term.get("confused_with", []):
+            target = comparison["term"]
+            reference = terms[target]
+            comparisons.append(
+                '<li><button type="button" class="term term-reference" '
+                f'data-term="{target}">'
+                f'<span lang="en" translate="no">{esc(reference["en"])}</span> '
+                f'<span lang="zh-Hans" translate="no">{esc(reference["zh"])}</span>'
+                f"</button><p>{esc(comparison['distinction'])}</p></li>"
+            )
+        comparison_html = (
+            '<div class="glossary-comparisons"><h4>Distinguish from</h4><ul>'
+            + "".join(comparisons)
+            + "</ul></div>"
+            if comparisons
+            else ""
+        )
+        entries.append(
+            f'<article class="glossary-item" id="term-{tid}" tabindex="0">'
+            f"<h3>{esc(term['en'])}</h3>"
+            f'<p class="zh" lang="zh-Hans">{esc(term["zh"])}</p>'
+            f"<p>{esc(term['definition'])}</p>{details}{comparison_html}</article>"
+        )
+    return "".join(entries)
+
+
 class Fragment(HTMLParser):
     def __init__(self, sources, terms):
         super().__init__(convert_charrefs=False)
@@ -602,12 +682,7 @@ def build(spec, out):
         url = f"sources/{i:02d}-{sid}.pdf"
         sources[sid] = {"count": count, "url": url, "title": s["title"]}
         copies.append((path, url))
-    terms = {}
-    for term in data["glossary"]:
-        tid = slug(term["id"])
-        if tid in terms:
-            raise ValueError("Duplicate term ID")
-        terms[tid] = term
+    terms = validate_glossary(data["glossary"])
     lectures = []
     ids = set()
     for lecture in data["lectures"]:
@@ -671,10 +746,7 @@ def build(spec, out):
         target = out / dst
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, target)
-    glossary = "".join(
-        f'<article class="glossary-item" id="term-{tid}" tabindex="0"><h3>{esc(t["en"])}</h3><p class="zh" lang="zh-Hans">{esc(t["zh"])}</p><p>{esc(t["definition"])}</p></article>'
-        for tid, t in terms.items()
-    )
+    glossary = render_glossary(terms)
 
     def shell(title, content, current="", chapters=()):
         nav = "".join(

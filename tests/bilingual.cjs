@@ -5,6 +5,7 @@ const { pathToFileURL } = require('node:url');
 const { checkPrerequisites } = require('./prerequisites.cjs');
 const { checkPractice } = require('./practice.cjs');
 const { checkBilingualQuizHints } = require('./quiz-hints.cjs');
+const { checkGlossary } = require('./glossary.cjs');
 const localDir = path.resolve(__dirname, '../.local');
 process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
 const { chromium } = require(path.join(localDir, 'node_modules/playwright'));
@@ -47,6 +48,10 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
         screenshot: path.join(reviewDir, `practice-zh-${width}.png`),
       });
       await checkBilingualQuizHints(page);
+      await checkGlossary(page, {
+        bilingual: true,
+        screenshot: path.join(reviewDir, `glossary-zh-${width}.png`),
+      });
       const toggle = page.locator('.language-toggle');
       await page.locator('#reference-answer summary').click();
       const box = await toggle.boundingBox();
@@ -79,7 +84,8 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
       assert.match(await quiz.locator('.quiz-status').innerText(), /还不完全正确/);
       await page.locator('.glossary-tab').click();
       await page.locator('#term-search').fill('条件');
-      assert.equal(await page.locator('.glossary-item:visible').count(), 1);
+      assert.equal(await page.locator('#term-conditional').isVisible(), true);
+      assert.equal(await page.locator('.empty').isVisible(), false);
       await page.keyboard.press('Escape');
       assert(await page.locator('.glossary-tab').evaluate((el) => el === document.activeElement));
       await openReview();
@@ -98,6 +104,7 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
     await page.goto(base + '?lang=en');
     await checkPrerequisites(page, { bilingual: true });
     await checkPractice(page, { bilingual: true });
+    await checkGlossary(page, { bilingual: true });
     await page.locator('.language-toggle').click();
     await openReview();
     assert.deepEqual(errors, []);
@@ -105,6 +112,7 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
       'PASS bilingual offline switching, optional checks, refresher/return focus, fixed button, ' +
         'typed answers, practice feedback/hint/solution state, self-assessment, ' +
         'hint/retry/reveal/correct/unanswered state, quiz/detail state, glossary, both widths, ' +
+        'translated glossary context, preserved bilingual headwords, comparison navigation, ' +
         'navigation, reload and blocked storage',
     );
   } finally {

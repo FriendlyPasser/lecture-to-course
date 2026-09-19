@@ -24,7 +24,7 @@ Quizzes can give a specific hint for each wrong choice, keep that hint visible d
 | “Am I missing a prerequisite?” | An optional short check points to the specific refresher you need, then returns you to the question. |
 | “Why does this formula work?” | Plain-language meaning, concrete numbers and symbols connected step by step, with assumptions and approximations explained. |
 | “I understand this example. Can I do another?” | A worked example, a missing step to complete, then an independent problem with numeric entry or a short explanation and a reference solution. |
-| “What does this term mean?” | A searchable English–Chinese glossary beside the lesson. |
+| “What does this term mean?” | A searchable English–Chinese glossary with optional plain-language explanations, course examples and comparisons of easily confused concepts. |
 | “Where was this in the lecture?” | Links back to the original PDF's physical page numbers. |
 | “Can I review this later?” | A local website you can reopen offline, with chapters, formulas and the source PDFs included. |
 

@@ -77,3 +77,16 @@ The visible tables in `survey-formula-meaning` and `club-formula-meaning` connec
 Each completion provides the initial counting step and leaves the choice of group and final calculation to the learner. Independent prompts provide no intermediate steps or hints. Their hidden solutions explain notation, rescaling, the positive denominator and why the whole-population denominator answers a different question. The source worked steps remain visible.
 
 Numeric completion answers use zero absolute tolerance because they are exact terminating values. Independent answers use the numeric target 0.3333333333333333 with absolute tolerance 0.0005, matching rounding to three decimal places: 0.333 and exact 1/3 are accepted, whereas 0.332 and 0.334 are not. Inputs accept equivalent decimals, fractions and percentages; prompts name the unitless probability. Reflection submissions reveal self-check points rather than grading prose. All added bilingual text has reviewed Chinese translations, including labels, hints and full solutions; common control translations come from the template. These synthetic checks verify the examples, not learning outcomes.
+
+## Glossary explanations and distinctions
+
+The glossary now connects formal definitions with plain-language explanations and cases already taught in the lessons. These additions restate the verified survey or author-created club case; they introduce no new counts, rule, exercise answer or source-coverage claim. Optional comparison fields are used only where the concepts are genuinely confusable.
+
+| Entry / case | Course-specific example and comparison checked |
+|---|---|
+| Primary `conditional` ↔ `joint` | The same overlap of 24 has denominator 40 for P(E \| S) = 0.60 and denominator 100 for P(E ∩ S) = 0.24. This agrees with Lecture 1's formula, denominator explanation and survey quiz. |
+| Primary `marginal` ↔ `conditional`, `joint` | P(E) = 50/100 = 0.50 includes economics students outside S; P(E ∩ S) = 24/100 requires both subjects; P(E \| S) = 24/40 restricts the reference group. The marginal count is from Lecture 2 and supports its independence check. |
+| Primary `reference-group`, `independence` | The reference group is the 40 statistics students, excluding the other 60. Independence fails by both 0.60 ≠ 0.50 and 0.24 ≠ 0.50 × 0.40 = 0.20, consistent with the existing worked example and quiz. |
+| Bilingual `conditional` ↔ `joint` | The author-created club's same 4 members give P(T \| C) = 4/10 = 0.40 and P(T ∩ C) = 4/40 = 0.10. The positive conditional denominator and the different questions agree with the lesson, table and quiz explanation. |
+
+All added bilingual definitions, plain-language explanations, examples and distinctions have reviewed `translations.zh` entries. The first substantive inline introductions translate to “条件概率（conditional probability）” and “联合概率（joint probability）”; later Chinese prose uses the conventional terms. English/Chinese glossary headwords remain available in both modes. This is authored terminology support, with no automatic annotation or term quota. These content checks establish internal consistency of the synthetic examples, not learning outcomes.

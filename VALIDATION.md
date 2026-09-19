@@ -1,5 +1,27 @@
 # Validation
 
+## Contextual glossary explanations and comparisons — 2026-09-19
+
+- Issue #5 item 8 adds optional plain-language explanations, course examples and
+  explicit comparisons with other glossary entries. Existing definition-only
+  entries remain valid. The builder validates prose and comparison targets before
+  writing output, and escapes all authored text.
+- All 49 Python tests passed, including nine glossary regression tests and the
+  loopback launcher test. Both demos built and passed offline resource checks.
+  Ruff, Prettier and skill validation passed.
+- Both offline browser suites passed at 1024 and 1440 pixels. Checks cover searching
+  added prose, comparison navigation to filtered terms, visible target headings,
+  keyboard focus trapping and return to the original lesson term, blocked storage,
+  translated explanations and preserved English/Chinese headwords. Existing quiz,
+  prerequisite and typed-practice checks also passed.
+- English and Chinese glossary layouts were visually reviewed at both widths.
+  Both generated launchers passed glossary navigation and focus-return checks over
+  loopback HTTP with external requests blocked; test servers were stopped.
+- Independent content review checked the survey and club counts, probability
+  distinctions, translations and first-use English terminology against the lesson
+  prose, formulas and quizzes. These are synthetic content and functional checks,
+  not evidence of measured learning gains.
+
 ## Combined hints and practice regression — 2026-09-19
 
 - PR #8 incorporates main through `1d591dc`, preserving the targeted quiz hints,

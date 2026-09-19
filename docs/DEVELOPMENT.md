@@ -65,6 +65,8 @@ node tests/bilingual.cjs .local/work/bilingual-v2 .local/work/bilingual-v2-revie
 
 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can select an installed Chrome/Chromium executable. Tests use offline mode and direct file addresses, including targeted wrong-option hints, retry with the hint retained, explicit answer reveal, legacy quizzes, optional prerequisite checks, targeted refreshers, keyboard return, and bilingual state preservation. Practice checks cover typed decimals, fractions and percentages; malformed and non-finite input; inclusive absolute tolerances and the default tolerance; independent form state; optional hints; explicit solution reveal; reset and focus; and reflection self-assessment. Both desktop widths and blocked storage are exercised. Bilingual checks preserve unfinished text, feedback, hints and revealed solutions while switching languages. Both browser scripts accept a generated site directory followed by a screenshot directory. Default screenshots go under `.local/demo/review/` and `.local/demo/bilingual-review/`; Python tests separately verify the local HTTP launcher.
 
+The browser suites also cover contextual glossary content, comparison navigation, search, keyboard focus return and English–Chinese switching. Glossary builder tests check optional-field validation, comparison targets, text escaping and compatibility with definition-only entries.
+
 GitHub Actions runs style checks, Python tests, the synthetic demo build, resource checks and offline browser interactions. See [VALIDATION.md](../VALIDATION.md) for recorded results and their limits.
 
 ## Format changes

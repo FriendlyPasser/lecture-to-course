@@ -476,6 +476,7 @@ textarea.practice-response {
   padding: 22px 0;
   border-bottom: 1px solid var(--line);
   scroll-margin-top: 12px;
+  overflow-wrap: anywhere;
 }
 .glossary-item h3 {
   margin: 0;
@@ -493,6 +494,34 @@ textarea.practice-response {
 .glossary-item:focus {
   outline: 2px solid var(--green);
   outline-offset: 6px;
+}
+.glossary-details {
+  margin: 14px 0 0;
+  font-size: 14px;
+}
+.glossary-details dt,
+.glossary-comparisons h4 {
+  margin: 14px 0 4px;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--green);
+}
+.glossary-details dd {
+  margin: 0;
+}
+.glossary-comparisons ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.glossary-comparisons li {
+  border-left: 2px solid var(--line);
+  padding-left: 12px;
+  margin: 12px 0;
+}
+.term-reference {
+  text-align: left;
+  font-size: 14px;
 }
 progress {
   width: 100%;
