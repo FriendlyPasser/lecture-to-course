@@ -70,6 +70,8 @@ For each plausible wrong choice, author a short misconception-specific prompt wi
 
 Where related concepts support a running case, make each new concept answer an unresolved problem from the previous step. Record **case step → unresolved problem → next concept**, with source or author-created provenance, in the coverage map. Preserve the teacher's key examples and return to them after any simpler entry example. This adds continuity to substantive lessons without forcing a case onto tiny or unrelated excerpts.
 
+For key formulas, visibly connect plain-language meaning, concrete numbers and symbols. Explain quantities, units, number origins and conditions, distinguishing exact steps from assumptions and approximations. For application objectives, follow a worked example with completion of a missing step and an independent variation. The [typed practice contract](../lecture-to-course/references/authoring.md#typed-practice) supports numeric entry and short explanations with reference solutions. Map each objective and formula to its exercises; specify answer units and rounding, verify tolerances, and give short explanations a self-check rubric rather than an automatic correctness claim.
+
 HTML fragments are trusted author-written content. The builder rejects common executable and remote dependencies, but it is not a security sandbox for arbitrary HTML copied from a PDF or third party.
 
 ## 4. Build and verify
@@ -82,7 +84,11 @@ python -B .local/work/site/launch_course.py
 
 Choose a new or empty output directory. For a revision, use a new directory such as `.local/work/site-v2`.
 
-Check source pages, formulas and quiz reasoning, then inspect reading and interactions at 1024 and 1440 pixels. Verify source links, retry, glossary search and keyboard operation. For quizzes with hints, confirm each wrong choice shows its own prompt without exposing the correct choice or full reasoning; retry retains that prompt, another wrong choice replaces it, and a correct choice reveals the explanation. Also reveal a solution before answering, confirm it is not graded correct, and retry afterward. For prerequisite checks, verify skip, the wrong-answer link to the correct refresher, return to the originating question, and the same flow after language switching. In a quiz with hints, retry should preserve its refresher link and return route; a correct answer should clear them. Check bilingual hints in both languages throughout retry and reveal.
+Check source pages, formulas and exercise reasoning, then inspect reading and interactions at 1024 and 1440 pixels. Verify source links, typed answers and tolerances, solution reveal/reset, glossary search and keyboard operation. Check that typed responses and exercise state survive a language switch.
+
+For quizzes with hints, confirm each wrong choice shows its own prompt without exposing the correct choice or full reasoning; retry retains that prompt, another wrong choice replaces it, and a correct choice reveals the explanation. Also reveal a solution before answering, confirm it is not graded correct, and retry afterward. Check bilingual hints in both languages throughout retry and reveal.
+
+For prerequisite checks, verify skip, the wrong-answer link to the correct refresher, return to the originating question, and the same flow after language switching. In a quiz with hints, retry should preserve its refresher link and return route; a correct answer should clear them.
 
 Read the section objectives, prior-knowledge connections and closing bridges in order, including any running case. Confirm that each objective matches the explanation and practice, and that the next section answers the question just raised. Check learning-route and bridge links with the keyboard, including focus at the destination, and verify route labels, relationship text and transitions in both languages. The static checker can identify broken anchors and common resource problems, but cannot establish teaching accuracy, valid conceptual dependencies or learning outcomes.
 

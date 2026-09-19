@@ -3,6 +3,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { checkPrerequisites, checkSharedPrerequisite } = require('./prerequisites.cjs');
+const { checkPractice, checkPracticeTolerance } = require('./practice.cjs');
 const { checkQuizHints } = require('./quiz-hints.cjs');
 const { checkLearningRoute } = require('./learning-route.cjs');
 
@@ -90,8 +91,8 @@ async function main() {
 
     for (const width of [1024, 1440]) {
       await page.setViewportSize({ width, height: 900 });
+      await page.reload();
       if (width === 1024) {
-        await page.reload();
         await checkLearningRoute(page, {
           screenshot: path.join(reviewDir, 'learning-route-1024.png'),
         });
@@ -99,6 +100,7 @@ async function main() {
           screenshot: path.join(reviewDir, 'prerequisites-1024.png'),
         });
       }
+      await checkPractice(page, { screenshot: path.join(reviewDir, `practice-${width}.png`) });
       await page.evaluate(() => scrollTo(0, 0));
       assert.equal(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
@@ -128,6 +130,7 @@ async function main() {
     }
 
     await checkSharedPrerequisite(page);
+    await checkPracticeTolerance(page);
     await checkQuizHints(page);
 
     // Browsers that deny localStorage should still allow optional checks and glossary interaction.
@@ -140,6 +143,7 @@ async function main() {
     });
     await page.reload();
     await checkPrerequisites(page);
+    await checkPractice(page);
     await page.locator('.glossary-tab').click();
     assert.equal(await page.locator('.drawer').isVisible(), true);
     await page.keyboard.press('Escape');
@@ -162,6 +166,7 @@ async function main() {
     console.log(
       'PASS: offline file navigation, glossary, keyboard, search, quizzes, retry, ' +
         'optional prerequisite checks, targeted refreshers, return focus, shared targets, ' +
+        'typed practice, numeric validation/tolerance, hints, self-assessment, reveal/reset, ' +
         'targeted hints, explicit reveal, legacy quizzes, incomplete hints, independent quiz state, ' +
         'question-led routes, section/dependency links, visible derivation, SVG labels, details, source links, ' +
         'desktop widths, blocked storage, next lecture, no page errors.',

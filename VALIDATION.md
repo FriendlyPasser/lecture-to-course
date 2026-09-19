@@ -3,26 +3,63 @@
 ## Question-led sections and learning routes — 2026-09-19
 
 - Issue #5 item 3 is implemented in the skill workflow, teaching/authoring guides,
-  reusable styles and both synthetic courses. The nine existing core sections in
+  reusable styles and both synthetic courses. The ten existing core sections in
   the three lesson fragments retain their IDs and lecture boundaries, with guiding
   questions, visible objectives, prior-knowledge connections and next-question
   bridges. Optional learning routes explain the sequence through native links;
   no new course JSON fields, runtime scripts or completion gates were introduced.
-- All 28 Python tests passed, including the local HTTP launcher regression. Both
+- All 40 Python tests passed, including the local HTTP launcher regression. Both
   courses built and passed resource/fragment checks. Ruff, Prettier and the skill
   validator passed.
 - Both offline direct-file browser suites passed at 1024 and 1440 pixels. New
   coverage verifies keyboard route/bridge navigation, destination focus and
   visible headings, sidebar target consistency, translated route labels and
   accessible names, and English–Chinese roundtrips for objectives and transitions.
-  Existing quiz, hint, prerequisite, glossary and blocked-storage checks also
-  passed with no page errors.
+  Existing quiz, hint, typed-practice, prerequisite, glossary and blocked-storage
+  checks also passed with no page errors. The final revision incorporates PR #8
+  and includes its independent-practice section in the bilingual learning route.
 - English and Chinese learning-route screenshots were visually reviewed at both
   widths, along with the lesson and transition layout at 1024 pixels. Independent
   content review checked the objective/dependency map, translation equivalence,
   preserved source citations, worked examples and formula conditions. These checks
   establish synthetic-content consistency and navigation behavior, not measured
   learning gains or accuracy on unseen teacher PDFs.
+
+## Combined hints and practice regression — 2026-09-19
+
+- PR #8 incorporates main through `1d591dc`, preserving the targeted quiz hints,
+  retry/reveal behavior and navigation synchronization alongside typed practice.
+- All 40 Python tests passed. Both regenerated demos passed local resource checks,
+  and both offline browser suites passed at 1024 and 1440 pixels, including hints,
+  numeric/reflection responses, language switching, keyboard focus and blocked
+  storage. Ruff, Prettier and skill validation passed.
+
+## Formula explanations and scaffolded practice — 2026-09-19
+
+- Issue #5 items 4 and 6 are implemented in the teaching guidance, reusable
+  template and English/Chinese synthetic examples. Visible tables connect words,
+  count origins and symbols; the examples distinguish exact algebra, selection
+  assumptions and rounding, with the positive-denominator condition beside the rule.
+- Worked examples lead to a missing-step exercise, an independent new scenario
+  and a short explanation with reference points for self-assessment. Numeric
+  responses accept decimals, fractions and percentages with an authored absolute
+  tolerance. Solutions and hints remain optional; reset starts a fresh attempt.
+- All 32 Python tests passed, including practice metadata, accessible controls,
+  malformed forms, source links inside solutions and the local HTTP launcher.
+  Both demos built and passed resource/fragment checks. Ruff, Prettier and the
+  skill validator passed.
+- Offline browser checks passed at 1024 and 1440 pixels, including invalid input,
+  tolerance boundaries, finite-number overflow, keyboard submission, voluntary
+  solutions, reset focus, independent form state and blocked storage. Language
+  switching preserves typed responses, hints, solutions and feedback; reflection
+  responses receive a self-assessment message rather than an automatic grade.
+- Formula tables and practice states were visually reviewed in English and Chinese
+  at both desktop widths. Independent review checked calculations, rounding,
+  translations, builder/runtime compatibility and existing quiz behavior. The
+  objective-to-formula-to-exercise map is in `demo/coverage.md`.
+- These are synthetic content and functional checks. They do not establish
+  improved learning outcomes or replace student trials; practice responses and
+  scores are not persisted or treated as mastery evidence.
 
 ## Browser navigation synchronization — 2026-09-19
 

@@ -3,6 +3,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { checkPrerequisites } = require('./prerequisites.cjs');
+const { checkPractice } = require('./practice.cjs');
 const { checkBilingualQuizHints } = require('./quiz-hints.cjs');
 const { checkLearningRoute } = require('./learning-route.cjs');
 const localDir = path.resolve(__dirname, '../.local');
@@ -45,6 +46,10 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
       await checkPrerequisites(page, {
         bilingual: true,
         screenshot: path.join(reviewDir, `prerequisites-zh-${width}.png`),
+      });
+      await checkPractice(page, {
+        bilingual: true,
+        screenshot: path.join(reviewDir, `practice-zh-${width}.png`),
       });
       await checkBilingualQuizHints(page);
       const toggle = page.locator('.language-toggle');
@@ -96,12 +101,14 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
     });
     await page.goto(base + '?lang=en');
     await checkPrerequisites(page, { bilingual: true });
+    await checkPractice(page, { bilingual: true });
     await page.locator('.language-toggle').click();
     await openReview();
     assert.deepEqual(errors, []);
     console.log(
       'PASS bilingual offline switching, question-led routes, translated guidance, stable section links, ' +
         'optional checks, refresher/return focus, fixed button, ' +
+        'typed answers, practice feedback/hint/solution state, self-assessment, ' +
         'hint/retry/reveal/correct/unanswered state, quiz/detail state, glossary, both widths, ' +
         'navigation, reload and blocked storage',
     );
