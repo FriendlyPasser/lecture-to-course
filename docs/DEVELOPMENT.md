@@ -63,7 +63,7 @@ python -B lecture-to-course/scripts/build_course.py demo/bilingual-course.json -
 node tests/bilingual.cjs .local/work/bilingual-v2 .local/work/bilingual-v2-review
 ```
 
-`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can select an installed Chrome/Chromium executable. Tests use offline mode and direct file addresses, including optional prerequisite checks, targeted refreshers, keyboard return, retry, and bilingual state preservation. Both browser scripts accept a generated site directory followed by a screenshot directory. Default screenshots go under `.local/demo/review/` and `.local/demo/bilingual-review/`; Python tests separately verify the local HTTP launcher.
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can select an installed Chrome/Chromium executable. Tests use offline mode and direct file addresses, including targeted wrong-option hints, retry with the hint retained, explicit answer reveal, legacy quizzes, optional prerequisite checks, targeted refreshers, keyboard return, and bilingual state preservation. Both browser scripts accept a generated site directory followed by a screenshot directory. Default screenshots go under `.local/demo/review/` and `.local/demo/bilingual-review/`; Python tests separately verify the local HTTP launcher.
 
 GitHub Actions runs style checks, Python tests, the synthetic demo build, resource checks and offline browser interactions. See [VALIDATION.md](../VALIDATION.md) for recorded results and their limits.
 
@@ -86,7 +86,7 @@ The images in `docs/images/` are unaltered browser captures of the included prob
 | File | State shown |
 |---|---|
 | `course-preview.png` | First lecture, reference-group explanation and original group diagram |
-| `quiz-feedback.png` | Library exercise after selecting the incorrect `20 / 80 = 25%` option |
+| `quiz-feedback.png` | Library exercise after selecting the incorrect `20 / 80 = 25%` option and choosing “Show full explanation” |
 | `glossary.png` | Formula section with the glossary open and searched for `条件` |
 
 To refresh them, build the current demo, use a desktop browser viewport of 1280 × 940 for the lesson and quiz, or 1440 × 940 for the glossary, at scale 1. Capture the states above. Keep labels, source links and feedback readable. Save all other review screenshots under `.local/`. Use only the self-authored demo for public documentation images.

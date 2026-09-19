@@ -34,12 +34,29 @@ Components:
   <h3>Which denominator should we use?</h3>
   <div class="options"><button>Everyone</button><button>Only the conditioned group</button></div>
   <p class="quiz-status" role="status"></p>
+  <p class="quiz-hint" data-option="0" hidden>Which words in the question restrict who belongs in the group?</p>
   <div class="explanation" hidden><p>Explain the correct choice and distractor. <a data-source="s1" data-page="2">Source</a></p></div>
   <button class="retry" hidden>Try again</button>
 </div>
 ```
 
 Answers are zero-based option indexes. The template handles quiz feedback, retry, glossary search/open/close, keyboard focus and reading progress. No custom script is needed. Define every referenced glossary term. Use only local image assets (declared above) or inline SVG; include math text that can be reviewed directly, not raw unrendered LaTeX. Formula overflow scrolls horizontally within its container.
+
+## Hints before the full answer
+
+Add a hidden `<p class="quiz-hint" data-option="0" hidden>…</p>` for each plausible wrong option. `data-option` is the zero-based index of that incorrect option, in the same order as the buttons in `.options`. Keep each hint inside its quiz but outside `.options` and `.explanation`; give each wrong option at most one hint, and never attach a hint to the correct option. Use a short, nonempty prompt aimed at that distractor's misconception. For example, a whole-population denominator calls for reconsidering the reference group; a numerator counting the wrong property calls for naming what is measured. Do not state the correct option, calculate the final answer, or copy the full explanation into a hint.
+
+For a quiz with hints, include exactly one visible `.quiz-status`, one initially hidden `.explanation`, and one initially hidden, enabled `button.retry`. Keep these components separate from one another and outside `.options`, hints, and hidden, inert, or collapsible wrappers so all feedback controls remain reachable. Keep hints outside the status and retry controls as well. The builder rejects missing or unreachable feedback controls, duplicate hints and invalid hint indexes before producing a course.
+
+One or more hints enable the following behavior for that quiz:
+
+- A wrong choice shows only its matching hint and leaves the correct choice and full explanation hidden. If that option has no authored hint, the template supplies a generic prompt to reconsider and retry. Author hints for every plausible distractor so feedback remains useful.
+- “Try again” unlocks the options while retaining the latest hint for the next attempt. Another wrong choice replaces that hint; a correct choice clears it and reveals the full explanation.
+- The template supplies a “Show full explanation” button (`.show-explanation`) while the solution is hidden, including before answering and after a wrong attempt. It reveals the correct choice and full reasoning and locks the options, then hides itself while the solution is visible. Revealing an unanswered question does not grade it as a correct response. “Try again” hides the solution and allows another attempt, keeping the latest wrong-answer hint if one is still relevant.
+
+Keep the complete, cited reasoning in `.explanation`, including why the correct answer follows and why the distractors fail. The reveal control lets students read it whenever they need it; no custom script or course JSON field is needed. Existing quizzes without any `.quiz-hint` retain their original behavior: every submitted answer immediately reveals the correct option and explanation.
+
+In a bilingual course, add a reviewed Chinese translation for every hint text node to `translations.zh`, using the decoded English text trimmed at both ends as its key. The template supplies translations for the reveal control and generic feedback. Verify language switching with a hint visible, after retry, and after revealing the solution; switching languages must preserve the activity's state. See [Bilingual lessons](#bilingual-lessons) for whitespace and inline-text rules.
 
 ## Organizing a concept lesson
 
@@ -68,6 +85,7 @@ Place a `<section class="precheck" id="prerequisites">` with an h2 before the fi
     <h3>Three of twelve counters are blue. What percentage is blue?</h3>
     <div class="options"><button>25%</button><button>36%</button></div>
     <p class="quiz-status" role="status"></p>
+    <p class="quiz-hint" data-option="1" hidden>Multiplying the counts does not measure a share. How could you compare the blue count with the total instead?</p>
     <div class="explanation" hidden><p>3/12 = 1/4 = 25%. Multiplying the counts gives 36, not the share.</p></div>
     <button class="retry" hidden>Try again</button>
   </div>
@@ -83,7 +101,7 @@ Place a `<section class="precheck" id="prerequisites">` with an h2 before the fi
 <section id="first-main-section"><h2>The main lesson</h2><p>All lesson content is available immediately.</p></section>
 ```
 
-The template adds “Review this prerequisite” to a mapped quiz's feedback only after a wrong answer. Activating it opens and focuses the corresponding refresher; “Return to question” restores focus to the originating quiz so the student can retry. Correct answers and retry hide that feedback link. Students can also open each refresher directly. The skip link is an ordinary same-page link to the first main section and works without JavaScript; the check never gates the lesson. No custom script or separate course JSON fields are needed.
+The template adds “Review this prerequisite” to a mapped quiz's feedback only after a wrong answer. With hints authored as above, that feedback first offers the misconception-specific prompt without automatically revealing the solution. Activating the review link opens and focuses the corresponding refresher; “Return to question” restores focus to the originating quiz so the student can retry. For quizzes with hints, retry keeps both the latest hint and the refresher link available, including the return route to the originating question if the refresher was opened. A correct answer clears that feedback and return route. Legacy quizzes without hints also clear the link and return route on retry. Students can open each refresher directly. The skip link is an ordinary same-page link to the first main section and works without JavaScript; the check never gates the lesson. No custom script or separate course JSON fields are needed.
 
 Keep each referenced refresher outside quizzes and hidden, inert or collapsible containers so it is independently reachable. Give it exactly one `summary`, as a direct child, and one enabled `button.prerequisite-return` with the `hidden` attribute; do not nest that return button inside another `details`. The template reveals the return button when a diagnostic sends the student to the refresher.
 
@@ -91,7 +109,7 @@ Use a small number of questions, normally two or three, each tied to a specific 
 
 ## Bilingual lessons
 
-Author English fragments and add a `translations.zh` dictionary to the course JSON. Keys are decoded English text nodes trimmed at both ends; values are reviewed plain Chinese text, not HTML. Exact matches take priority; otherwise the switch collapses whitespace in both keys and text so formatting line breaks do not prevent translation. Translate each text node separately around inline terms, subscripts and emphasis so the sentences still read naturally when joined. Translate course/lecture titles, summaries, notice, section headings, body text, table explanations, quiz questions/options/reasoning, glossary definitions, image captions/alt text and custom UI labels. Preserve source examples, mathematical notation and formal tags when translating would change their meaning. Original source images may remain in their original language with Chinese captions and explanations.
+Author English fragments and add a `translations.zh` dictionary to the course JSON. Keys are decoded English text nodes trimmed at both ends; values are reviewed plain Chinese text, not HTML. Exact matches take priority; otherwise the switch collapses whitespace in both keys and text so formatting line breaks do not prevent translation. Translate each text node separately around inline terms, subscripts and emphasis so the sentences still read naturally when joined. Translate course/lecture titles, summaries, notice, section headings, body text, table explanations, quiz questions/options/hints/reasoning, glossary definitions, image captions/alt text and custom UI labels. Preserve source examples, mathematical notation and formal tags when translating would change their meaning. Original source images may remain in their original language with Chinese captions and explanations.
 
 ```json
 {

@@ -1,5 +1,29 @@
 # Validation
 
+## Targeted quiz hints and retry — 2026-09-19
+
+- Issue #5 item 7 is implemented through optional per-wrong-option hints. Wrong
+  attempts withhold the correct choice and full solution; retry retains the latest
+  hint. Students can explicitly reveal the answer before or after attempting a
+  question, without an unanswered reveal being marked correct. Hint-free quizzes
+  retain their existing behavior.
+- All 28 Python tests passed, including hint indexes, readable content, reachable
+  feedback controls and legacy compatibility. Both synthetic courses built and
+  passed local resource checks. Ruff and Prettier checks passed.
+- Both offline direct-file browser suites passed. Coverage includes specific hint
+  selection and replacement, retry, correct and revealed answers, unanswered
+  reveals, partial hint coverage, legacy quizzes, independent question states,
+  prerequisite review/return routing, Enter/Space/Tab focus, and denied storage.
+  English–Chinese switching preserves hint, retry, revealed and correct states.
+- Hint and solution screenshots were visually reviewed at 1024 and 1440 pixels
+  in English and Chinese. Both generated local launchers also passed browser
+  hint/retry/answer checks over loopback HTTP with external requests blocked;
+  the bilingual launcher preserved the active hint when switching languages.
+  No browser page errors occurred and the local servers were stopped.
+- All 15 wrong options across the demo fragments have reviewed, specific prompts;
+  the bilingual fixture translates all five of its hints. These checks establish
+  functionality and synthetic-content consistency, not measured learning gains.
+
 ## Prerequisite checks and running cases — 2026-09-19
 
 - Issue #5 items 1 and 2 are implemented in the reusable template, authoring
