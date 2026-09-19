@@ -130,7 +130,22 @@
       "Adding the group sizes counts a person who does both more than once. Which people belong in both groups at the same time?": "把两个群体的人数相加，会重复计算两项活动都参加的人。哪些人同时属于这两个群体？",
       "You have counted everyone doing at least one activity. How is that different from belonging to both groups?": "你统计的是至少参加一项活动的所有人。这与同时属于两个群体有什么区别？",
       "Using the entire club includes members who do not meet the given condition. Which words in the question restrict the group?": "使用整个俱乐部的人数，会把不满足给定条件的成员也算进去。题目中的哪些词限定了参照群体？",
-      "Multiplying the counts does not measure a share. How could you compare the blue count with the total instead?": "把两个数量相乘，不能得到所占比例。你可以怎样比较蓝色计数片的数量与总数量？"
+      "Multiplying the counts does not measure a share. How could you compare the blue count with the total instead?": "把两个数量相乘，不能得到所占比例。你可以怎样比较蓝色计数片的数量与总数量？",
+      "Explore a change without changing the group sizes": "保持群体人数不变，探索交集的变化",
+      "Author-created what-if diagram · Extend the club example by assuming 16 of the 40 members play tennis in total. This new total is an added modeling choice, not a count from the source PDF.": "自编假设图解 · 在俱乐部案例中新增一个假设：40 名成员中共有 16 人打网球。这个总人数是为本活动增设的建模条件，并非原始 PDF 中的数据。",
+      "Goal: explain how the overlap changes a conditional probability while its reference group stays fixed.": "学习目标：解释参照群体不变时，交集人数如何改变条件概率。",
+      "A means playing tennis; B means playing chess. Keep 40 club members, 16 tennis players and 10 chess players fixed. Select a member uniformly, so everyone is equally likely. Hypothetically rearrange who does both, from 0 to 10 members; all row and column totals stay fixed.": "A 表示打网球，B 表示下棋。保持俱乐部总人数 40、网球人数 16 和下棋人数 10 不变。等可能地抽取一名成员，每人被选中的机会相同。假设两项活动都参加的人数可在 0 到 10 之间调整，表格的各行、各列总人数始终不变。",
+      "1. Predict": "1. 先预测",
+      "Before moving the slider, predict how P(A | B) changes if six members do both instead of four. Which part of the fraction changes, and which stays fixed?": "移动滑块前，先预测：如果两项活动都参加的人数由 4 变为 6，P(A | B) 会怎样变化？分数的哪一部分改变，哪一部分不变？",
+      "2. Operate": "2. 再操作",
+      "Members playing both tennis and chess, A ∩ B": "既打网球又下棋的成员人数，A ∩ B",
+      "Reset diagram": "重置图解",
+      "3. Explain": "3. 解释原因",
+      "Initially, four of the ten chess players play tennis, so P(A | B) = 4/10 = 40%. At a hypothetical overlap of six, P(A | B) = 6/10 = 60%. The numerator changes; the positive denominator remains 10.": "起初，10 名下棋成员中有 4 人打网球，因此 P(A | B) = 4/10 = 40%。假设交集变为 6 人，则 P(A | B) = 6/10 = 60%。改变的是分子，为正的分母仍然是 10。",
+      "The four cells begin at 4 doing both, 6 chess-only, 12 tennis-only and 18 doing neither. At overlap six, they become 6, 4, 10 and 20. Moving two tennis players into the chess group means moving two tennis players out of the non-chess group, keeping both group totals fixed.": "四个格子的初始人数分别是：两项都参加 4 人、只下棋 6 人、只打网球 12 人、两项都不参加 18 人。当交集为 6 时，人数依次变为 6、4、10 和 20。下棋群体中增加 2 名网球成员，就意味着不下棋群体中的网球成员减少 2 名，从而保持两个群体的总人数不变。",
+      "The whole-club tennis probability P(A) remains 16/40 = 40%. It answers a different question from the tennis probability within chess players. At overlap 0 or 10, the latter becomes 0% or 100%; its denominator never becomes zero. These probabilities are exact for the stated counts.": "整个俱乐部的网球概率 P(A) 始终为 16/40 = 40%。它与下棋成员内部的网球概率回答不同的问题。交集为 0 或 10 时，后者分别为 0% 或 100%，分母始终不为零。这些概率都是基于题目人数得到的精确值。",
+      "Choose a slider setting and explain its conditional probability and four cell counts. Compare the result with your prediction and explain why the whole-club tennis probability stays fixed.": "选择一个滑块位置，解释对应的条件概率和四个格子的人数。将结果与你的预测对照，并说明整个俱乐部的网球概率为什么保持不变。",
+      "The diagram shows hypothetical arrangements and leaves the original club example unchanged. Reset diagram returns to four members doing both and keeps your notes. Your explanations are for self-checking and are not scored.": "图解展示假设的人员分配，不会改变原来的俱乐部案例。重置图解会将交集恢复为 4 人，并保留你的笔记。文字解释用于自查，不会被评分。"
     }
   }
 }

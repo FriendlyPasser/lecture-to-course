@@ -17,6 +17,8 @@ Courses support English–Chinese explanations and quizzes, a language switch fi
 
 Quizzes can give a specific hint for each wrong choice, keep that hint visible during a retry, and let students choose when to reveal the full explanation. Hints and answer states stay consistent when switching languages. See the [quiz authoring contract](lecture-to-course/references/authoring.md#hints-before-the-full-answer).
 
+Interactive diagrams can guide students through **predict → operate → explain**: write a prediction, change a meaningful quantity, then explain the result. The offline overlap diagram keeps group totals fixed and preserves notes when switching languages. See the [diagram authoring contract](lecture-to-course/references/authoring.md#predict--operate--explain-diagrams).
+
 ## What you get
 
 | While studying | In your course |

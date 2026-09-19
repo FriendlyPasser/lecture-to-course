@@ -5,6 +5,11 @@ const { pathToFileURL } = require('node:url');
 const { checkPrerequisites, checkSharedPrerequisite } = require('./prerequisites.cjs');
 const { checkPractice, checkPracticeTolerance } = require('./practice.cjs');
 const { checkQuizHints } = require('./quiz-hints.cjs');
+const {
+  checkExploration,
+  checkExplorationIsolation,
+  checkExplorationFallback,
+} = require('./explorations.cjs');
 
 const localDir = path.resolve(__dirname, '../.local');
 process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
@@ -128,6 +133,19 @@ async function main() {
     await checkPracticeTolerance(page);
     await checkQuizHints(page);
 
+    const independenceURL = pathToFileURL(path.join(siteDir, 'independence.html')).href;
+    await page.goto(independenceURL);
+    for (const width of [1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.reload();
+      await checkExploration(page, {
+        screenshot: path.join(reviewDir, `exploration-${width}.png`),
+      });
+    }
+    await checkExplorationIsolation(page);
+    await checkExplorationFallback(browser, independenceURL);
+    await page.goto(pathToFileURL(path.join(siteDir, 'conditional-probability.html')).href);
+
     // Browsers that deny localStorage should still allow optional checks and glossary interaction.
     await context.addInitScript(() => {
       Object.defineProperty(window, 'localStorage', {
@@ -143,6 +161,7 @@ async function main() {
     assert.equal(await page.locator('.drawer').isVisible(), true);
     await page.keyboard.press('Escape');
     await page.locator('a.next').click();
+    await checkExploration(page);
     const independence = page.locator('#independence-quiz-question');
     await independence.locator('.options button').first().click();
     assert.match(await independence.locator('.quiz-status').innerText(), /Correct/);
@@ -153,6 +172,8 @@ async function main() {
         'optional prerequisite checks, targeted refreshers, return focus, shared targets, ' +
         'typed practice, numeric validation/tolerance, hints, self-assessment, reveal/reset, ' +
         'targeted hints, explicit reveal, legacy quizzes, incomplete hints, independent quiz state, ' +
+        'predict-operate-explain, feasible overlap bounds, fixed margins, complements, independence, ' +
+        'rounding, keyboard slider, notes/reset, isolated exploration state, no-JS fallback, ' +
         'visible derivation, SVG labels, details, source links, ' +
         'desktop widths, blocked storage, next lecture, no page errors.',
     );

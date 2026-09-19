@@ -215,6 +215,84 @@
   </p>
   <a data-source="s1" data-page="2">Source calculation · page 2</a>
 </section>
+<section id="conditional-exploration">
+  <h2>Explore a change without changing the group sizes</h2>
+  <p class="muted">
+    Author-created what-if diagram · Extend the club example by assuming 16 of the 40 members play
+    tennis in total. This new total is an added modeling choice, not a count from the source PDF.
+  </p>
+  <div
+    class="exploration"
+    id="club-overlap"
+    data-model="overlap"
+    data-total="40"
+    data-condition="10"
+    data-event="16"
+    data-overlap="4"
+  >
+    <p class="exploration-goal">
+      Goal: explain how the overlap changes a conditional probability while its reference group
+      stays fixed.
+    </p>
+    <p class="exploration-fixed">
+      A means playing tennis; B means playing chess. Keep 40 club members, 16 tennis players and 10
+      chess players fixed. Select a member uniformly, so everyone is equally likely. Hypothetically
+      rearrange who does both, from 0 to 10 members; all row and column totals stay fixed.
+    </p>
+    <h3>1. Predict</h3>
+    <label for="club-overlap-prediction"
+      >Before moving the slider, predict how P(A | B) changes if six members do both instead of
+      four. Which part of the fraction changes, and which stays fixed?</label
+    >
+    <textarea class="exploration-prediction" id="club-overlap-prediction" rows="3"></textarea>
+    <h3>2. Operate</h3>
+    <label for="club-overlap-control">Members playing both tennis and chess, A ∩ B</label>
+    <input
+      class="exploration-control"
+      id="club-overlap-control"
+      type="range"
+      min="0"
+      max="10"
+      step="1"
+      value="4"
+      disabled
+    />
+    <div class="exploration-readout"></div>
+    <p class="exploration-status" role="status"></p>
+    <button class="exploration-reset" type="button" disabled>Reset diagram</button>
+    <h3>3. Explain</h3>
+    <div class="exploration-explanation">
+      <p>
+        Initially, four of the ten chess players play tennis, so P(A | B) = 4/10 = 40%. At a
+        hypothetical overlap of six, P(A | B) = 6/10 = 60%. The numerator changes; the positive
+        denominator remains 10.
+      </p>
+      <p>
+        The four cells begin at 4 doing both, 6 chess-only, 12 tennis-only and 18 doing neither. At
+        overlap six, they become 6, 4, 10 and 20. Moving two tennis players into the chess group
+        means moving two tennis players out of the non-chess group, keeping both group totals fixed.
+      </p>
+      <p>
+        The whole-club tennis probability P(A) remains 16/40 = 40%. It answers a different question
+        from the tennis probability within chess players. At overlap 0 or 10, the latter becomes 0%
+        or 100%; its denominator never becomes zero. These probabilities are exact for the stated
+        counts.
+      </p>
+    </div>
+    <label for="club-overlap-reflection"
+      >Choose a slider setting and explain its conditional probability and four cell counts. Compare
+      the result with your prediction and explain why the whole-club tennis probability stays
+      fixed.</label
+    >
+    <textarea class="exploration-reflection" id="club-overlap-reflection" rows="3"></textarea>
+  </div>
+  <p>
+    The diagram shows hypothetical arrangements and leaves the original club example unchanged.
+    Reset diagram returns to four members doing both and keeps your notes. Your explanations are for
+    self-checking and are not scored.
+  </p>
+  <a data-source="s1" data-page="2">Underlying rule · page 2</a>
+</section>
 <section id="conditional-transfer">
   <h2>From a worked example to your own solution</h2>
   <form

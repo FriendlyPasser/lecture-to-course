@@ -38,5 +38,20 @@
   "Close glossary": "关闭术语表",
   "Search terms…": "搜索术语…",
   "Correct — here is why.": "回答正确，下面是原因。",
-  "Not quite — compare the reasoning below.": "还不完全正确，请对照下面的解释。"
+  "Not quite — compare the reasoning below.": "还不完全正确，请对照下面的解释。",
+  "Hypothetical counts with fixed totals": "总人数保持不变的假设分布",
+  "Group": "群体",
+  "Not A": "非 A",
+  "Total": "合计",
+  "In B": "B 内",
+  "Outside B": "B 外",
+  "All bars use the same 0–100% scale.": "所有条形图使用相同的 0–100% 刻度。",
+  "Conditional probability P(A | B)": "条件概率 P(A | B)",
+  "Complement within B: P(not A | B)": "B 内的另一部分：P(非 A | B)",
+  "Fixed marginal probability P(A)": "保持不变的边缘概率 P(A)",
+  "Within B, the two shares sum to": "B 内两部分的概率之和为",
+  "Conditional probability equals the marginal probability.": "条件概率等于边缘概率。",
+  "Conditional probability is above the marginal probability.": "条件概率高于边缘概率。",
+  "Conditional probability is below the marginal probability.": "条件概率低于边缘概率。",
+  "Reset diagram": "重置图解"
 }
