@@ -56,5 +56,20 @@
   "Review now — revisit the reasoning, then try a different question.": "建议现在复习：回顾推理，再尝试一道不同的题。",
   "Suggested review date": "建议复习日期",
   "Try another question": "尝试另一道题",
-  "Try a question": "尝试一道题"
+  "Try a question": "尝试一道题",
+  "Hypothetical counts with fixed totals": "总人数保持不变的假设分布",
+  "Group": "群体",
+  "Not A": "非 A",
+  "Total": "合计",
+  "In B": "B 内",
+  "Outside B": "B 外",
+  "All bars use the same 0–100% scale.": "所有条形图使用相同的 0–100% 刻度。",
+  "Conditional probability P(A | B)": "条件概率 P(A | B)",
+  "Complement within B: P(not A | B)": "B 内的另一部分：P(非 A | B)",
+  "Fixed marginal probability P(A)": "保持不变的边缘概率 P(A)",
+  "Within B, the two shares sum to": "B 内两部分的概率之和为",
+  "Conditional probability equals the marginal probability.": "条件概率等于边缘概率。",
+  "Conditional probability is above the marginal probability.": "条件概率高于边缘概率。",
+  "Conditional probability is below the marginal probability.": "条件概率低于边缘概率。",
+  "Reset diagram": "重置图解"
 }

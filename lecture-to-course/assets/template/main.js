@@ -212,6 +212,129 @@ const courseText = (en) =>
     render();
     addEventListener('course-language-change', render);
   });
+  document.querySelectorAll('.exploration').forEach((exploration) => {
+    const total = Number(exploration.dataset.total),
+      condition = Number(exploration.dataset.condition),
+      eventCount = Number(exploration.dataset.event),
+      initial = Number(exploration.dataset.overlap),
+      control = exploration.querySelector('.exploration-control'),
+      reset = exploration.querySelector('.exploration-reset'),
+      readout = exploration.querySelector('.exploration-readout'),
+      status = exploration.querySelector('.exploration-status');
+    // Only template-owned markup is inserted; authored translations use textContent below.
+    readout.innerHTML = `
+      <table>
+        <caption data-exploration-text="Hypothetical counts with fixed totals"></caption>
+        <thead><tr><th scope="col" data-exploration-text="Group"></th>
+          <th scope="col">A</th><th scope="col" data-exploration-text="Not A"></th>
+          <th scope="col" data-exploration-text="Total"></th></tr></thead>
+        <tbody>
+          <tr><th scope="row" data-exploration-text="In B"></th>
+            <td data-exploration-value="both"></td>
+            <td data-exploration-value="condition-only"></td>
+            <td data-exploration-fixed="condition"></td></tr>
+          <tr><th scope="row" data-exploration-text="Outside B"></th>
+            <td data-exploration-value="event-only"></td>
+            <td data-exploration-value="neither"></td>
+            <td data-exploration-fixed="outside"></td></tr>
+        </tbody>
+        <tfoot><tr><th scope="row" data-exploration-text="Total"></th>
+          <td data-exploration-fixed="event"></td>
+          <td data-exploration-fixed="not-event"></td>
+          <td data-exploration-fixed="total"></td></tr></tfoot>
+      </table>
+      <div class="exploration-bars">
+        <p data-exploration-text="All bars use the same 0–100% scale."></p>
+        <div class="exploration-bar">
+          <span data-exploration-text="Conditional probability P(A | B)"></span>
+          <strong data-exploration-value="conditional"></strong>
+          <meter min="0" max="1" data-exploration-meter="conditional"></meter>
+        </div>
+        <div class="exploration-bar">
+          <span data-exploration-text="Complement within B: P(not A | B)"></span>
+          <strong data-exploration-value="complement"></strong>
+          <meter min="0" max="1" data-exploration-meter="complement"></meter>
+        </div>
+        <div class="exploration-bar">
+          <span data-exploration-text="Fixed marginal probability P(A)"></span>
+          <strong data-exploration-value="marginal"></strong>
+          <meter min="0" max="1" data-exploration-meter="marginal"></meter>
+        </div>
+        <p><span data-exploration-text="Within B, the two shares sum to"></span>
+          <strong data-exploration-value="sum"></strong></p>
+      </div>`;
+    const fixed = {
+      total,
+      condition,
+      outside: total - condition,
+      event: eventCount,
+      'not-event': total - eventCount,
+    };
+    readout.querySelectorAll('[data-exploration-fixed]').forEach((node) => {
+      node.textContent = fixed[node.dataset.explorationFixed];
+    });
+    function fraction(numerator, denominator) {
+      // Mark rounded percentages explicitly, including tiny nonzero probabilities.
+      const hundredths = Math.round((numerator * 10000) / denominator);
+      const sign = numerator * 10000 === hundredths * denominator ? '=' : '≈';
+      return `${numerator} / ${denominator} ${sign} ${hundredths / 100}%`;
+    }
+    function render() {
+      const overlap = Number(control.value);
+      const values = {
+        both: overlap,
+        'condition-only': condition - overlap,
+        'event-only': eventCount - overlap,
+        neither: total - condition - eventCount + overlap,
+        conditional: overlap / condition,
+        complement: (condition - overlap) / condition,
+        marginal: eventCount / total,
+        sum: 1,
+      };
+      const expressions = {
+        conditional: fraction(overlap, condition),
+        complement: fraction(condition - overlap, condition),
+        marginal: fraction(eventCount, total),
+        sum: `${overlap} / ${condition} + ${condition - overlap} / ${condition} = 100%`,
+      };
+      readout.querySelectorAll('[data-exploration-text]').forEach((node) => {
+        node.textContent = courseText(node.dataset.explorationText);
+      });
+      readout.querySelectorAll('[data-exploration-value]').forEach((node) => {
+        const key = node.dataset.explorationValue;
+        node.dataset.value = values[key];
+        node.textContent = expressions[key] ?? String(values[key]);
+      });
+      readout.querySelectorAll('meter').forEach((meter) => {
+        const key = meter.dataset.explorationMeter;
+        meter.value = values[key];
+        meter.setAttribute('aria-label', meter.parentElement.firstElementChild.textContent);
+        meter.setAttribute('aria-valuetext', expressions[key]);
+        meter.textContent = expressions[key];
+      });
+      // Integer cross-products avoid a rounded display incorrectly declaring equality.
+      const difference = overlap * total - eventCount * condition;
+      const relation =
+        difference === 0
+          ? 'Conditional probability equals the marginal probability.'
+          : difference > 0
+            ? 'Conditional probability is above the marginal probability.'
+            : 'Conditional probability is below the marginal probability.';
+      status.textContent = `${courseText(relation)} P(A | B): ${expressions.conditional}`;
+      control.setAttribute('aria-valuetext', `${overlap}; P(A | B): ${expressions.conditional}`);
+    }
+    control.disabled = false;
+    reset.disabled = false;
+    status.setAttribute('aria-atomic', 'true');
+    control.addEventListener('input', render);
+    reset.addEventListener('click', () => {
+      control.value = initial;
+      render();
+      control.focus();
+    });
+    render();
+    addEventListener('course-language-change', render);
+  });
   // Parse only written numbers, fractions and percentages; never evaluate expressions.
   function numericResponse(value) {
     const decimal = '[+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?';

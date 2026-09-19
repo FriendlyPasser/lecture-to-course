@@ -471,6 +471,13 @@ async function checkLanguage(browser) {
     await correctQuiz(page, 'bilingual-quiz');
     await openReview(page);
     const snapshot = await stored(page);
+    const exploration = page.locator('.exploration').first();
+    await exploration.locator('.exploration-prediction').fill('The conditional share will change.');
+    await exploration.locator('.exploration-control').focus();
+    await page.keyboard.press('ArrowRight');
+    const overlap = await exploration.locator('.exploration-control').inputValue();
+    await exploration.locator('.exploration-reflection').fill('The group totals remain fixed.');
+    assert.deepEqual(await stored(page), snapshot, 'Exploring a diagram is not graded evidence');
     const english = await page.locator('#concept-review').innerText();
     const state = await row(page).locator('.review-state').innerText();
     await page.locator('.language-toggle').focus();
@@ -483,6 +490,15 @@ async function checkLanguage(browser) {
       await stored(page),
       snapshot,
       'Language changes cannot record or lose evidence',
+    );
+    assert.equal(await exploration.locator('.exploration-control').inputValue(), overlap);
+    assert.equal(
+      await exploration.locator('.exploration-prediction').inputValue(),
+      'The conditional share will change.',
+    );
+    assert.equal(
+      await exploration.locator('.exploration-reflection').inputValue(),
+      'The group totals remain fixed.',
     );
     assert.equal(await page.locator('#concept-review').getAttribute('open'), '');
     const next = row(page).locator('a.review-next');

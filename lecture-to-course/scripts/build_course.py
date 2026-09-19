@@ -99,11 +99,16 @@ class Fragment(HTMLParser):
             if k in ("src", "href", "xlink:href", "poster") and v and not v.startswith("#"):
                 local(v)
         classes = (a.get("class") or "").split()
+        strict_components = {"practice", "exploration"}
         if (
-            "practice" in classes
-            or any("practice" in parent["classes"] for parent in self.element_nodes)
+            any(
+                k == "class" and strict_components.intersection((v or "").split()) for k, v in attrs
+            )
+            or any(
+                strict_components.intersection(parent["classes"]) for parent in self.element_nodes
+            )
         ) and len(a) != len(attrs):
-            raise ValueError("Practice markup cannot contain duplicate attributes")
+            raise ValueError("Practice and exploration markup cannot contain duplicate attributes")
         if (
             "data-concept" in a
             or any("data-concept" in parent["attrs"] for parent in self.element_nodes)
@@ -120,11 +125,14 @@ class Fragment(HTMLParser):
             raise ValueError("Only practice forms are supported")
         if "practice" in classes and tag != "form":
             raise ValueError("Practice must be a form")
-        if ("practice" in classes or "quiz" in classes) and any(
-            "practice" in parent["classes"] or "quiz" in parent["classes"]
-            for parent in self.element_nodes
+        if "exploration" in classes and tag != "div":
+            raise ValueError("Exploration must be a div")
+        interactions = {"practice", "quiz", "exploration"}
+        if len(interactions.intersection(classes)) > 1 or (
+            interactions.intersection(classes)
+            and any(interactions.intersection(parent["classes"]) for parent in self.element_nodes)
         ):
-            raise ValueError("Nested practices and quizzes unsupported")
+            raise ValueError("Nested practices, quizzes, and explorations unsupported")
         node = {
             "tag": tag,
             "attrs": a,
@@ -206,12 +214,15 @@ class Fragment(HTMLParser):
 
     def handle_endtag(self, tag):
         if any(
-            "practice" in node["classes"] or "data-concept" in node["attrs"]
+            {"practice", "exploration"}.intersection(node["classes"])
+            or "data-concept" in node["attrs"]
             for node in self.element_nodes
         ) and (not self.elements or self.elements[-1] != tag):
             kind = (
                 "Practice"
                 if any("practice" in node["classes"] for node in self.element_nodes)
+                else "Exploration"
+                if any("exploration" in node["classes"] for node in self.element_nodes)
                 else "Concept activity"
             )
             raise ValueError(f"{kind} markup must have correctly nested closing tags")
@@ -611,6 +622,214 @@ class Fragment(HTMLParser):
                 }
             )
 
+    def validate_explorations(self):
+        components = {
+            "exploration-goal": "p",
+            "exploration-fixed": "p",
+            "exploration-prediction": "textarea",
+            "exploration-control": "input",
+            "exploration-readout": "div",
+            "exploration-status": "p",
+            "exploration-reset": "button",
+            "exploration-reflection": "textarea",
+            "exploration-explanation": "div",
+        }
+
+        def integer(attrs, key):
+            value = attrs.get(key)
+            normalized = value.lstrip("0") or "0" if isinstance(value, str) else ""
+            if (
+                not isinstance(value, str)
+                or not re.fullmatch(r"[0-9]+", value)
+                or len(normalized) > 7
+                or int(normalized) > 1_000_000
+            ):
+                raise ValueError(f"Exploration needs an integer {key} between 0 and 1000000")
+            return int(normalized)
+
+        def reachable(node, initially_disabled=False):
+            return not (
+                self.hint_blocked((*node["ancestors"], node))
+                or ("disabled" in node["attrs"] and not initially_disabled)
+                or any(
+                    (ancestor["attrs"].get("aria-disabled") or "").strip().lower() == "true"
+                    or (ancestor["tag"] == "fieldset" and "disabled" in ancestor["attrs"])
+                    for ancestor in (*node["ancestors"], node)
+                )
+                or re.fullmatch(r"-0*[1-9][0-9]*", (node["attrs"].get("tabindex") or "").strip())
+            )
+
+        def visible_text(node):
+            return "".join(
+                "".join(child["text"])
+                for child in [node, *self.descendants(node)]
+                if not self.hint_blocked((*child["ancestors"], child))
+            ).strip()
+
+        for exploration in (node for node in self.nodes if "exploration" in node["classes"]):
+            attrs = exploration["attrs"]
+            name = attrs.get("id")
+            if not name or not reachable(exploration):
+                raise ValueError("Exploration needs a unique id and must be reachable")
+            if attrs.get("data-model") != "overlap":
+                raise ValueError(f"Exploration needs data-model=overlap: {name}")
+            if {"data-answer", "data-tolerance"}.intersection(attrs):
+                raise ValueError(f"Exploration cannot claim an automatically graded answer: {name}")
+            total, condition, event, overlap = (
+                integer(attrs, key)
+                for key in ("data-total", "data-condition", "data-event", "data-overlap")
+            )
+            low, high = max(0, event + condition - total), min(event, condition)
+            if not (
+                total >= 2 and 0 < condition < total and event <= total and low <= overlap <= high
+            ):
+                raise ValueError(f"Exploration has impossible counts or overlap: {name}")
+            if any(
+                ancestor["tag"] in ("p", "label", "button", "textarea", "select", "table", "tr")
+                for ancestor in exploration["ancestors"]
+            ):
+                raise ValueError(f"Exploration must be outside text and control containers: {name}")
+
+            children = self.descendants(exploration)
+            nodes = {}
+            for classname, tag in components.items():
+                matches = [node for node in children if classname in node["classes"]]
+                if len(matches) != 1 or matches[0]["tag"] != tag:
+                    raise ValueError(f"Exploration needs one {tag}.{classname}: {name}")
+                node = nodes[classname] = matches[0]
+                if (
+                    len(set(components).intersection(node["classes"])) != 1
+                    or any(
+                        set(components).intersection(ancestor["classes"])
+                        for ancestor in node["ancestors"]
+                    )
+                    or not reachable(
+                        node,
+                        initially_disabled=classname
+                        in ("exploration-control", "exploration-reset"),
+                    )
+                ):
+                    raise ValueError(
+                        f"Exploration components must be separate and reachable: {name}"
+                    )
+
+            controls = [
+                nodes[key]
+                for key in (
+                    "exploration-prediction",
+                    "exploration-control",
+                    "exploration-reset",
+                    "exploration-reflection",
+                )
+            ]
+            for node in [exploration, *children]:
+                if not node["closed"]:
+                    raise ValueError(f"Exploration markup has an unclosed element: {name}")
+                # Browsers implicitly close a paragraph before these block elements.
+                # Reject that repair rather than validating a different tree from the DOM.
+                if node["tag"] in (
+                    "div",
+                    "p",
+                    "section",
+                    "article",
+                    "aside",
+                    "h1",
+                    "h2",
+                    "h3",
+                    "h4",
+                    "h5",
+                    "h6",
+                    "ul",
+                    "ol",
+                    "table",
+                    "fieldset",
+                    "details",
+                ) and any(ancestor["tag"] == "p" for ancestor in node["ancestors"]):
+                    raise ValueError(
+                        f"Exploration block elements cannot be nested in paragraphs: {name}"
+                    )
+                if any(key.startswith("form") for key in node["attrs"]):
+                    raise ValueError(f"Exploration cannot override local form behavior: {name}")
+                if (
+                    (
+                        node["tag"] in ("input", "textarea", "select", "button")
+                        and not any(node is control for control in controls)
+                    )
+                    or (node["attrs"].get("contenteditable") or "").lower() not in ("", "false")
+                    or (
+                        "contenteditable" in node["attrs"]
+                        and node["attrs"]["contenteditable"] in (None, "")
+                    )
+                ):
+                    raise ValueError(
+                        f"Exploration has unsupported extra interactive controls: {name}"
+                    )
+
+            for classname in (
+                "exploration-prediction",
+                "exploration-reflection",
+                "exploration-control",
+            ):
+                control = nodes[classname]
+                control_id = control["attrs"].get("id")
+                if not control_id or "readonly" in control["attrs"]:
+                    raise ValueError(f"Exploration controls need an editable, labelled id: {name}")
+                labels = [
+                    node
+                    for node in children
+                    if node["tag"] == "label"
+                    and node["attrs"].get("for") == control_id
+                    and reachable(node)
+                    and visible_text(node)
+                    and not any(
+                        ancestor["tag"] in ("button", "textarea", "select")
+                        for ancestor in node["ancestors"]
+                    )
+                ]
+                if not labels:
+                    raise ValueError(
+                        f"Exploration controls need a visible associated label: {name}"
+                    )
+
+            slider = nodes["exploration-control"]["attrs"]
+            if (
+                (slider.get("type") or "").lower() != "range"
+                or "disabled" not in slider
+                or any(
+                    integer(slider, key) != expected
+                    for key, expected in (
+                        ("min", low),
+                        ("max", high),
+                        ("step", 1),
+                        ("value", overlap),
+                    )
+                )
+            ):
+                raise ValueError(
+                    f"Exploration needs an initially disabled range matching its counts: {name}"
+                )
+            reset = nodes["exploration-reset"]
+            if (
+                (reset["attrs"].get("type") or "").lower() != "button"
+                or "disabled" not in reset["attrs"]
+                or not visible_text(reset)
+            ):
+                raise ValueError(f"Exploration needs an initially disabled reset button: {name}")
+            for classname in ("exploration-goal", "exploration-fixed", "exploration-explanation"):
+                if not visible_text(nodes[classname]):
+                    raise ValueError(f"Exploration needs visible {classname} text: {name}")
+            for classname in (
+                "exploration-readout",
+                "exploration-status",
+                "exploration-prediction",
+                "exploration-reflection",
+            ):
+                node = nodes[classname]
+                if self.text_content(node) or self.descendants(node):
+                    raise ValueError(f"Exploration {classname} must start empty: {name}")
+            if nodes["exploration-status"]["attrs"].get("role") != "status":
+                raise ValueError(f"Exploration status needs role=status: {name}")
+
     def finish(self):
         if not self.chapters:
             raise ValueError("Lecture must contain a section with h2")
@@ -623,6 +842,7 @@ class Fragment(HTMLParser):
         self.validate_prerequisites()
         self.validate_practices()
         self.validate_concepts()
+        self.validate_explorations()
         return "".join(self.parts)
 
 

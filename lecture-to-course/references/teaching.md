@@ -4,9 +4,21 @@ Write for a student taking this subject. Infer the expected depth from the lectu
 
 ## Map before writing
 
-For each source page record the concept, reliable text/formulas, visual evidence, uncertainties, prerequisite concepts, what the learner should be able to do, and destination chapter. Explain omissions such as repeated outlines. Keep this coverage map in the working folder; it is an authoring aid, not a new course JSON schema.
+For each source page record the concept, reliable text/formulas, visual evidence, uncertainties, prerequisite concepts, what the learner should be able to do, and destination chapter. For each core section, also record its guiding question, learning objective, the prior result it depends on, and its next question. Explain omissions such as repeated outlines. Keep this coverage map in the working folder; it is an authoring aid, not a new course JSON schema.
 
 Keep lecture boundaries. Within a lecture, combine pages about the same idea and reorder them when dependencies or motivation justify it. Record the regrouping in the map. Retain significant derivations, assumptions, and key teacher examples, even when a simpler example introduces them first. For an excerpt, state the physical page range and explicitly exclude the rest from coverage claims.
+
+## Connect the questions within a lecture
+
+Give each core teaching section a question to resolve and a clear objective describing what the learner can explain, decide or do afterward. Use that question to choose the section's scope; a slide title or topic label alone rarely makes the learning task clear. Begin with a brief connection to the relevant prerequisite or earlier result. End by stating what has been established and why the next question now matters. The final section can lead to a synthesis or transfer question, or a supported connection to the next lecture; do not invent additional content merely to continue the chain.
+
+Make the relationship specific. “Next: independence” names a topic; “We can now calculate a probability within a group. Does knowing the group change that probability?” explains why comparing conditional and marginal probabilities is the next step. These connections can be ordinary prose and can continue the running case below; avoid duplicating the same transition in several boxes.
+
+Let concepts determine the number and length of sections. Keep one argument, its assumptions and necessary worked steps together instead of splitting every slide, formula or teaching move into a separate section. A short excerpt may need only one core section.
+
+When several dependencies or branches need orientation, add a concise learning route or concept map near the start. Label what each link means, such as “uses the chosen reference group” or “compares with the original population,” and connect it to the relevant section. Keep it readable in both languages and understandable without color. Omit it when the section transitions already make a short lesson's path clear; a second table of contents adds little.
+
+During review, follow the section questions in order: does each objective match the explanation and practice, is the knowledge it relies on available, and does its closing bridge motivate the actual next section? A route must describe the authored lesson, not a broader course that the supplied material does not cover. A working anchor verifies navigation only, not the correctness of a claimed dependency.
 
 ## Build an explanation the learner can follow
 
@@ -74,5 +86,13 @@ Explain the local-history boundary: browser storage can be unavailable, file ori
 ## Use visuals and terminology purposefully
 
 Prefer diagrams for relationships and processes, paired views for a controlled change, and tables for comparisons. Label what stays fixed in before/after examples. Use readable labels and adjacent text that conveys the essential relationship without relying on color. No visual-percentage requirement, compulsory animation or metaphor.
+
+### Make a controlled change worth exploring
+
+Choose an interactive diagram when a learner can predict a meaningful effect of changing one quantity, observe the consequence, then explain it. Give each exploration one clear learning goal. A useful sequence is **predict → operate → explain**: invite a prediction before interaction, let the student change the control freely, and ask for a count-, mechanism- or formula-based explanation afterward. Keep the rule and worked reasoning visible; do not require a written prediction to unlock the diagram or use movement or notes as a mastery score. Use a static diagram when there is no useful parameter to vary; there is no animation quota.
+
+Name the control, permitted values, fixed quantities and assumptions. Show the affected quantities together, so the learner can distinguish what changed from what stayed fixed. In the [overlap component](authoring.md#predict--operate--explain-diagrams), varying the intersection while holding both group totals fixed changes the other three cells too. Check their conservation and nonnegativity, not only a changing probability bar. With uniform selection and a nonempty conditioning group, compare x/B with A/N; equality is an independence test only where that concept is taught and cited. Keep the original evidence intact and label alternative arrangements as author-created what-if examples.
+
+Record **learning question → prediction → control and invariants → explanation prompt** in the coverage map, with source citations and a verified baseline, boundary settings and useful interior comparison. Supply text that conveys the same conclusion when interaction is unavailable, and label bars/tables so color is not required. Check native keyboard operation, reset, offline operation and language switching with notes and a changed slider value. The student's explanation is for reflection; the diagram does not establish learning outcomes.
 
 Glossary entries use the English term as the main label, a conventional Simplified Chinese equivalent, and a short English definition consistent with the lecture. Include specialized abbreviations and symbols when helpful. Avoid confident Chinese translations when terminology is ambiguous; retain alternatives with context.
