@@ -10,6 +10,7 @@ lecture-to-course/       Reusable skill package
   agents/               Skill interface metadata
   scripts/              PDF indexing, rendering, site building and validation
   assets/template/      Offline website and local launchers
+  assets/review/        Local teaching-review and learner-trial record templates
   references/           Teaching, authoring and browser-opening guidance
 demo/                   Self-authored probability example
   input/                Two synthetic PDFs, four pages total
@@ -70,6 +71,8 @@ npm run test:review -- .local/work/demo-v2 .local/work/bilingual-v2 .local/work/
 The dedicated concept-review suite exercises honest evidence for quizzes, numeric practice and reflection; same-day retry, reset and reload protection; offline persistence and course isolation; 1-, 3- and 7-day review intervals with a controlled clock; fresh and oldest question recommendations; keyboard operation and bilingual state; and malformed, unavailable or full storage. It accepts the main demo directory, bilingual demo directory and screenshot directory, in that order. Default screenshots go under `.local/demo/concept-review/`. Build both demos before running it.
 
 GitHub Actions runs style checks, Python tests, the synthetic demo build, resource checks and offline browser interactions. See [VALIDATION.md](../VALIDATION.md) for recorded results and their limits.
+
+Teaching acceptance is recorded separately in the [demo review](../demo/teaching-review.md). When lesson content changes, recheck its objective-to-explanation/example/assessment links and criteria, then update the relevant content findings and trial tasks. The [trial plan](../demo/learner-trial.md) supplies new problems and rubrics; automated checks do not execute a student trial or establish learning outcomes. Keep actual participant records under `.local/`, outside the generated site and public fixtures.
 
 ## Format changes
 

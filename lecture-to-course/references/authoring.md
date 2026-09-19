@@ -64,6 +64,8 @@ Organize core sections around questions, with a clear learning objective, a brie
 
 Use existing `panel`, `split`, `muted`, `equation`, quiz and `details` components. Keep essential steps and formula conditions outside closed `details`. Give quizzes and expandable answers stable, unique IDs so links and browser checks can target one activity even when a lesson has several.
 
+Keep the [teaching review and learner-trial records](teaching-review.md) beside the authoring files, separate from the course JSON and generated site. Use stable HTML IDs to pinpoint explanations, worked examples and assessments. Record both the authored fragment and its generated lecture filename when they differ; preserve those IDs across language changes. Recheck evidence links and affected objective rows after editing a lesson.
+
 Develop a suitable running case in ordinary lesson prose: close a step by naming what is still unresolved, then introduce the next concept as the tool that addresses it. Links to the next section can make this path easy to follow. Keep the case's source citations and label author-created scenarios; record the case steps, unresolved problems and next concepts in the working coverage map. There is no required case HTML wrapper, quota or JSON field.
 
 For original explanatory diagrams, inline SVG works offline without a new asset dependency. Use a `viewBox`, `width="100%"`, `role="img"`, and an accessible label or title/description. Place readable labels inside the viewBox, distinguish groups with labels as well as color, and put the key interpretation and source citation in a `figcaption`. State whether a diagram is schematic or to scale, and what is held fixed in comparisons. Essential information must also be available in prose.

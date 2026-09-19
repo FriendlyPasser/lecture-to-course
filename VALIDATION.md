@@ -1,5 +1,63 @@
 # Validation
 
+## Teaching review integrated with current lessons — 2026-09-19
+
+- PR #11 incorporates main through `afa88de`, retaining learning routes,
+  overlap explorations, concept evidence and the separate bilingual clinic review.
+  README guidance, skill checks, validation history and lecture objectives retain
+  both the main-branch additions and teaching-review requirements.
+- The demo teaching review and trial plan were refreshed against the merged
+  lessons: the clinic page is a new retrieval exercise, and the overlap diagrams
+  supply prediction and explanation practice. Neither a review recommendation nor
+  visiting a later page establishes an observed delayed learner result.
+- All 66 Python tests passed, including the loopback launcher. Both rebuilt demos
+  passed local resource checks, and all three offline browser suites passed,
+  including routes, explorations, concept evidence, storage failures and bilingual
+  state. Ruff, Prettier and skill validation passed.
+- The refreshed map covers 12 objectives. All 172 local document links and 74
+  generated-page evidence targets resolve; new optional trial probes were
+  recalculated, including fixed table margins and independence decisions.
+- These checks verify the merge and synthetic materials. Real learner trials
+  remain not run; the content findings and missing observations remain explicit.
+
+## Teaching acceptance and learner feedback — 2026-09-19
+
+Issue #5 item 10 adds a reusable review workflow and local Markdown records,
+connected to the skill and authoring guides. The [demo content review](demo/teaching-review.md)
+and [trial materials](demo/learner-trial.md) keep the evidence categories separate.
+
+### Static and functional checks
+
+- All 40 existing Python tests passed, including the local loopback launcher.
+  Both demos rebuilt and passed local resource and fragment-link checks.
+- Both offline browser suites passed at 1024 and 1440 pixels, covering English
+  and Chinese, typed practice, hints, retry/reveal, keyboard operation, language
+  switching, navigation and blocked storage. No runtime behavior changed;
+  lesson edits only add stable IDs for locating review evidence.
+- Local Markdown links and 66 evidence anchors in the generated demo pages
+  resolved, including both bilingual destinations.
+- Ruff, Prettier and skill validation passed. These checks concern implementation
+  and packaging; they do not grade the explanations or student responses.
+
+### Content reviewer judgment
+
+- Agent review maps core objectives to the exact explanation, worked example,
+  assessment and reasoning criterion. It audits omitted steps, notation,
+  conditions, analogy limits and application/transfer coverage. See the demo
+  report for the reviewed scope and unresolved findings.
+- The report records gaps rather than treating source coverage or working links
+  as teaching acceptance. New immediate and delayed trial tasks have separately
+  reviewed answer rubrics; they are prepared materials, not student attempts.
+
+### Actual learner observations
+
+- **Not run.** No students were recruited, no learner responses were collected,
+  and no delayed follow-up or learning gain is claimed. The supplied invitation,
+  task prompts and observation/correction records are ready for a voluntary trial.
+- Later observations must identify the course version, exact first unclear
+  sentence, language, initial reasoning, assistance and actual follow-up interval.
+  Content corrections and learner retests remain separately reported.
+
 ## Combined concept review, learning routes and explorations — 2026-09-19
 
 - PR #13 incorporates main through `4bda4ed`, preserving learning routes,

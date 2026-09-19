@@ -2,6 +2,8 @@
 
 Both self-authored PDFs have two physical pages. All four were visually rechecked for the concept-focused revision; none is omitted. This validates the synthetic examples, not real-world OCR.
 
+The [teaching review](teaching-review.md) maps each core objective to explanations, worked examples and assessment criteria, including uncovered assessment needs. The [learner-trial plan](learner-trial.md) prepares immediate and delayed observations; it contains no student results. Source coverage, content judgments and observed learning are separate evidence.
+
 | Source / page | Concept and verified evidence | Prerequisite | Learning objective | Destination |
 |---|---|---|---|---|
 | Lecture 1 / 1 | 100 students; 40 in S; 24 in E ∩ S; question conditions on S | Fractions and subsets | Name the eligible group and explain 24/40 | reference-group |

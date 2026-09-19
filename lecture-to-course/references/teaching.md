@@ -96,3 +96,9 @@ Name the control, permitted values, fixed quantities and assumptions. Show the a
 Record **learning question → prediction → control and invariants → explanation prompt** in the coverage map, with source citations and a verified baseline, boundary settings and useful interior comparison. Supply text that conveys the same conclusion when interaction is unavailable, and label bars/tables so color is not required. Check native keyboard operation, reset, offline operation and language switching with notes and a changed slider value. The student's explanation is for reflection; the diagram does not establish learning outcomes.
 
 Glossary entries use the English term as the main label, a conventional Simplified Chinese equivalent, and a short English definition consistent with the lecture. Include specialized abbreviations and symbols when helpful. Avoid confident Chinese translations when terminology is ambiguous; retain alternatives with context.
+
+## Review the teaching and learn from trials
+
+Use [teaching-review.md](teaching-review.md) to turn the coverage map into an objective-level audit: locate the explanation, worked example and assessment, and describe the reasoning a satisfactory response must show. A link to an exercise alone does not show that it tests the objective. Check for skipped steps, undefined notation, misleading analogies and absent application or transfer; record gaps even when every source page is covered.
+
+Report technical checks, content judgments and learner observations separately. A prepared trial can ask where the learner first loses the explanation, then observe a key-step explanation, a new problem and a delayed parallel problem. Preserve the original response before hints or solution access, and use the feedback to revise the precise passage and recheck the affected objective. No trial means no observed learning result; the linked templates support that state without blocking delivery.
