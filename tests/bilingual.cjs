@@ -5,6 +5,11 @@ const { pathToFileURL } = require('node:url');
 const { checkPrerequisites } = require('./prerequisites.cjs');
 const { checkPractice } = require('./practice.cjs');
 const { checkBilingualQuizHints } = require('./quiz-hints.cjs');
+const {
+  checkExploration,
+  checkExplorationIsolation,
+  checkExplorationFallback,
+} = require('./explorations.cjs');
 const { checkLearningRoute } = require('./learning-route.cjs');
 const localDir = path.resolve(__dirname, '../.local');
 process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
@@ -52,6 +57,10 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
         screenshot: path.join(reviewDir, `practice-zh-${width}.png`),
       });
       await checkBilingualQuizHints(page);
+      await checkExploration(page, {
+        bilingual: true,
+        screenshot: path.join(reviewDir, `exploration-zh-${width}.png`),
+      });
       const toggle = page.locator('.language-toggle');
       await page.locator('#reference-answer summary').click();
       const box = await toggle.boundingBox();
@@ -92,6 +101,9 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
       assert.equal(await page.locator('body').getAttribute('data-lecture'), 'review');
       assert.equal(await page.locator('html').getAttribute('lang'), 'zh-Hans');
     }
+    await page.goto(base + '?lang=en');
+    await checkExplorationIsolation(page);
+    await checkExplorationFallback(browser, base);
     await context.addInitScript(() => {
       Object.defineProperty(window, 'localStorage', {
         get() {
@@ -102,6 +114,7 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
     await page.goto(base + '?lang=en');
     await checkPrerequisites(page, { bilingual: true });
     await checkPractice(page, { bilingual: true });
+    await checkExploration(page, { bilingual: true });
     await page.locator('.language-toggle').click();
     await openReview();
     assert.deepEqual(errors, []);
@@ -110,6 +123,8 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
         'optional checks, refresher/return focus, fixed button, ' +
         'typed answers, practice feedback/hint/solution state, self-assessment, ' +
         'hint/retry/reveal/correct/unanswered state, quiz/detail state, glossary, both widths, ' +
+        'translated exploration formulas/bars/status, keyboard, preserved notes and slider, reset, ' +
+        'fixed margins/complements, isolated explorations, no-JS fallback, ' +
         'navigation, reload and blocked storage',
     );
   } finally {

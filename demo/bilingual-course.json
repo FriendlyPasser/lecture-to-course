@@ -149,7 +149,27 @@
       "Complete the club calculation and solve the garden problem by choosing the reference group.": "选择参照群体，补全俱乐部计算，并解答花园问题。",
       "Explain why the ratio is defined and distinguish exact fractions from rounded decimals.": "说明比值为什么有定义，并区分精确的分数与四舍五入后的小数。",
       "The worked example connected words, counts, and symbols while keeping the chess group fixed. Use that reasoning first with a completed counting step, then without intermediate steps in a new setting.": "完整例题在保持下棋成员群体不变的同时，把文字、人数和符号联系起来。先在已完成计数的提示下运用这个思路，再到新的情境中独立列式计算。",
-      "Use fractions and overlapping groups to move from a question to a calculation, a rule, and independent application.": "从分数和群体交集出发，依次理解问题、完成计算、归纳公式，再独立应用。"
+      "Use fractions and overlapping groups to move from a question to a calculation, a rule, and independent application.": "从分数和群体交集出发，依次理解问题、完成计算、归纳公式，再独立应用。",
+      "Author-created what-if diagram · Extend the club example by assuming 16 of the 40 members play tennis in total. This new total is an added modeling choice, not a count from the source PDF.": "自编假设图解 · 在俱乐部案例中新增一个假设：40 名成员中共有 16 人打网球。这个总人数是为本活动增设的建模条件，并非原始 PDF 中的数据。",
+      "Goal: explain how the overlap changes a conditional probability while its reference group stays fixed.": "学习目标：解释参照群体不变时，交集人数如何改变条件概率。",
+      "A means playing tennis; B means playing chess. Keep 40 club members, 16 tennis players and 10 chess players fixed. Select a member uniformly, so everyone is equally likely. Hypothetically rearrange who does both, from 0 to 10 members; all row and column totals stay fixed.": "A 表示打网球，B 表示下棋。保持俱乐部总人数 40、网球人数 16 和下棋人数 10 不变。等可能地抽取一名成员，每人被选中的机会相同。假设两项活动都参加的人数可在 0 到 10 之间调整，表格的各行、各列总人数始终不变。",
+      "1. Predict": "1. 先预测",
+      "Before moving the slider, predict how P(A | B) changes if six members do both instead of four. Which part of the fraction changes, and which stays fixed?": "移动滑块前，先预测：如果两项活动都参加的人数由 4 变为 6，P(A | B) 会怎样变化？分数的哪一部分改变，哪一部分不变？",
+      "2. Operate": "2. 再操作",
+      "Members playing both tennis and chess, A ∩ B": "既打网球又下棋的成员人数，A ∩ B",
+      "Reset diagram": "重置图解",
+      "3. Explain": "3. 解释原因",
+      "Initially, four of the ten chess players play tennis, so P(A | B) = 4/10 = 40%. At a hypothetical overlap of six, P(A | B) = 6/10 = 60%. The numerator changes; the positive denominator remains 10.": "起初，10 名下棋成员中有 4 人打网球，因此 P(A | B) = 4/10 = 40%。假设交集变为 6 人，则 P(A | B) = 6/10 = 60%。改变的是分子，为正的分母仍然是 10。",
+      "The four cells begin at 4 doing both, 6 chess-only, 12 tennis-only and 18 doing neither. At overlap six, they become 6, 4, 10 and 20. Moving two tennis players into the chess group means moving two tennis players out of the non-chess group, keeping both group totals fixed.": "四个格子的初始人数分别是：两项都参加 4 人、只下棋 6 人、只打网球 12 人、两项都不参加 18 人。当交集为 6 时，人数依次变为 6、4、10 和 20。下棋群体中增加 2 名网球成员，就意味着不下棋群体中的网球成员减少 2 名，从而保持两个群体的总人数不变。",
+      "The whole-club tennis probability P(A) remains 16/40 = 40%. It answers a different question from the tennis probability within chess players. At overlap 0 or 10, the latter becomes 0% or 100%; its denominator never becomes zero. These probabilities are exact for the stated counts.": "整个俱乐部的网球概率 P(A) 始终为 16/40 = 40%。它与下棋成员内部的网球概率回答不同的问题。交集为 0 或 10 时，后者分别为 0% 或 100%，分母始终不为零。这些概率都是基于题目人数得到的精确值。",
+      "Choose a slider setting and explain its conditional probability and four cell counts. Compare the result with your prediction and explain why the whole-club tennis probability stays fixed.": "选择一个滑块位置，解释对应的条件概率和四个格子的人数。将结果与你的预测对照，并说明整个俱乐部的网球概率为什么保持不变。",
+      "The diagram shows hypothetical arrangements and leaves the original club example unchanged. Reset diagram returns to four members doing both and keeps your notes. Your explanations are for self-checking and are not scored.": "图解展示假设的人员分配，不会改变原来的俱乐部案例。重置图解会将交集恢复为 4 人，并保留你的笔记。文字解释用于自查，不会被评分。",
+      "How does changing the overlap change the probability?": "交集变化会怎样改变概率？",
+      "Predict and explain a changed conditional probability while preserving the group totals.": "保持群体总人数不变，预测并解释条件概率的变化。",
+      "The formula identified the overlap as the numerator and the chess group as the denominator. Use that distinction to predict what changes when the overlap varies but both group totals stay fixed.": "公式把交集作为分子，把下棋群体作为分母。运用这个区分，预测当交集变化、两个群体总人数保持不变时，哪些量会改变。",
+      "The formula recovers the count ratio. What if the overlap changes while the reference group stays fixed?": "公式还原了人数比值。如果交集变化，而参照群体保持不变，会怎样？",
+      "Predict a change, then explore the club diagram.": "先预测变化，再操作俱乐部图解。",
+      "Vary the overlap with fixed group totals to explain which part of the fraction changes.": "保持群体总人数不变，调整交集，解释分数的哪一部分会改变。"
     }
   }
 }

@@ -17,6 +17,8 @@
 
 选择题可按错误选项提供针对性提示，重试时保留提示，也允许学生主动查看完整解析。切换语言时，提示与作答状态保持一致。编写方法见[测验提示约定](lecture-to-course/references/authoring.md#hints-before-the-full-answer)。
 
+交互图解支持**先预测 → 再操作 → 解释原因**：先写下判断，再改变一个有意义的数量，最后解释结果。离线交集图解保持群体总人数不变，切换语言时保留笔记。编写方法见[交互图解约定](lecture-to-course/references/authoring.md#predict--operate--explain-diagrams)。
+
 ## 学习时能得到什么
 
 | 你遇到的问题 | 课程提供的帮助 |
