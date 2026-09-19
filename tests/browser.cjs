@@ -31,7 +31,13 @@ async function main() {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto(pathToFileURL(path.join(siteDir, 'index.html')).href);
     await page.screenshot({ path: path.join(reviewDir, 'overview.png') });
-    await page.locator('.lecture-card').first().click();
+    await Promise.all([
+      page.waitForURL(pathToFileURL(path.join(siteDir, 'conditional-probability.html')).href, {
+        waitUntil: 'load',
+        timeout: 10000,
+      }),
+      page.locator('.lecture-card').first().click(),
+    ]);
     await checkPrerequisites(page, { screenshot: path.join(reviewDir, 'prerequisites-1440.png') });
 
     // Glossary terms support focus, keyboard dismissal, and Chinese search.

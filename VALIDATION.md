@@ -1,5 +1,18 @@
 # Validation
 
+## Browser navigation synchronization — 2026-09-19
+
+- The first push check for PR #7 failed when the bilingual test reloaded while
+  Chromium was still replacing the page after a next-lecture click. The companion
+  pull-request check for the same commit passed.
+- Browser tests now wait for the expected destination URL and its load event
+  before reading the new page or reloading it. The bilingual test also verifies
+  the destination lecture and language before and after reload, including the
+  blocked-storage path, so the source page cannot satisfy the assertion.
+- The English offline browser suite passed, and the full bilingual offline suite
+  passed five consecutive local runs. Formatting checks passed. No fixed sleeps,
+  suppressed errors or automatic test retries were added.
+
 ## Targeted quiz hints and retry — 2026-09-19
 
 - Issue #5 item 7 is implemented through optional per-wrong-option hints. Wrong
