@@ -18,3 +18,29 @@ Both self-authored PDFs have two physical pages. All four were visually rechecke
 - Explanation, applicability and transfer are checked through the denominator prompt, zero-group prompt and library exercise. Optional causal background remains explicitly supplementary.
 - Independence retains both source tests: 24/40 = 0.60 differs from 50/100 = 0.50; 24/100 = 0.24 differs from (50/100)(40/100) = 0.20.
 - No uncertain source claims are tested. Reading position and quiz completion do not establish learning outcomes.
+
+## Optional prerequisite checks
+
+The first primary lesson and the bilingual fixture each start with two optional author-created checks. They test needed prior knowledge, not the conditional-probability rule that the lesson will teach. The source does not supply these check scenarios or refreshers; all are explicitly added background. The skip links lead to `reference-group` and `conditional-intuition`, respectively. All main content remains accessible without answering.
+
+| Check / concept | Where it is needed | Matching focused refresher | Verified reasoning |
+|---|---|---|---|
+| `prerequisite-fractions-check` / part-to-whole fraction | Lecture 1's 24/40 and probability rescaling | `fraction-refresher` | 3/12 = 0.25 = 25%; 36 multiplies counts; 75% describes the complement |
+| `prerequisite-overlap-check` / intersection | E ∩ S in Lecture 1's numerator | `overlap-refresher` | 2 people satisfy both descriptions; 6 + 4 double-counts them; 6 + 4 − 2 = 8 counts at least one activity |
+| `bilingual-fractions-check` / same fraction concept | The club's 4/10 calculation | `bilingual-fraction-refresher` | Same counter scenario and reasoning, with reviewed Chinese translations |
+| `bilingual-overlap-check` / same intersection concept | C ∩ T in the club's numerator | `bilingual-overlap-refresher` | Same activity scenario and reasoning, with reviewed Chinese translations |
+
+Each wrong answer offers its own refresher, with a return to the originating question. Directly opening a refresher is also possible. None of these outcomes is a mastery assessment.
+
+## Running-case connections
+
+| Case step | Problem still unresolved | Next concept or action | Source / new provenance |
+|---|---|---|---|
+| Survey: identify 24 within the 40 statistics students | How can a group restriction be expressed when given probabilities instead of counts? | Conditional probability formula in `calculation` | Source counts on Lecture 1 p. 1; rule and worked example on p. 2 |
+| Survey: rescale (24/100)/(40/100) to 60% | Can the learner choose the group without the worked steps? | Survey check, then a transfer exercise | Survey preserved from source; library scenario explicitly author-created |
+| Survey: distinguish conditional 60% from joint 24% | Does knowing S change the probability of E? The overall economics share is still missing | Marginal P(E) = 50/100 and the independence comparison | Same 100-student source case; the new count and conditions come from Lecture 2 p. 1 |
+| Survey: compare conditional 60% with marginal 50% | How can all counts verify the same conclusion directly? | Read row/column totals and use the equivalent product test | Original raster table on Lecture 2 p. 2; product rule on p. 1 |
+| Bilingual club: 40 members, 10 playing chess, 4 playing both | Which group should the club use when asking about chess players? | Reference group and denominator choice in `conditional-practice` | Author-created case; first introduced alongside the source's 100/40/24 example |
+| Bilingual club: calculate 4/10 | What if only probabilities are supplied? | (4/40)/(10/40) = 40%, with positive-denominator condition | New counts applying Lecture 1 p. 2; return to original source calculation 24/40 = 60% afterward |
+
+The bilingual fixture covers the two pages of the conditional-probability source only and reuses the same fragment for a review page. It does not cover the independence lecture. Its source survey and return calculation preserve the source example; the club case and prerequisite questions are author-created. All substantive new prose and controls have Chinese translations; mathematical notation is preserved.

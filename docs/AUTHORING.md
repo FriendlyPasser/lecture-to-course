@@ -62,6 +62,10 @@ Use these references:
 
 Prepare the course JSON, lecture HTML fragments, glossary entries and necessary images. Paths in the JSON are relative to that JSON file. Preserve important derivations, assumptions and key teacher examples. Rewritten explanations belong in the main lesson; label author-created scenarios and extra background appropriately.
 
+For necessary prior knowledge, add a small optional check at the start of the course, usually two or three questions. Map each question to a focused, supplementary refresher; students can skip the check or visit the matching refresher after a wrong answer and return to the question. The [prerequisite component contract](../lecture-to-course/references/authoring.md#optional-prerequisite-check) supplies the markup. Keep all lesson content available from the start.
+
+Where related concepts support a running case, make each new concept answer an unresolved problem from the previous step. Record **case step → unresolved problem → next concept**, with source or author-created provenance, in the coverage map. Preserve the teacher's key examples and return to them after any simpler entry example. This adds continuity to substantive lessons without forcing a case onto tiny or unrelated excerpts.
+
 HTML fragments are trusted author-written content. The builder rejects common executable and remote dependencies, but it is not a security sandbox for arbitrary HTML copied from a PDF or third party.
 
 ## 4. Build and verify
@@ -74,7 +78,7 @@ python -B .local/work/site/launch_course.py
 
 Choose a new or empty output directory. For a revision, use a new directory such as `.local/work/site-v2`.
 
-Check source pages, formulas and quiz reasoning, then inspect reading and interactions at 1024 and 1440 pixels. Verify source links, retry, glossary search and keyboard operation. The static checker can identify common resource problems, but cannot establish teaching accuracy or learning outcomes.
+Check source pages, formulas and quiz reasoning, then inspect reading and interactions at 1024 and 1440 pixels. Verify source links, retry, glossary search and keyboard operation. For prerequisite checks, verify skip, the wrong-answer link to the correct refresher, return to the originating question, and the same flow after language switching. Read the running case's transitions to confirm that the next concept answers the problem just raised. The static checker can identify common resource problems, but cannot establish teaching accuracy or learning outcomes.
 
 ## Open and share the output
 

@@ -3,6 +3,80 @@
   <li>Calculate conditional and joint probabilities, and say why they differ.</li>
   <li>Apply the same reasoning to a new situation and check when the formula is defined.</li>
 </ul>
+<section class="precheck" id="prerequisites">
+  <h2>Before you begin: two useful building blocks</h2>
+  <p>This optional check covers fractions and overlapping groups. Review only what you need.</p>
+  <p class="muted">Author-created prerequisite checks · Added background for this lesson.</p>
+  <a class="precheck-skip" href="#reference-group">Skip the check and start the lesson</a>
+  <div
+    class="quiz"
+    id="prerequisite-fractions-check"
+    data-answer="0"
+    data-prerequisite="fraction-refresher"
+  >
+    <h3>Three of twelve counters are blue. What percentage of the counters is blue?</h3>
+    <div class="options"><button>25%</button><button>36%</button><button>75%</button></div>
+    <p class="quiz-status" role="status"></p>
+    <div class="explanation" hidden>
+      <p>
+        Divide the part by the whole: 3/12 = 0.25 = 25%. Multiplying 3 by 12 gives 36, not a share;
+        75% describes the nine counters that are not blue.
+      </p>
+    </div>
+    <button class="retry" hidden>Try again</button>
+  </div>
+  <details class="prerequisite" id="fraction-refresher">
+    <summary>Refresher: a part-to-whole fraction</summary>
+    <div class="supplement">
+      <strong>Supplementary explanation</strong>
+      <p>
+        In the author-created counter example, the numerator counts the three blue counters. The
+        denominator counts all twelve counters in the chosen group. Divide 3 by 12 to get 0.25, then
+        multiply by 100 to write 25%.
+      </p>
+      <p>In this lesson, first name the group, then use its size as the denominator.</p>
+      <button class="prerequisite-return" hidden>Return to question</button>
+    </div>
+  </details>
+  <div
+    class="quiz"
+    id="prerequisite-overlap-check"
+    data-answer="1"
+    data-prerequisite="overlap-refresher"
+  >
+    <h3>
+      Six people read, four swim, and two do both. How many belong to the intersection of readers
+      and swimmers?
+    </h3>
+    <div class="options">
+      <button>10 people</button><button>2 people</button><button>8 people</button>
+    </div>
+    <p class="quiz-status" role="status"></p>
+    <div class="explanation" hidden>
+      <p>
+        The intersection contains the two people who do both. Adding 6 and 4 counts those two twice;
+        8 counts everyone who does at least one activity.
+      </p>
+    </div>
+    <button class="retry" hidden>Try again</button>
+  </div>
+  <details class="prerequisite" id="overlap-refresher">
+    <summary>Refresher: an intersection means both</summary>
+    <div class="supplement">
+      <strong>Supplementary explanation</strong>
+      <p>
+        In the author-created activity example, label the reader group R and the swimmer group W. R
+        ∩ W keeps only people satisfying both descriptions, so its count is 2. It is not the sum of
+        the two group sizes.
+      </p>
+      <p>
+        In the survey lesson, E ∩ S will likewise mean students taking both economics and
+        statistics.
+      </p>
+      <button class="prerequisite-return" hidden>Return to question</button>
+    </div>
+  </details>
+</section>
 <section id="reference-group">
   <p class="eyebrow">01 / START WITH THE QUESTION</p>
   <h2>Among which students?</h2>
@@ -68,6 +142,11 @@
     </p>
     <a data-source="s1" data-page="2">Reasoning · p. 2</a>
   </details>
+  <p>
+    <strong>The survey case, next step:</strong> We can count 24 out of 40, but how could we express
+    the same restriction for any pair of events, even when given probabilities instead of counts?
+    <a href="#calculation">Conditional probability gives that counting idea a general formula.</a>
+  </p>
 </section>
 <section id="calculation">
   <p class="eyebrow">02 / GIVE THE IDEA A FORMULA</p>
@@ -130,6 +209,12 @@
     </p>
     <a data-source="s1" data-page="2">Positive-denominator condition · p. 2</a>
   </details>
+  <p>
+    <strong>The survey case, next step:</strong> The formula explains why 60% and 24% answer
+    different questions about the same students. Can you now choose the group without being shown
+    the steps?
+    <a href="#check-understanding">Try the survey, then carry the reasoning to a new setting.</a>
+  </p>
 </section>
 <section id="check-understanding">
   <p class="eyebrow">03 / APPLY THE IDEA</p>
@@ -173,6 +258,12 @@
   <p>
     Before moving on, explain the difference between “both” and “given,” state the denominator
     condition, and solve the library question without copying the survey's numbers.
+  </p>
+  <p>
+    <strong>One question remains in our survey:</strong> Does knowing that a student takes
+    statistics change the probability that they take economics? Our 60% answer alone cannot tell us.
+    We need the overall economics share as a comparison. The next lecture supplies that count and
+    uses it to introduce independence.
   </p>
   <details id="causal-background">
     <summary>Optional background: does “given” mean “caused by”?</summary>

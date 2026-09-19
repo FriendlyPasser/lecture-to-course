@@ -47,6 +47,9 @@ class Fragment(HTMLParser):
         self.quizzes = []
         self.quiz = None
         self.elements = []
+        self.element_nodes = []
+        self.nodes = []
+        self.id_nodes = {}
         self.quiz_depth = None
         self.options_depth = None
 
@@ -72,6 +75,9 @@ class Fragment(HTMLParser):
                 raise ValueError(f"Forbidden attribute: {k}")
             if k in ("src", "href", "xlink:href", "poster") and v and not v.startswith("#"):
                 local(v)
+        classes = a.get("class", "").split()
+        node = {"tag": tag, "attrs": a, "classes": classes, "ancestors": tuple(self.element_nodes)}
+        self.nodes.append(node)
         # Container depths keep nested option markup from closing the quiz early.
         if tag not in (
             "area",
@@ -90,11 +96,13 @@ class Fragment(HTMLParser):
             "wbr",
         ):
             self.elements.append(tag)
+            self.element_nodes.append(node)
         if "id" in a:
             slug(a["id"])
             if a["id"] in self.ids:
                 raise ValueError(f"Duplicate ID: {a['id']}")
             self.ids.add(a["id"])
+            self.id_nodes[a["id"]] = node
         if tag == "section":
             if not a.get("id"):
                 raise ValueError("Chapter needs an id")
@@ -116,7 +124,10 @@ class Fragment(HTMLParser):
             a["rel"] = "noopener"
             a["class"] = (a.get("class", "") + " source-link").strip()
             a["title"] = f"{source['title']} · PDF page {page}"
-        classes = a.get("class", "").split()
+        if "data-prerequisite" in a:
+            if "quiz" not in classes or not a.get("id"):
+                raise ValueError("data-prerequisite requires a quiz with a unique id")
+            slug(a["data-prerequisite"])
         if "quiz" in classes:
             if self.quiz:
                 raise ValueError("Nested quizzes unsupported")
@@ -151,6 +162,7 @@ class Fragment(HTMLParser):
         if tag in self.elements:
             index = len(self.elements) - 1 - self.elements[::-1].index(tag)
             del self.elements[index:]
+            del self.element_nodes[index:]
             if self.options_depth is not None and len(self.elements) < self.options_depth:
                 self.options_depth = None
             if self.quiz_depth is not None and len(self.elements) < self.quiz_depth:
@@ -176,6 +188,75 @@ class Fragment(HTMLParser):
     def handle_comment(self, data):
         pass
 
+    @staticmethod
+    def blocked(nodes, collapsible=False):
+        return any(
+            "hidden" in node["attrs"]
+            or "inert" in node["attrs"]
+            or (node["attrs"].get("aria-hidden") or "").lower() == "true"
+            or "quiz" in node["classes"]
+            or (node["tag"] == "details" and (collapsible or "open" not in node["attrs"]))
+            for node in nodes
+        )
+
+    def validate_prerequisites(self):
+        for node in self.nodes:
+            reference = node["attrs"].get("data-prerequisite")
+            if reference is not None:
+                target = self.id_nodes.get(reference)
+                if (
+                    not target
+                    or target["tag"] != "details"
+                    or "prerequisite" not in target["classes"]
+                ):
+                    raise ValueError(f"Unknown prerequisite details: {reference}")
+                if (
+                    self.blocked(target["ancestors"], collapsible=True)
+                    or "hidden" in target["attrs"]
+                    or "inert" in target["attrs"]
+                    or (target["attrs"].get("aria-hidden") or "").lower() == "true"
+                    or "quiz" in target["classes"]
+                ):
+                    raise ValueError(f"Prerequisite is unreachable: {reference}")
+                descendants = [
+                    child
+                    for child in self.nodes
+                    if any(ancestor is target for ancestor in child["ancestors"])
+                ]
+                summaries = [child for child in descendants if child["tag"] == "summary"]
+                if (
+                    len(summaries) != 1
+                    or summaries[0]["ancestors"][-1] is not target
+                    or self.blocked(summaries)
+                ):
+                    raise ValueError(f"Prerequisite needs one visible direct summary: {reference}")
+                returns = [
+                    child for child in descendants if "prerequisite-return" in child["classes"]
+                ]
+                if len(returns) != 1:
+                    raise ValueError(f"Prerequisite needs one return button: {reference}")
+                button = returns[0]
+                if (
+                    button["tag"] != "button"
+                    or "hidden" not in button["attrs"]
+                    or "disabled" in button["attrs"]
+                    or "inert" in button["attrs"]
+                    or (button["attrs"].get("aria-hidden") or "").lower() == "true"
+                    or self.blocked(
+                        button["ancestors"][len(target["ancestors"]) + 1 :], collapsible=True
+                    )
+                ):
+                    raise ValueError(
+                        f"Prerequisite needs an initially hidden, reachable return button: {reference}"
+                    )
+            if "precheck-skip" in node["classes"]:
+                href = node["attrs"].get("href") or ""
+                target = self.id_nodes.get(href[1:]) if href.startswith("#") else None
+                if node["tag"] != "a" or not target:
+                    raise ValueError("Precheck skip must link to an id in the same lecture")
+                if self.blocked((*target["ancestors"], target)):
+                    raise ValueError(f"Precheck skip target is unreachable: {href}")
+
     def finish(self):
         if not self.chapters:
             raise ValueError("Lecture must contain a section with h2")
@@ -184,6 +265,7 @@ class Fragment(HTMLParser):
                 raise ValueError("Invalid quiz answer/options")
             if not {"explanation", "retry", "quiz-status"}.issubset(q["required"]):
                 raise ValueError("Quiz missing feedback, explanation, or retry")
+        self.validate_prerequisites()
         return "".join(self.parts)
 
 

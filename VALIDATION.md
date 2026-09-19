@@ -1,5 +1,33 @@
 # Validation
 
+## Prerequisite checks and running cases — 2026-09-19
+
+- Issue #5 items 1 and 2 are implemented in the reusable template, authoring
+  guidance and synthetic demos. Each optional diagnostic maps one prerequisite
+  to a short refresher, with skip, wrong-answer review, return and retry.
+  The lesson remains available regardless of the student's answers.
+- All 20 Python tests passed, including new checks for invalid refresher targets,
+  inaccessible or ambiguous controls, shared targets and skip links. Both demos
+  built successfully and passed local resource and fragment-link checks. Ruff,
+  Prettier and the skill validator passed.
+- Offline direct-file browser checks passed at 1024 and 1440 pixels, including
+  keyboard skip/review/return, visible question headings on return, independent
+  quiz state, shared-refresher return destinations, retry, bilingual switching
+  with an open refresher, denied storage and existing lesson/glossary interactions.
+  The new translation checks cover wrapped questions, feedback, refresher and
+  running-case prose, plus exact restoration of English text when switching back.
+- English and Chinese screenshots were visually reviewed at both widths.
+  This caught and fixed two defects: returning to an offscreen question heading,
+  and HTML formatting line breaks preventing long paragraphs from translating.
+- Both generated launchers also passed browser interaction checks over loopback
+  HTTP with external requests blocked. Styles, scripts, source PDFs and the
+  selected image were served byte-for-byte; local test servers were stopped.
+- Independent content review verified diagnostic answers, focused refreshers,
+  survey and club case continuity, source counts, formula conditions, provenance
+  and Chinese translations. The case-step and prerequisite mappings are recorded
+  in `demo/coverage.md`. These are synthetic content and functional checks, not
+  student trial data or evidence of improved learning outcomes.
+
 ## Concept-focused teaching revision — 2026-09-15
 
 - The repository skill now maps concepts, prerequisites and learning objectives before

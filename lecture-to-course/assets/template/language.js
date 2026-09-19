@@ -1,6 +1,16 @@
 'use strict';
 (() => {
   const dictionary = window.courseTranslations;
+  // HTML formatters wrap prose without changing the sentence students read.
+  const normalized = new Map(
+    Object.entries(dictionary).map(([en, zh]) => [en.trim().replace(/\s+/g, ' '), zh]),
+  );
+  function translated(text) {
+    const clean = text.trim();
+    return Object.prototype.hasOwnProperty.call(dictionary, clean)
+      ? dictionary[clean]
+      : normalized.get(clean.replace(/\s+/g, ' '));
+  }
   const key = 'lecture-to-course:language:' + document.body.dataset.course;
   const toggle = document.querySelector('.language-toggle');
   const records = [];
@@ -14,11 +24,11 @@
     )
       continue;
     const original = node.nodeValue;
-    const clean = original.trim();
-    if (Object.prototype.hasOwnProperty.call(dictionary, clean)) {
+    const zh = translated(original);
+    if (zh) {
       const leading = original.match(/^\s*/)[0];
       const trailing = original.match(/\s*$/)[0];
-      records.push({ node, en: original, zh: leading + dictionary[clean] + trailing });
+      records.push({ node, en: original, zh: leading + zh + trailing });
     }
   }
   const attributes = [];
@@ -28,7 +38,7 @@
       for (const attr of ['aria-label', 'placeholder', 'alt', 'title', 'content']) {
         const en = el.getAttribute(attr);
         if (!en || el === toggle) continue;
-        let zh = dictionary[en];
+        let zh = translated(en);
         if (!zh && attr === 'title' && el.classList.contains('source-link'))
           zh = '课件来源 · 第 ' + el.dataset.page + ' 页';
         if (zh) attributes.push({ el, attr, en, zh });

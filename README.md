@@ -19,6 +19,7 @@ Courses support English–Chinese explanations and quizzes, a language switch fi
 
 | While studying | In your course |
 |---|---|
+| “Am I missing a prerequisite?” | An optional short check points to the specific refresher you need, then returns you to the question. |
 | “Why does this formula work?” | An intuitive explanation, a small example, and the steps connecting them to the formula. |
 | “I understand this example. Can I do another?” | New scenarios with feedback explaining both the answer and the tempting mistakes. |
 | “What does this term mean?” | A searchable English–Chinese glossary beside the lesson. |
@@ -114,12 +115,12 @@ Already built the demo? Reopen it with the last command. To rebuild, choose a ne
 
 **The lecture sets what to learn. The lesson makes the reasoning visible.**
 
-In the probability demo, the student first sees **100 students → 40 taking statistics → 24 taking both subjects**. The explanation establishes which group belongs in the denominator before introducing conditional probability notation. A library exercise then checks whether the same idea transfers to another situation.
+In the probability demo, students can check fractions and intersections first or skip directly to **100 students → 40 taking statistics → 24 taking both subjects**. The same survey then raises the next question at each step: how to express the group restriction as a formula, and whether knowing a student's subject changes a probability. A library exercise checks whether the reasoning transfers to another situation.
 
 The skill follows the same principles across subjects:
 
-1. **Map concepts and prerequisites.** Keep lecture boundaries and source coverage; regroup pages within a lecture when it helps the explanation.
-2. **Build understanding before adding notation.** Use questions, diagrams and small examples to connect intuition to the formal statement. Keep core derivations and conditions visible.
+1. **Map concepts and prerequisites.** Keep lecture boundaries and source coverage. Check necessary prior knowledge briefly, with optional focused refreshers and a direct skip to the lesson.
+2. **Build understanding through connected problems.** Use a running case when related concepts suit it: each next idea addresses a problem the previous step leaves open. Keep core derivations, conditions and teacher examples visible.
 3. **Practice and trace back.** Ask learners to explain, check applicability and try a variation. Cite the source concept, and label new examples and extra background clearly.
 
 The lesson structure adapts to the material. There is no fixed chapter count or requirement to turn every idea into an animation.

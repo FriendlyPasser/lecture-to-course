@@ -6,8 +6,8 @@
   "scripts": {
     "setup": "node scripts/dev.cjs setup",
     "browsers:install": "node scripts/dev.cjs playwright install chromium",
-    "format": "node scripts/dev.cjs prettier --write lecture-to-course/assets/template/*.{js,css} scripts/*.cjs tests/*.cjs demo/*.html demo/course.json package.json .prettierrc.json",
-    "format:check": "node scripts/dev.cjs prettier --check lecture-to-course/assets/template/*.{js,css} scripts/*.cjs tests/*.cjs demo/*.html demo/course.json package.json .prettierrc.json",
+    "format": "node scripts/dev.cjs prettier --write lecture-to-course/assets/template/*.{js,css,json} scripts/*.cjs tests/*.cjs demo/*.{html,json} package.json .prettierrc.json",
+    "format:check": "node scripts/dev.cjs prettier --check lecture-to-course/assets/template/*.{js,css,json} scripts/*.cjs tests/*.cjs demo/*.{html,json} package.json .prettierrc.json",
     "test:browser": "node tests/browser.cjs"
   },
   "devDependencies": {
