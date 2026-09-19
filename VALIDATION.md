@@ -1,5 +1,25 @@
 # Validation
 
+## Teaching review integrated with current lessons — 2026-09-19
+
+- PR #11 incorporates main through `afa88de`, retaining learning routes,
+  overlap explorations, concept evidence and the separate bilingual clinic review.
+  README guidance, skill checks, validation history and lecture objectives retain
+  both the main-branch additions and teaching-review requirements.
+- The demo teaching review and trial plan were refreshed against the merged
+  lessons: the clinic page is a new retrieval exercise, and the overlap diagrams
+  supply prediction and explanation practice. Neither a review recommendation nor
+  visiting a later page establishes an observed delayed learner result.
+- All 66 Python tests passed, including the loopback launcher. Both rebuilt demos
+  passed local resource checks, and all three offline browser suites passed,
+  including routes, explorations, concept evidence, storage failures and bilingual
+  state. Ruff, Prettier and skill validation passed.
+- The refreshed map covers 12 objectives. All 172 local document links and 74
+  generated-page evidence targets resolve; new optional trial probes were
+  recalculated, including fixed table margins and independence decisions.
+- These checks verify the merge and synthetic materials. Real learner trials
+  remain not run; the content findings and missing observations remain explicit.
+
 ## Teaching acceptance and learner feedback — 2026-09-19
 
 Issue #5 item 10 adds a reusable review workflow and local Markdown records,
@@ -37,6 +57,117 @@ and [trial materials](demo/learner-trial.md) keep the evidence categories separa
 - Later observations must identify the course version, exact first unclear
   sentence, language, initial reasoning, assistance and actual follow-up interval.
   Content corrections and learner retests remain separately reported.
+
+## Combined concept review, learning routes and explorations — 2026-09-19
+
+- PR #13 incorporates main through `4bda4ed`, preserving learning routes,
+  interactive diagrams and concept review. The later clinic question joins the
+  independence lesson's route, objectives and transition links; the bilingual
+  review keeps its distinct scenario with translated learning guidance.
+- All 66 Python tests passed, including the local launcher. Both rebuilt demos
+  passed resource checks, and all three offline browser suites passed. The
+  combined checks cover route focus, exploration behavior and concept evidence;
+  changing the diagram and switching language preserve notes without creating
+  graded evidence. Ruff and Prettier checks passed.
+- Chinese route and review-panel screenshots were inspected at 1024 pixels.
+  These checks verify integration, not improved learning outcomes.
+
+## Concept evidence and spaced review — 2026-09-19
+
+- Issue #5 item 9 adds optional concept mappings and a review panel on the course
+  overview and each lecture. Reading position remains separate from recent quiz,
+  numeric-practice and reflection evidence; no state certifies mastery.
+- Independent correct answers, hints, supported repetitions, errors, voluntary
+  solution views and reflection comparisons have distinct records. Retry, reset,
+  reload and language switching do not erase recent help. A first independent
+  success suggests next-day review; successes at least 24 hours apart can extend
+  the suggestion to 3 and 7 days. Recent difficulty takes priority over overdue,
+  unattempted and upcoming concepts. These are scheduling heuristics.
+- Both demos now retrieve the earlier reference-group concept in a later clinic
+  scenario, with new numbers, optional support and a cited solution. The bilingual
+  review has its own fragment instead of reusing the first lesson. The verified
+  answer is 9/30 = 0.3; translations and mappings are recorded in the coverage map.
+- All 52 Python tests passed, including 12 new review-metadata checks and the
+  loopback launcher test. Both demos built and passed local resource/fragment
+  checks. Ruff lint/format and Prettier checks passed.
+- The existing English and bilingual offline browser suites passed. The dedicated
+  concept-review suite checks evidence distinctions, initially open hints, fresh
+  versus repeated attempts, file-navigation persistence, course isolation, controlled-clock
+  spacing, fresh/oldest recommendations, priority ordering, keyboard links to later
+  practice, all translated evidence states and malformed/denied/full storage.
+  Browser verification used installed Google Chrome on macOS, with network access
+  disabled; browser launch and the loopback test required sandbox escalation.
+- English review history and Chinese review panels were visually inspected, with
+  Chinese layout/overflow checks at 1024 and 1440 pixels. Storage failures leave a
+  clearly labeled in-page record and do not block learning. File storage remains
+  browser-dependent, origin-scoped and unsynced; typed answers are not persisted.
+- These are functional and synthetic-content checks, not student trials or
+  evidence that this schedule improves retention.
+
+## Combined learning routes and explorations — 2026-09-19
+
+- PR #10 incorporates main through `bb2e1fd`, retaining question-led sections,
+  route navigation and translated learning guidance alongside the overlap diagrams.
+  Both exploration sections join their lesson's route and transition chain, with
+  section objectives, prior-knowledge connections and keyboard-focusable targets.
+- All 54 Python tests passed. Both rebuilt courses passed local resource checks,
+  and both offline browser suites passed at 1024 and 1440 pixels, exercising route
+  and bridge links, bilingual guidance, diagram invariants and preserved notes,
+  as well as the existing quizzes, typed practice, glossary and blocked storage.
+  Ruff, Prettier and skill validation passed.
+
+## Predict–operate–explain diagrams — 2026-09-19
+
+- Issue #5 item 5 is implemented as an optional offline overlap exploration.
+  Students write a prediction, vary the intersection of two fixed-size groups,
+  inspect a two-way table and probability bars, then explain the changed counts.
+  The main demo tests independence with the existing survey; the bilingual
+  fixture explores conditional probability with a labeled hypothetical club case.
+- The total and both event sizes stay fixed; all four cells remain nonnegative,
+  conditional shares sum to one, and the marginal probability stays constant.
+  Labels, fractions and visible worked comparisons accompany the bars. Rounded
+  percentages use ≈; the above/equal/below comparison uses exact integer products.
+- All 54 Python tests passed, including 14 exploration validation tests and the
+  existing local HTTP launcher checks. Both final demos built and passed resource
+  checks. Ruff, Prettier, skill validation and whitespace checks passed.
+- Both offline Chromium browser suites passed at 1024 and 1440 pixels. They check
+  every attainable demo overlap, positive lower bounds, rounding near equality,
+  keyboard controls, reset focus, independent instances, unchanged notes during
+  reset/language switching, translated feedback and blocked storage. With
+  JavaScript disabled, the explanation stays readable and diagram controls stay
+  disabled. No browser page errors occurred.
+- English and Chinese screenshots and desktop viewports were visually reviewed.
+  Independent review checked the arithmetic, source/what-if distinction, language
+  handling and static fallback. Guidance limits interaction to useful controlled
+  changes; no animation quota, scoring service or mastery claim is introduced.
+- These are functional and synthetic-content checks, not evidence of improved
+  learning outcomes. Student predictions and explanations are ungraded and are
+  not saved by the course.
+
+## Question-led sections and learning routes — 2026-09-19
+
+- Issue #5 item 3 is implemented in the skill workflow, teaching/authoring guides,
+  reusable styles and both synthetic courses. The ten existing core sections in
+  the three lesson fragments retain their IDs and lecture boundaries, with guiding
+  questions, visible objectives, prior-knowledge connections and next-question
+  bridges. Optional learning routes explain the sequence through native links;
+  no new course JSON fields, runtime scripts or completion gates were introduced.
+- All 40 Python tests passed, including the local HTTP launcher regression. Both
+  courses built and passed resource/fragment checks. Ruff, Prettier and the skill
+  validator passed.
+- Both offline direct-file browser suites passed at 1024 and 1440 pixels. New
+  coverage verifies keyboard route/bridge navigation, destination focus and
+  visible headings, sidebar target consistency, translated route labels and
+  accessible names, and English–Chinese roundtrips for objectives and transitions.
+  Existing quiz, hint, typed-practice, prerequisite, glossary and blocked-storage
+  checks also passed with no page errors. The final revision incorporates PR #8
+  and includes its independent-practice section in the bilingual learning route.
+- English and Chinese learning-route screenshots were visually reviewed at both
+  widths, along with the lesson and transition layout at 1024 pixels. Independent
+  content review checked the objective/dependency map, translation equivalence,
+  preserved source citations, worked examples and formula conditions. These checks
+  establish synthetic-content consistency and navigation behavior, not measured
+  learning gains or accuracy on unseen teacher PDFs.
 
 ## Combined hints and practice regression — 2026-09-19
 
