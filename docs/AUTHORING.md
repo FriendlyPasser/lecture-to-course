@@ -52,7 +52,7 @@ Review all relevant pages in bounded batches, including diagrams, legends, subsc
 
 ## 3. Plan concepts and write the lessons
 
-Map **source page → concept → prerequisites → learning objective → destination chapter** before authoring. Keep lecture boundaries, regrouping within a lecture when dependencies or explanation benefit. For excerpts, state the page range and what is excluded. The coverage map is a working document, not an additional JSON field.
+Map **source page → concept → prerequisites → learning objective → destination chapter** before authoring. For each core section, record its guiding question, the prior result it depends on and the next question it motivates. Keep lecture boundaries, regrouping within a lecture when dependencies or explanation benefit. For excerpts, state the page range and what is excluded. The coverage map is a working document, not an additional JSON field.
 
 Use these references:
 
@@ -61,6 +61,8 @@ Use these references:
 - [Probability example](../demo/course.json) and [coverage map](../demo/coverage.md): a complete self-authored input set.
 
 Prepare the course JSON, lecture HTML fragments, glossary entries and necessary images. Paths in the JSON are relative to that JSON file. Preserve important derivations, assumptions and key teacher examples. Rewritten explanations belong in the main lesson; label author-created scenarios and extra background appropriately.
+
+Organize each core section around a question and a clear learning objective. Briefly connect its opening to relevant prior knowledge, then close by explaining why the next question follows from the result. Keep a complete argument together; there is no fixed section count. Where a lesson needs extra orientation, add a concise learning route or concept map that explains relationships and links to the relevant sections. The [section and learning-route example](../lecture-to-course/references/authoring.md#question-led-sections-and-learning-routes) uses ordinary HTML and existing translations, with no new course JSON fields.
 
 For necessary prior knowledge, add a small optional check at the start of the course, usually two or three questions. Map each question to a focused, supplementary refresher; students can skip the check or visit the matching refresher after a wrong answer and return to the question. The [prerequisite component contract](../lecture-to-course/references/authoring.md#optional-prerequisite-check) supplies the markup. Keep all lesson content available from the start.
 
@@ -71,6 +73,8 @@ Where related concepts support a running case, make each new concept answer an u
 For key formulas, visibly connect plain-language meaning, concrete numbers and symbols. Explain quantities, units, number origins and conditions, distinguishing exact steps from assumptions and approximations. For application objectives, follow a worked example with completion of a missing step and an independent variation. The [typed practice contract](../lecture-to-course/references/authoring.md#typed-practice) supports numeric entry and short explanations with reference solutions. Map each objective and formula to its exercises; specify answer units and rounding, verify tolerances, and give short explanations a self-check rubric rather than an automatic correctness claim.
 
 For important terms, go beyond a translation: add a plain-language explanation, a verified example from the course and distinctions from genuinely confusable concepts where useful. The optional [glossary fields](../lecture-to-course/references/authoring.md#glossary-as-a-learning-aid) are `plain_language`, `example` and `confused_with`; existing four-field entries remain valid. Keep these explanations consistent with the lesson, formulas and quiz feedback, without imposing an entry or field quota. Retain the English original at a key term's first substantive introduction in each lesson, including Chinese mode; later uses can follow the natural translation. Translate all added glossary prose in bilingual courses.
+
+For cumulative review, declare optional course `concepts` separately from the glossary and add a stable activity ID plus `data-concept` to each mapped quiz or practice form. Each declared concept needs a graded quiz or numeric problem; reflections can contribute self-assessment only. In a later lecture, author a new scenario for an earlier concept and map it to the same concept ID. Record its changed context, verified answer and earlier source citation in the coverage map. Follow the [concept-review contract](../lecture-to-course/references/authoring.md#concept-evidence-and-cumulative-review) for metadata, evidence and review behavior. The template recommends existing questions; it does not generate variants.
 
 HTML fragments are trusted author-written content. The builder rejects common executable and remote dependencies, but it is not a security sandbox for arbitrary HTML copied from a PDF or third party.
 
@@ -88,7 +92,21 @@ Check source pages, formulas and exercise reasoning, then inspect reading and in
 
 For quizzes with hints, confirm each wrong choice shows its own prompt without exposing the correct choice or full reasoning; retry retains that prompt, another wrong choice replaces it, and a correct choice reveals the explanation. Also reveal a solution before answering, confirm it is not graded correct, and retry afterward. Check bilingual hints in both languages throughout retry and reveal.
 
-For prerequisite checks, verify skip, the wrong-answer link to the correct refresher, return to the originating question, and the same flow after language switching. In a quiz with hints, retry should preserve its refresher link and return route; a correct answer should clear them. Read the running case's transitions to confirm that the next concept answers the problem just raised. The static checker can identify common resource problems, but cannot establish teaching accuracy or learning outcomes.
+For concept review, verify the overview and lecture entry points, links to mapped activities, wrong-answer priority, hint use, supported versus independent correct answers, solution viewing and reflection self-assessment. Check that retry/reset/reload after recent solution exposure does not create another independent success or extend the interval. Confirm a different question is recommended when available, and check a success at least 24 hours later for the 1/3/7-day spacing progression. Check storage failure, reload and language switching. Reading progress must remain separate, and no state should claim mastery. Browser storage is local, recent history; file-origin behavior and launcher ports can change which history is visible.
+
+For prerequisite checks, verify skip, the wrong-answer link to the correct refresher, return to the originating question, and the same flow after language switching. In a quiz with hints, retry should preserve its refresher link and return route; a correct answer should clear them.
+
+Read the section objectives, prior-knowledge connections and closing bridges in order, including any running case. Confirm that each objective matches the explanation and practice, and that the next section answers the question just raised. Check learning-route and bridge links with the keyboard, including focus at the destination, and verify route labels, relationship text and transitions in both languages. The static checker can identify broken anchors and common resource problems, but cannot establish teaching accuracy, valid conceptual dependencies or learning outcomes.
+
+## 5. Review the teaching and prepare a student trial
+
+Follow the [teaching review guide](../lecture-to-course/references/teaching-review.md). Copy the [review template](../lecture-to-course/assets/review/teaching-review-template.md) and [learner-trial template](../lecture-to-course/assets/review/learner-trial-template.md) into your private working folder beside the coverage map, outside the generated site.
+
+For every core learning objective, identify the exact explanation, worked example and question that tests it, with a criterion for the reasoning a satisfactory answer should show. Review omitted steps, symbols and conditions, analogy limits, and application and transfer practice. Mark missing or inadequate evidence as a gap rather than passing it because a link exists. The [completed synthetic content review](../demo/teaching-review.md) shows both supported objectives and an outstanding assessment gap.
+
+Prepare a voluntary trial using the [demo trial plan](../demo/learner-trial.md) as an example. Record the first sentence a learner cannot follow verbatim, its location and language, then capture their explanation and new-problem attempt before offering help. Separate initial responses, hints and answer reveals. Schedule a fresh parallel problem after an agreed interval and record the actual elapsed time and intervening practice. If no learner participates or returns, report that evidence as not collected. Invitations are prepared text for the course owner to use, not automatic messages.
+
+Keep three separate results: **technical checks**, **content review**, and **observed learner evidence**. A prepared study, a simulated learner, or a successful browser test cannot count as a student result. Record feedback, the proposed correction, the changed version and follow-up evidence so revisions can be traced. Share the review summary and prepared trial materials with the course; keep raw participant notes locally under `.local/`.
 
 ## Open and share the output
 

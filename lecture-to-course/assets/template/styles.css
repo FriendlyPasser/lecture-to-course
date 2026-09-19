@@ -203,6 +203,51 @@ section[tabindex='-1'] {
 .objectives li {
   padding: 5px;
 }
+.learning-route {
+  margin: 30px 0;
+  padding: 24px 28px;
+  background: var(--wash);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.learning-route > p {
+  margin: 0 0 16px;
+}
+.learning-route ol {
+  margin: 0;
+  padding-left: 24px;
+}
+.learning-route li {
+  padding-left: 8px;
+}
+.learning-route li + li {
+  margin-top: 16px;
+}
+.learning-route li::marker {
+  color: var(--green);
+  font-weight: 650;
+}
+.learning-route a {
+  font-weight: 650;
+}
+.learning-route li p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.section-context {
+  color: var(--muted);
+}
+.section-next {
+  margin-top: 28px;
+  border-left: 3px solid var(--green);
+  padding: 12px 20px;
+  background: var(--wash);
+}
+section[tabindex='-1']:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 6px;
+}
 .panel {
   background: var(--wash);
   padding: 28px 32px;
@@ -570,6 +615,54 @@ th {
 .empty {
   font-size: 14px;
 }
+.concept-review {
+  margin: 0 0 40px;
+  padding: 18px 24px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--green);
+  background: #f4f3eb;
+}
+.concept-review > summary {
+  color: var(--green);
+  font-weight: 650;
+  cursor: pointer;
+}
+.concept-review > p,
+.review-item p {
+  font-size: 14px;
+  margin: 8px 0;
+}
+.review-list {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+}
+.review-item {
+  border-top: 1px solid var(--line);
+  padding: 18px 0;
+  overflow-wrap: anywhere;
+}
+.review-item:last-child {
+  padding-bottom: 0;
+}
+.review-title {
+  margin: 0 0 10px;
+}
+.review-state {
+  font-weight: 650;
+}
+.review-evidence {
+  color: var(--muted);
+}
+.review-next {
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 6px;
+}
+.practice:focus-visible {
+  outline: 3px solid #2c715c;
+  outline-offset: 4px;
+}
 .skip {
   position: fixed;
   top: -100px;
@@ -634,4 +727,91 @@ html[lang='zh-Hans'] h2 {
 }
 html[lang='zh-Hans'] main section h2 {
   font-size: 34px;
+}
+
+/* A controlled change, with visible counts and prose as well as proportional bars. */
+.exploration {
+  margin: 28px 0;
+  padding: 26px;
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  scroll-margin-top: 80px;
+}
+.exploration-goal {
+  font-weight: 600;
+}
+.exploration-fixed {
+  border-left: 3px solid var(--green);
+  background: var(--wash);
+  padding: 12px 16px;
+}
+.exploration label {
+  display: block;
+  margin: 18px 0 8px;
+  font-weight: 600;
+}
+.exploration textarea {
+  display: block;
+  width: 100%;
+  min-height: 90px;
+  padding: 10px 12px;
+  color: var(--ink);
+  border: 1px solid var(--muted);
+  border-radius: 3px;
+  resize: vertical;
+}
+.exploration-control {
+  width: 100%;
+  accent-color: var(--green);
+  margin: 14px 0;
+}
+.exploration-reset {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
+  padding: 8px 14px;
+}
+.exploration-reset:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+.exploration-readout caption {
+  text-align: left;
+  font-weight: 600;
+  margin: 18px 0 6px;
+}
+.exploration-readout td,
+.exploration-readout th {
+  padding: 8px;
+}
+.exploration-readout tfoot {
+  font-weight: 600;
+}
+.exploration-bars {
+  margin-top: 22px;
+}
+.exploration-bars > p {
+  font-size: 14px;
+}
+.exploration-bar {
+  display: grid;
+  gap: 4px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.exploration-bar strong {
+  font-variant-numeric: tabular-nums;
+}
+.exploration-bar meter {
+  display: block;
+  width: 100%;
+  height: 22px;
+  accent-color: var(--green);
+}
+.exploration-status {
+  font-weight: 600;
+}
+.exploration-explanation {
+  border-top: 1px solid var(--line);
+  margin-top: 24px;
+  padding-top: 8px;
 }

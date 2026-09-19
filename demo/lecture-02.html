@@ -1,11 +1,43 @@
-<ul class="objectives">
-  <li>Test independence using conditional and marginal probabilities.</li>
-  <li>Read the same relationship from a two-way table.</li>
+<ul class="objectives" id="independence-objectives">
+  <li id="objective-independence">
+    Test independence using conditional and marginal probabilities.
+  </li>
+  <li id="objective-table">Read the same relationship from a two-way table.</li>
+  <li id="objective-retrieval">Retrieve the earlier reference-group method in a new setting.</li>
 </ul>
-<section id="independence-test">
+<nav class="learning-route" aria-label="Learning route">
+  <p><strong>Learning route</strong></p>
+  <p>Build on Lecture 1's conditional probability to ask whether the given information matters.</p>
+  <ol>
+    <li>
+      <a href="#independence-test">Does the information change the probability?</a>
+      <p>Compare the same event before and after conditioning to define independence.</p>
+    </li>
+    <li>
+      <a href="#read-table">How can the table check the same conclusion?</a>
+      <p>Use the table totals to connect that comparison to the product test.</p>
+    </li>
+    <li>
+      <a href="#explore-independence">How much overlap would make the events independent?</a>
+      <p>Hold the group totals fixed and explain how changing the overlap affects both tests.</p>
+    </li>
+    <li>
+      <a href="#independence-quiz">Which comparison justifies the conclusion?</a>
+      <p>Choose and explain valid evidence before applying the test to another pair of events.</p>
+    </li>
+    <li>
+      <a href="#cumulative-review">Can you retrieve the reference group in a new setting?</a>
+      <p>Return to the earlier conditional-probability idea with a new clinic problem.</p>
+    </li>
+  </ol>
+</nav>
+<section id="independence-test" tabindex="-1">
   <p class="eyebrow">01 / THE IDEA</p>
   <h2>Does the information change the probability?</h2>
-  <p>
+  <ul class="objectives">
+    <li>Compare P(E | S) with P(E) and explain what their difference says about independence.</li>
+  </ul>
+  <p class="section-context">
     In the previous lecture, changing the reference group gave us 60% instead of 24%. Now ask a new
     question: does knowing that a student takes statistics change the chance that they take
     economics? Compare the same event, E, before and after learning S.
@@ -42,15 +74,24 @@
     0.60 among statistics students. These events are not independent in this survey.
   </p>
   <a data-source="s2" data-page="1">Lecture 2 · PDF p. 1</a>
+  <p class="section-next">
+    The conditional comparison shows a difference. How can all the survey counts check that same
+    conclusion? <a href="#read-table">Read the table and apply the product test.</a>
+  </p>
 </section>
-<section id="read-table">
+<section id="read-table" tabindex="-1">
   <p class="eyebrow">02 / SOURCE FIGURE</p>
-  <h2>One table, two denominators.</h2>
-  <p>
-    <strong>The survey case, next step:</strong> The conditional comparison settles independence,
-    but how can we check it directly from all the counts? The source table shows the same survey
-    organized into rows and columns. Its totals let us calculate the marginal probabilities and
-    apply the equivalent product test.
+  <h2>How can the table check the same conclusion?</h2>
+  <ul class="objectives">
+    <li>
+      Use row and column totals to calculate joint and marginal probabilities and test the product
+      equality.
+    </li>
+  </ul>
+  <p class="section-context">
+    The previous comparison used 60% within S and 50% overall. The source table organizes the same
+    survey into rows and columns. Its totals let us calculate the marginal probabilities and apply
+    the equivalent product test introduced above.
   </p>
   <figure>
     <img
@@ -70,11 +111,123 @@
   <p class="muted">This calculation applies the rule from page 1 to the counts on page 2.</p>
   <a data-source="s2" data-page="1">Rule · p. 1</a
   ><a data-source="s2" data-page="2">Counts · p. 2</a>
+  <p class="section-next">
+    Both tests show dependence in the source survey. Could another overlap make the events
+    independent while keeping both subject totals fixed?
+    <a href="#explore-independence">Predict, change the overlap, and explain the result.</a>
+  </p>
 </section>
-<section id="independence-quiz">
-  <p class="eyebrow">03 / CHECK YOUR REASONING</p>
-  <h2>Compare like with like.</h2>
-  <div class="quiz" id="independence-quiz-question" data-answer="0">
+<section id="explore-independence" tabindex="-1">
+  <p class="eyebrow">03 / PREDICT, OPERATE, EXPLAIN</p>
+  <h2>How much overlap would make the events independent?</h2>
+  <ul class="objectives">
+    <li>
+      Predict and explain which overlap makes the two probability tests agree on independence.
+    </li>
+  </ul>
+  <p class="section-context">
+    The source table showed why the observed overlap of 24 fails both independence tests. Keep its
+    row and column totals fixed to explore which hypothetical overlap would satisfy them.
+  </p>
+  <p class="muted">
+    Author-created what-if diagram · The starting counts match the source survey. Moving the slider
+    explores hypothetical arrangements; it does not revise the original survey or the source table.
+  </p>
+  <div
+    class="exploration"
+    id="survey-overlap"
+    data-model="overlap"
+    data-total="100"
+    data-condition="40"
+    data-event="50"
+    data-overlap="24"
+  >
+    <p class="exploration-goal">
+      Goal: explain when changing the overlap makes the conditional probability equal the marginal
+      probability, and therefore makes these two events independent.
+    </p>
+    <p class="exploration-fixed">
+      A means taking economics; B means taking statistics. Keep 100 students, 50 taking economics,
+      and 40 taking statistics fixed. Select a student uniformly, so each student is equally likely.
+      Only rearrange who takes both subjects, from 0 to 40 students; the other cells change to
+      preserve every row and column total.
+    </p>
+    <h3>1. Predict</h3>
+    <label for="survey-overlap-prediction">
+      Before moving the slider, predict whether reducing the overlap from 24 will raise or lower P(A
+      | B). Which overlap would make it equal P(A)? Explain your prediction.
+    </label>
+    <textarea class="exploration-prediction" id="survey-overlap-prediction" rows="3"></textarea>
+    <h3>2. Operate</h3>
+    <label for="survey-overlap-control">Students taking both subjects, A ∩ B</label>
+    <input
+      class="exploration-control"
+      id="survey-overlap-control"
+      type="range"
+      min="0"
+      max="40"
+      step="1"
+      value="24"
+      disabled
+    />
+    <div class="exploration-readout"></div>
+    <p class="exploration-status" role="status"></p>
+    <button class="exploration-reset" type="button" disabled>Reset diagram</button>
+    <h3>3. Explain</h3>
+    <div class="exploration-explanation">
+      <p>
+        At the source starting point, 24 students take both subjects: P(A | B) = 24/40 = 60%, while
+        P(A) = 50/100 = 50%. These differ, so the source events are not independent.
+      </p>
+      <p>
+        At a hypothetical overlap of 20, P(A | B) = 20/40 = 50%, matching P(A). Equivalently, 20/100
+        = (50/100) × (40/100) = 20%. This arrangement satisfies independence; the original survey
+        still has an overlap of 24.
+      </p>
+      <p>
+        When the overlap falls from 24 to 20, statistics-only rises from 16 to 20, economics-only
+        rises from 26 to 30, and neither falls from 34 to 30. Each table margin stays fixed. The
+        changed conditional probability comes from changing its numerator; its denominator stays 40.
+      </p>
+      <p>
+        Try the endpoints too: at an overlap of 0 or 40, P(A | B) is 0% or 100%, while P(A) remains
+        50%. All displayed probabilities are exact for these counts; no rounding or assumption of
+        independence is needed to calculate them.
+      </p>
+    </div>
+    <label for="survey-overlap-reflection">
+      Compare your prediction with an arrangement you tried. Explain where its conditional
+      probability and four cell counts came from, and why the marginal probability stayed fixed.
+    </label>
+    <textarea class="exploration-reflection" id="survey-overlap-reflection" rows="3"></textarea>
+  </div>
+  <p>
+    Diagram and prompts are author-created. The table and probability bars show the current
+    hypothetical counts; Reset diagram returns to 24 and keeps your notes. Your notes are for
+    self-explanation and are not scored.
+    <a data-source="s2" data-page="1">Independence rule · p. 1</a>
+    <a data-source="s2" data-page="2">Original counts · p. 2</a>
+  </p>
+  <p class="section-next">
+    Both tests now give the same conclusion. Which comparison provides evidence for it, and why are
+    the subject names alone insufficient? <a href="#independence-quiz">Explain your choice.</a>
+  </p>
+</section>
+<section id="independence-quiz" tabindex="-1">
+  <p class="eyebrow">04 / CHECK YOUR REASONING</p>
+  <h2>Which comparison justifies the conclusion?</h2>
+  <ul class="objectives">
+    <li>
+      Justify the independence decision with a valid probability comparison and reject unsupported
+      reasons.
+    </li>
+  </ul>
+  <p class="section-context">
+    Return to the original survey after the hypothetical exploration. You have checked the same
+    survey with a conditional comparison and a product comparison. Use that numerical evidence to
+    explain the decision, including why the conditional test applies.
+  </p>
+  <div class="quiz" id="independence-quiz-question" data-concept="independence" data-answer="0">
     <h3>Why are E and S not independent in this survey?</h3>
     <div class="options">
       <button>P(E | S) = 0.60 differs from P(E) = 0.50.</button
@@ -110,4 +263,74 @@
       </p>
     </div>
   </details>
+  <p class="section-next">
+    For the next pair of events you encounter, which probabilities would you need to compare? Choose
+    a test, check its conditions, and use the counts to justify your conclusion as you did for this
+    survey. First, can you retrieve the reference-group decision that both methods rely on?
+    <a href="#cumulative-review">Try an earlier idea in a new clinic setting.</a>
+  </p>
+</section>
+<section id="cumulative-review" tabindex="-1">
+  <p class="eyebrow">05 / RETURN TO AN EARLIER IDEA</p>
+  <h2>Can you retrieve the reference group in a new setting?</h2>
+  <ul class="objectives">
+    <li>
+      Choose the conditional reference group and justify its denominator in a new clinic problem.
+    </li>
+  </ul>
+  <p class="section-context">
+    Independence compares probabilities, so choosing the right reference group still matters.
+    Retrieve that earlier idea before applying another rule. Try this new setting without opening
+    the hint or solution first; both remain available if you need support.
+  </p>
+  <form
+    class="practice"
+    id="clinic-review"
+    data-concept="reference-denominator"
+    data-kind="numeric"
+    data-answer="0.3"
+    data-tolerance="0"
+  >
+    <h3>Follow-up appointments among morning appointments</h3>
+    <p class="muted">Author-created cumulative review · New setting and numbers.</p>
+    <p>
+      A clinic recorded 120 appointments. Thirty were in the morning, and 9 of those morning
+      appointments were follow-ups. Select one morning appointment uniformly at random. What is the
+      probability that it was a follow-up? Enter the exact probability.
+    </p>
+    <label for="clinic-review-response"
+      >Probability (no units; decimal, fraction, or percentage)</label
+    >
+    <input class="practice-response" id="clinic-review-response" type="text" inputmode="decimal" />
+    <details class="practice-hint">
+      <summary>Hint: identify the group selected from</summary>
+      <p>
+        Which appointments could be selected under the stated condition? Use the size of that
+        eligible group, rather than every appointment recorded, as the denominator.
+      </p>
+    </details>
+    <button class="practice-check" type="submit">Check answer</button>
+    <button class="practice-reveal" type="button">Show solution</button>
+    <button class="practice-reset" type="button">Start again</button>
+    <p class="practice-status" role="status"></p>
+    <div class="practice-solution" hidden>
+      <p>
+        Let F mean follow-up and M mean morning. There are 30 eligible morning appointments and 9
+        satisfy both conditions, so P(F | M) = (9/120)/(30/120) = 9/30 = 0.3 = 30%, exactly. P(M) =
+        30/120 is positive; uniform selection justifies the count ratio. No independence assumption
+        is needed.
+      </p>
+      <p>
+        Dividing 9 by 120 gives the joint share of appointments that were both morning and
+        follow-up. Dividing 30 by 120 gives the morning share. Neither gives the follow-up share
+        within morning appointments.
+      </p>
+      <a data-source="s1" data-page="2">Earlier rule · Lecture 1, p. 2</a>
+    </div>
+  </form>
+  <p class="section-next">
+    Which group would a new condition select, and how would that choice affect an independence
+    comparison? Name the group before applying either rule. If you need the connection again,
+    <a href="#independence-test">return to the two probabilities compared for independence.</a>
+  </p>
 </section>

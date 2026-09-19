@@ -1,3 +1,39 @@
+<ul class="objectives">
+  <li>
+    Choose the reference group and explain a conditional probability in counts and probabilities.
+  </li>
+</ul>
+<nav class="learning-route" aria-label="Learning route">
+  <p><strong>Learning route</strong></p>
+  <p>
+    Use fractions and overlapping groups to move from a question to a calculation, a rule, and
+    independent application.
+  </p>
+  <ol>
+    <li>
+      <a href="#conditional-intuition">How does the condition choose the group?</a>
+      <p>Identify the eligible members before choosing a denominator.</p>
+    </li>
+    <li>
+      <a href="#conditional-practice">Which group belongs in the denominator?</a>
+      <p>Apply that group choice to the club case so the count ratio has a meaning.</p>
+    </li>
+    <li>
+      <a href="#conditional-general-rule">How can probabilities recover the same answer?</a>
+      <p>Rewrite the count ratio to explain the formula and its positive-denominator condition.</p>
+    </li>
+    <li>
+      <a href="#conditional-exploration">How does changing the overlap change the probability?</a>
+      <p>Vary the overlap with fixed group totals to explain which part of the fraction changes.</p>
+    </li>
+    <li>
+      <a href="#conditional-transfer">Can you choose the group without worked steps?</a>
+      <p>
+        Complete a club calculation, then apply the rule independently and explain your choices.
+      </p>
+    </li>
+  </ol>
+</nav>
 <section class="precheck" id="prerequisites">
   <h2>Before you begin: two useful building blocks</h2>
   <p>This optional check covers fractions and overlapping groups. Review only what you need.</p>
@@ -85,10 +121,17 @@
     </div>
   </details>
 </section>
-<section id="conditional-intuition">
-  <h2>Conditioning changes the reference group</h2>
+<section id="conditional-intuition" tabindex="-1">
+  <h2>How does the condition choose the group?</h2>
+  <ul class="objectives">
+    <li>Identify the group selected by a condition in the survey and club examples.</li>
+  </ul>
+  <p class="section-context">
+    A fraction compares a part with a whole. Use that familiar idea, reviewed in the optional check,
+    to ask which whole the condition selects.
+  </p>
   <p>Start with everyone, then keep only the people who satisfy the condition.</p>
-  <p>
+  <p id="conditional-denominator-intuition">
     A <button class="term" data-term="conditional">conditional probability</button>
     uses that smaller reference group as its denominator.
   </p>
@@ -103,20 +146,29 @@
   </details>
   <p class="muted">Author-created running example</p>
   <p>Of 40 club members, 10 play chess. Of those 10 chess players, 4 also play tennis.</p>
-  <p>
+  <p class="section-next">
     The club wants to offer tennis sessions to chess players. We know who plays both, but which
     group should we compare those four members with?
+    <a href="#conditional-practice">Use the question to choose the denominator.</a>
   </p>
-  <a href="#conditional-practice">Use the question to choose the denominator.</a>
 </section>
-<section id="conditional-practice">
-  <h2>Choose the denominator</h2>
+<section id="conditional-practice" tabindex="-1">
+  <h2>Which group belongs in the denominator?</h2>
+  <ul class="objectives">
+    <li>
+      Choose the club denominator and explain why counting all members answers a different question.
+    </li>
+  </ul>
+  <p class="section-context">
+    The condition has selected the chess players. Combine that group choice with the overlap idea:
+    count members who play both activities within the selected group.
+  </p>
   <p>Author-created exercise</p>
   <p>Keep the same club: 40 members, 10 chess players, and 4 playing both chess and tennis.</p>
   <p>We want the probability of playing tennis given that the member plays chess.</p>
   <p>The numerator counts members who satisfy both properties. There are four.</p>
   <p>The denominator counts all members who satisfy the condition.</p>
-  <div class="quiz" id="bilingual-quiz" data-answer="1">
+  <div class="quiz" id="bilingual-quiz" data-concept="reference-denominator" data-answer="1">
     <h3>Which denominator should we use?</h3>
     <div class="options"><button>40 club members</button><button>10 chess players</button></div>
     <p class="quiz-status" role="status"></p>
@@ -134,16 +186,26 @@
     </div>
     <button class="retry" hidden>Try again</button>
   </div>
-  <p>
+  <p class="section-next">
     We can now count 4 out of 10. But if a report gives only probabilities, how can we recover that
     same answer?
+    <a href="#conditional-general-rule"
+      >Turn the club counts into the conditional probability formula.</a
+    >
   </p>
-  <a href="#conditional-general-rule"
-    >Turn the club counts into the conditional probability formula.</a
-  >
 </section>
-<section id="conditional-general-rule">
-  <h2>The same club, expressed as probabilities</h2>
+<section id="conditional-general-rule" tabindex="-1">
+  <h2>How can probabilities recover the same answer?</h2>
+  <ul class="objectives">
+    <li>
+      Recover 4/10 from probability shares and explain why the conditioning probability must be
+      positive.
+    </li>
+  </ul>
+  <p class="section-context">
+    The club exercise gave 4/10 by counting within the chess group. Keep the same group while
+    rewriting both counts as shares of all 40 members.
+  </p>
   <p>
     Let C mean playing chess and T mean playing tennis. The club counts stay fixed: P(C) = 10/40 and
     P(T ∩ C) = 4/40.
@@ -221,12 +283,122 @@
     source example and our new club case.
   </p>
   <a data-source="s1" data-page="2">Source calculation · page 2</a>
+  <p class="section-next">
+    The formula recovers the count ratio. What if the overlap changes while the reference group
+    stays fixed?
+    <a href="#conditional-exploration">Predict a change, then explore the club diagram.</a>
+  </p>
 </section>
-<section id="conditional-transfer">
-  <h2>From a worked example to your own solution</h2>
+<section id="conditional-exploration" tabindex="-1">
+  <h2>How does changing the overlap change the probability?</h2>
+  <ul class="objectives">
+    <li>
+      Predict and explain a changed conditional probability while preserving the group totals.
+    </li>
+  </ul>
+  <p class="section-context">
+    The formula identified the overlap as the numerator and the chess group as the denominator. Use
+    that distinction to predict what changes when the overlap varies but both group totals stay
+    fixed.
+  </p>
+  <p class="muted">
+    Author-created what-if diagram · Extend the club example by assuming 16 of the 40 members play
+    tennis in total. This new total is an added modeling choice, not a count from the source PDF.
+  </p>
+  <div
+    class="exploration"
+    id="club-overlap"
+    data-model="overlap"
+    data-total="40"
+    data-condition="10"
+    data-event="16"
+    data-overlap="4"
+  >
+    <p class="exploration-goal">
+      Goal: explain how the overlap changes a conditional probability while its reference group
+      stays fixed.
+    </p>
+    <p class="exploration-fixed">
+      A means playing tennis; B means playing chess. Keep 40 club members, 16 tennis players and 10
+      chess players fixed. Select a member uniformly, so everyone is equally likely. Hypothetically
+      rearrange who does both, from 0 to 10 members; all row and column totals stay fixed.
+    </p>
+    <h3>1. Predict</h3>
+    <label for="club-overlap-prediction"
+      >Before moving the slider, predict how P(A | B) changes if six members do both instead of
+      four. Which part of the fraction changes, and which stays fixed?</label
+    >
+    <textarea class="exploration-prediction" id="club-overlap-prediction" rows="3"></textarea>
+    <h3>2. Operate</h3>
+    <label for="club-overlap-control">Members playing both tennis and chess, A ∩ B</label>
+    <input
+      class="exploration-control"
+      id="club-overlap-control"
+      type="range"
+      min="0"
+      max="10"
+      step="1"
+      value="4"
+      disabled
+    />
+    <div class="exploration-readout"></div>
+    <p class="exploration-status" role="status"></p>
+    <button class="exploration-reset" type="button" disabled>Reset diagram</button>
+    <h3>3. Explain</h3>
+    <div class="exploration-explanation">
+      <p>
+        Initially, four of the ten chess players play tennis, so P(A | B) = 4/10 = 40%. At a
+        hypothetical overlap of six, P(A | B) = 6/10 = 60%. The numerator changes; the positive
+        denominator remains 10.
+      </p>
+      <p>
+        The four cells begin at 4 doing both, 6 chess-only, 12 tennis-only and 18 doing neither. At
+        overlap six, they become 6, 4, 10 and 20. Moving two tennis players into the chess group
+        means moving two tennis players out of the non-chess group, keeping both group totals fixed.
+      </p>
+      <p>
+        The whole-club tennis probability P(A) remains 16/40 = 40%. It answers a different question
+        from the tennis probability within chess players. At overlap 0 or 10, the latter becomes 0%
+        or 100%; its denominator never becomes zero. These probabilities are exact for the stated
+        counts.
+      </p>
+    </div>
+    <label for="club-overlap-reflection"
+      >Choose a slider setting and explain its conditional probability and four cell counts. Compare
+      the result with your prediction and explain why the whole-club tennis probability stays
+      fixed.</label
+    >
+    <textarea class="exploration-reflection" id="club-overlap-reflection" rows="3"></textarea>
+  </div>
+  <p>
+    The diagram shows hypothetical arrangements and leaves the original club example unchanged.
+    Reset diagram returns to four members doing both and keeps your notes. Your explanations are for
+    self-checking and are not scored.
+  </p>
+  <a data-source="s1" data-page="2">Underlying rule · page 2</a>
+  <p class="section-next">
+    The formula recovers the count ratio. Can you keep choosing the group as the worked steps are
+    removed?
+    <a href="#conditional-transfer">Complete the club calculation, then try a new setting.</a>
+  </p>
+</section>
+<section id="conditional-transfer" tabindex="-1">
+  <h2>Can you choose the group without worked steps?</h2>
+  <ul class="objectives">
+    <li>
+      Complete the club calculation and solve the garden problem by choosing the reference group.
+    </li>
+    <li>Explain why the ratio is defined and distinguish exact fractions from rounded decimals.</li>
+  </ul>
+  <p class="section-context">
+    The worked example connected words, counts, and symbols while keeping the chess group fixed. Use
+    that reasoning first with a completed counting step, then without intermediate steps in a new
+    setting.
+  </p>
   <form
     class="practice"
     id="club-completion"
+    data-concept="reference-denominator"
     data-kind="numeric"
     data-answer="0.6"
     data-tolerance="0"
@@ -270,6 +442,7 @@
   <form
     class="practice"
     id="garden-independent"
+    data-concept="reference-denominator"
     data-kind="numeric"
     data-answer="0.3333333333333333"
     data-tolerance="0.0005"
@@ -308,7 +481,12 @@
       <a data-source="s1" data-page="2">Underlying rule · page 2</a>
     </div>
   </form>
-  <form class="practice" id="garden-reflection" data-kind="reflection">
+  <form
+    class="practice"
+    id="garden-reflection"
+    data-concept="reference-denominator"
+    data-kind="reflection"
+  >
     <h3>Explain your choice</h3>
     <p>
       In one or two sentences, explain why you used your denominator in the garden problem, when the
@@ -333,4 +511,9 @@
       <a data-source="s1" data-page="2">Underlying rule · page 2</a>
     </div>
   </form>
+  <p class="section-next">
+    With a new condition, which group would become the denominator, and would its probability be
+    positive? Use those two checks before applying the rule again.
+    <a href="review.html#cumulative-review">Try an earlier idea in a new clinic setting.</a>
+  </p>
 </section>

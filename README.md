@@ -17,15 +17,21 @@ Courses support English–Chinese explanations and quizzes, a language switch fi
 
 Quizzes can give a specific hint for each wrong choice, keep that hint visible during a retry, and let students choose when to reveal the full explanation. Hints and answer states stay consistent when switching languages. See the [quiz authoring contract](lecture-to-course/references/authoring.md#hints-before-the-full-answer).
 
+An optional concept-review panel separates reading progress from recent practice evidence: independent or supported correct answers, hints, errors and solution viewing. It suggests when to return and links to authored questions, including changed scenarios in later lessons. History stays in the browser; the schedule is a simple heuristic, not a mastery score. See the [concept-review contract](lecture-to-course/references/authoring.md#concept-evidence-and-cumulative-review).
+
+Interactive diagrams can guide students through **predict → operate → explain**: write a prediction, change a meaningful quantity, then explain the result. The offline overlap diagram keeps group totals fixed and preserves notes when switching languages. See the [diagram authoring contract](lecture-to-course/references/authoring.md#predict--operate--explain-diagrams).
+
 ## What you get
 
 | While studying | In your course |
 |---|---|
 | “Am I missing a prerequisite?” | An optional short check points to the specific refresher you need, then returns you to the question. |
+| “How do these ideas connect?” | Question-led sections state their goals and build on earlier results; a short learning route links the steps when useful. |
 | “Why does this formula work?” | Plain-language meaning, concrete numbers and symbols connected step by step, with assumptions and approximations explained. |
 | “I understand this example. Can I do another?” | A worked example, a missing step to complete, then an independent problem with numeric entry or a short explanation and a reference solution. |
 | “What does this term mean?” | A searchable English–Chinese glossary with optional plain-language explanations, course examples and comparisons of easily confused concepts. |
 | “Where was this in the lecture?” | Links back to the original PDF's physical page numbers. |
+| “What should I revisit?” | A concept-review panel prioritizes errors and support use, suggests review dates, and links to another question when available. |
 | “Can I review this later?” | A local website you can reopen offline, with chapters, formulas and the source PDFs included. |
 
 <details>
@@ -117,13 +123,15 @@ Already built the demo? Reopen it with the last command. To rebuild, choose a ne
 
 **The lecture sets what to learn. The lesson makes the reasoning visible.**
 
-In the probability demo, students can check fractions and intersections first or skip directly to **100 students → 40 taking statistics → 24 taking both subjects**. The same survey then raises the next question at each step: how to express the group restriction as a formula, and whether knowing a student's subject changes a probability. A library exercise checks whether the reasoning transfers to another situation.
+In the probability demo, students can check fractions and intersections first or skip directly to **100 students → 40 taking statistics → 24 taking both subjects**. The same survey then raises the next question at each step: how to express the group restriction as a formula, and whether knowing a student's subject changes a probability. A library exercise checks whether the reasoning transfers to another situation; a new clinic question in the later lecture retrieves the earlier denominator decision.
 
 The skill follows the same principles across subjects:
 
 1. **Map concepts and prerequisites.** Keep lecture boundaries and source coverage. Check necessary prior knowledge briefly, with optional focused refreshers and a direct skip to the lesson.
 2. **Build understanding through connected problems.** Use a running case when related concepts suit it: each next idea addresses a problem the previous step leaves open. Keep core derivations, conditions and teacher examples visible.
 3. **Practice and trace back.** Reduce support from a worked example to a missing step and an independent variation. Let learners enter numbers or explain their reasoning, with reference solutions and retry. Cite the source concept, and label new examples and extra background clearly.
+4. **Return to earlier concepts.** Author later questions that change the scenario. Keep reading, hints, graded answers and self-assessment distinct, and suggest spaced review without calling the concept mastered.
+5. **Review the teaching and collect feedback.** Map each core objective to its explanation, worked example and assessment. Use a local trial record for the first unclear sentence, independent reasoning, a new problem and a delayed follow-up. Report technical checks, content review and observed learning separately.
 
 The lesson structure adapts to the material. There is no fixed chapter count or requirement to turn every idea into an animation.
 
@@ -134,7 +142,9 @@ The lesson structure adapts to the material. There is no fixed chapter count or 
 - **Source quality matters.** Scans and ambiguous formulas need visual review. Unclear regions are called out and excluded from quizzes.
 - **Offline after generation.** The output uses local HTML, CSS, JavaScript and native MathML. There is no backend or hosted math renderer.
 
-See the [teaching guide](lecture-to-course/references/teaching.md) and [validation results](VALIDATION.md) for the standards and current checks. Reading progress shows where you are in the lesson; it does not claim to measure mastery.
+See the [teaching guide](lecture-to-course/references/teaching.md) and [validation results](VALIDATION.md) for the standards and current checks. Reading progress shows where you are in the lesson; it does not claim to measure mastery. Review history is local to the browser and origin, with an in-page fallback when storage is unavailable. File storage is browser-dependent, and changing the launcher port may start a separate history. There is no account or server sync.
+
+The [demo teaching review](demo/teaching-review.md) records objective coverage and content gaps; its [student trial plan](demo/learner-trial.md) contains fresh tasks and facilitator rubrics. No student trial has been run, so these materials do not establish learning gains. Reusable [review and feedback templates](lecture-to-course/references/teaching-review.md) are included with the skill.
 
 ## Explore and contribute
 

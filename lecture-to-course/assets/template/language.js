@@ -19,7 +19,7 @@
   while ((node = walker.nextNode())) {
     if (
       node.parentElement.closest(
-        'script, style, textarea, [translate="no"], .language-toggle, .quiz-status, .practice-status, .reading, .glossary-item h3, .glossary-item > .zh',
+        'script, style, textarea, [translate="no"], .language-toggle, .quiz-status, .practice-status, .exploration-readout, .exploration-status, .reading, .glossary-item h3, .glossary-item > .zh',
       )
     )
       continue;

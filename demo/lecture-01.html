@@ -1,8 +1,36 @@
-<ul class="objectives">
-  <li>Explain how a question chooses the group used in its denominator.</li>
-  <li>Calculate conditional and joint probabilities, and say why they differ.</li>
-  <li>Apply the same reasoning to a new situation and check when the formula is defined.</li>
+<ul class="objectives" id="conditional-objectives">
+  <li id="objective-reference-group">
+    Explain how a question chooses the group used in its denominator.
+  </li>
+  <li id="objective-conditional-joint">
+    Calculate conditional and joint probabilities, and say why they differ.
+  </li>
+  <li id="objective-conditional-transfer">
+    Apply the same reasoning to a new situation and check when the formula is defined.
+  </li>
 </ul>
+<nav class="learning-route" aria-label="Learning route">
+  <p><strong>Learning route</strong></p>
+  <p>
+    Start with fractions and overlapping groups, then follow the survey from a question to a rule.
+  </p>
+  <ol>
+    <li>
+      <a href="#reference-group">Among which students?</a>
+      <p>Choose the eligible group so the denominator has a meaning.</p>
+    </li>
+    <li>
+      <a href="#calculation">How does the formula keep the same reference group?</a>
+      <p>Use that group to explain the ratio and when it is defined.</p>
+    </li>
+    <li>
+      <a href="#check-understanding">Can you choose the group in a new problem?</a>
+      <p>
+        Use the meaning of the ratio to solve another case and prepare the independence question.
+      </p>
+    </li>
+  </ol>
+</nav>
 <section class="precheck" id="prerequisites">
   <h2>Before you begin: two useful building blocks</h2>
   <p>This optional check covers fractions and overlapping groups. Review only what you need.</p>
@@ -93,9 +121,18 @@
     </div>
   </details>
 </section>
-<section id="reference-group">
+<section id="reference-group" tabindex="-1">
   <p class="eyebrow">01 / START WITH THE QUESTION</p>
   <h2>Among which students?</h2>
+  <ul class="objectives">
+    <li>
+      Identify the eligible group and explain why the survey question uses 40 as its denominator.
+    </li>
+  </ul>
+  <p class="section-context">
+    A fraction compares a part with a whole. Here, the question chooses that whole: use the fraction
+    and overlap ideas from the optional check to decide which students belong in it.
+  </p>
   <p>
     A survey records 100 students. Forty take statistics; 24 of those also take economics. The
     question is: <strong>among statistics students, what fraction take economics?</strong>
@@ -159,15 +196,25 @@
     </p>
     <a data-source="s1" data-page="2">Reasoning · p. 2</a>
   </details>
-  <p>
+  <p class="section-next">
     <strong>The survey case, next step:</strong> We can count 24 out of 40, but how could we express
     the same restriction for any pair of events, even when given probabilities instead of counts?
     <a href="#calculation">Conditional probability gives that counting idea a general formula.</a>
   </p>
 </section>
-<section id="calculation">
+<section id="calculation" tabindex="-1">
   <p class="eyebrow">02 / GIVE THE IDEA A FORMULA</p>
-  <h2>The formula keeps track of the group.</h2>
+  <h2>How does the formula keep the same reference group?</h2>
+  <ul class="objectives">
+    <li>
+      Derive 24/40 from probability shares, distinguish it from 24/100, and state when the ratio is
+      defined.
+    </li>
+  </ul>
+  <p class="section-context">
+    We have already chosen the 40 statistics students as the reference group. Keep that choice fixed
+    while replacing the counts with probability notation.
+  </p>
   <p>
     <button class="term" data-term="conditional">Conditional probability</button> measures the
     probability of an event within a specified event. Let E mean economics and S mean statistics.
@@ -278,17 +325,27 @@
     </p>
     <a data-source="s1" data-page="2">Positive-denominator condition · p. 2</a>
   </details>
-  <p>
+  <p class="section-next">
     <strong>The survey case, next step:</strong> The formula explains why 60% and 24% answer
     different questions about the same students. Can you now choose the group without being shown
     the steps?
     <a href="#check-understanding">Try the survey, then carry the reasoning to a new setting.</a>
   </p>
 </section>
-<section id="check-understanding">
+<section id="check-understanding" tabindex="-1">
   <p class="eyebrow">03 / APPLY THE IDEA</p>
-  <h2>Choose the group before the arithmetic.</h2>
-  <div class="quiz" id="survey-quiz" data-answer="1">
+  <h2>Can you choose the group in a new problem?</h2>
+  <ul class="objectives">
+    <li>
+      Solve the survey and library questions by naming the reference group before calculating.
+    </li>
+    <li>Explain why the ratio is defined and distinguish exact fractions from rounded decimals.</li>
+  </ul>
+  <p class="section-context">
+    The formula now has a meaning: the denominator selects the given group, and the numerator keeps
+    members in both events. Use those two decisions without copying the worked steps.
+  </p>
+  <div class="quiz" id="survey-quiz" data-concept="reference-denominator" data-answer="1">
     <h3>What is P(E | S) in this survey?</h3>
     <div class="options">
       <button>24 / 100 = 0.24</button><button>24 / 40 = 0.60</button
@@ -315,6 +372,7 @@
   <form
     class="practice"
     id="survey-completion"
+    data-concept="reference-denominator"
     data-kind="numeric"
     data-answer="0.4"
     data-tolerance="0"
@@ -358,6 +416,7 @@
   <form
     class="practice"
     id="library-independent"
+    data-concept="reference-denominator"
     data-kind="numeric"
     data-answer="0.3333333333333333"
     data-tolerance="0.0005"
@@ -396,7 +455,12 @@
       <a data-source="s1" data-page="2">Underlying rule · p. 2</a>
     </div>
   </form>
-  <form class="practice" id="library-reflection" data-kind="reflection">
+  <form
+    class="practice"
+    id="library-reflection"
+    data-concept="reference-denominator"
+    data-kind="reflection"
+  >
     <h3>Explain your choice</h3>
     <p>
       In one or two sentences, explain why you used your denominator in the new library problem,
@@ -422,7 +486,7 @@
     </div>
   </form>
   <p class="muted">Author-created exercise · A new situation using the same rule.</p>
-  <div class="quiz" id="transfer-quiz" data-answer="2">
+  <div class="quiz" id="transfer-quiz" data-concept="reference-denominator" data-answer="2">
     <h3>
       A library has 80 books. Twenty are borrowed, and 5 of the borrowed books are damaged. Among
       borrowed books, what fraction are damaged?
@@ -453,12 +517,6 @@
     Before moving on, explain the difference between “both” and “given,” state the denominator
     condition, and solve the library question without copying the survey's numbers.
   </p>
-  <p>
-    <strong>One question remains in our survey:</strong> Does knowing that a student takes
-    statistics change the probability that they take economics? Our 60% answer alone cannot tell us.
-    We need the overall economics share as a comparison. The next lecture supplies that count and
-    uses it to introduce independence.
-  </p>
   <details id="causal-background">
     <summary>Optional background: does “given” mean “caused by”?</summary>
     <div class="supplement">
@@ -470,4 +528,10 @@
       </p>
     </div>
   </details>
+  <p class="section-next">
+    <strong>One question remains in our survey:</strong> Does knowing that a student takes
+    statistics change the probability that they take economics? Our 60% answer alone cannot tell us.
+    We need the overall economics share as a comparison. The next lecture supplies that count and
+    uses it to introduce independence.
+  </p>
 </section>
