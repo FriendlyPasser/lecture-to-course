@@ -85,6 +85,7 @@ const courseText = (en) =>
     });
   });
   document.querySelectorAll('.quiz').forEach((quiz, quizIndex) => {
+    const evidence = window.courseReviewTracker?.start(quiz);
     const buttons = [...quiz.querySelectorAll('.options button')],
       answer = Number(quiz.dataset.answer),
       explanation = quiz.querySelector('.explanation'),
@@ -118,6 +119,7 @@ const courseText = (en) =>
       reveal.className = 'show-explanation';
       reveal.setAttribute('aria-controls', ensureId(explanation, 'explanation'));
       reveal.addEventListener('click', () => {
+        evidence?.reveal();
         revealed = true;
         render();
         status.focus();
@@ -194,6 +196,8 @@ const courseText = (en) =>
         lastHint = needsReview
           ? hints.find((hint) => Number(hint.dataset.option) === index) || null
           : null;
+        evidence?.answer(!needsReview);
+        if (lastHint) evidence?.hint();
         render();
         if (targeted) status.focus();
       }),
@@ -233,6 +237,14 @@ const courseText = (en) =>
     return element.id;
   }
   document.querySelectorAll('form.practice').forEach((practice) => {
+    const evidence = window.courseReviewTracker?.start(practice);
+    const practiceHints = [...practice.querySelectorAll('details.practice-hint')];
+    practiceHints.forEach((hint) => {
+      if (hint.open) evidence?.hint();
+      hint.addEventListener('toggle', () => {
+        if (hint.open) evidence?.hint();
+      });
+    });
     const response = practice.querySelector('.practice-response'),
       status = practice.querySelector('.practice-status'),
       solution = practice.querySelector('.practice-solution'),
@@ -275,7 +287,9 @@ const courseText = (en) =>
         return;
       }
       response.removeAttribute('aria-invalid');
+      if (practiceHints.some((hint) => hint.open)) evidence?.hint();
       if (reflection) {
+        evidence?.reflect();
         showSolution();
         setFeedback(
           'Compare your explanation with the key points. This is self-assessment, not an automatic score.',
@@ -288,6 +302,7 @@ const courseText = (en) =>
         const correct =
           Number.isFinite(difference) &&
           (difference <= tolerance || difference - tolerance <= roundoff);
+        evidence?.answer(correct);
         if (correct) showSolution();
         setFeedback(
           correct
@@ -298,6 +313,7 @@ const courseText = (en) =>
       }
     });
     reveal.addEventListener('click', () => {
+      evidence?.reveal();
       showSolution();
       response.removeAttribute('aria-invalid');
       setFeedback('Solution shown. Compare the reasoning, then try a fresh attempt.', 'review');

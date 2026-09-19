@@ -541,6 +541,54 @@ th {
 .empty {
   font-size: 14px;
 }
+.concept-review {
+  margin: 0 0 40px;
+  padding: 18px 24px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--green);
+  background: #f4f3eb;
+}
+.concept-review > summary {
+  color: var(--green);
+  font-weight: 650;
+  cursor: pointer;
+}
+.concept-review > p,
+.review-item p {
+  font-size: 14px;
+  margin: 8px 0;
+}
+.review-list {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+}
+.review-item {
+  border-top: 1px solid var(--line);
+  padding: 18px 0;
+  overflow-wrap: anywhere;
+}
+.review-item:last-child {
+  padding-bottom: 0;
+}
+.review-title {
+  margin: 0 0 10px;
+}
+.review-state {
+  font-weight: 650;
+}
+.review-evidence {
+  color: var(--muted);
+}
+.review-next {
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 6px;
+}
+.practice:focus-visible {
+  outline: 3px solid #2c715c;
+  outline-offset: 4px;
+}
 .skip {
   position: fixed;
   top: -100px;

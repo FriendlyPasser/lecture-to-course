@@ -1,6 +1,6 @@
 # Course authoring contract
 
-All file paths in course JSON are relative to that JSON file. Generated filenames use stable lowercase slugs. Source IDs and glossary IDs are unique. Physical PDF pages start at 1; printed slide labels can be mentioned separately.
+All file paths in course JSON are relative to that JSON file. Generated filenames use stable lowercase slugs. Source IDs, glossary IDs and optional concept IDs are unique within their respective lists. Physical PDF pages start at 1; printed slide labels can be mentioned separately.
 
 ```json
 {
@@ -121,11 +121,58 @@ For explanations, derivations or responses that need judgment, use reflection pr
 </form>
 ```
 
-A reflection uses one `textarea.practice-response` and must not have `data-answer` or `data-tolerance`. Submitting a nonempty response reveals the rubric; submitting an empty response asks the student to write an attempt. The reveal button is available immediately for either kind, including before an attempt, and moves focus to the solution. Reset clears the response and feedback, hides the solution, closes optional hints and returns focus to the response. Neither kind saves responses or scores, and a correct numeric response is feedback on one calculation, not a mastery claim. Reloading starts a fresh attempt. All behavior runs locally, with no grading service or custom author script.
+A reflection uses one `textarea.practice-response` and must not have `data-answer` or `data-tolerance`. Submitting a nonempty response reveals the rubric; submitting an empty response asks the student to write an attempt. The reveal button is available immediately for either kind, including before an attempt, and moves focus to the solution. Reset clears the response and feedback, hides the solution, closes optional hints and returns focus to the response. Typed response text and the visible form state are not saved; reloading starts a fresh form. If the activity has a concept mapping, its recent interaction evidence is saved separately for review as described below. A correct numeric response is feedback on one calculation, not a mastery claim. All behavior runs locally, with no grading service or custom author script.
 
 Give every practice form and response a unique lowercase slug ID. Each form requires exactly one response, one visible `label` whose `for` matches the response ID, and the three separate buttons with the exact classes and types shown above. Numeric responses require `type="text" inputmode="decimal"`; do not use `type="number"`, which cannot accept fractions or percentages. Include exactly one initially empty `p.practice-status` with `role="status"`, and one nonempty `div.practice-solution` with `hidden`. Keep the form, labels, response, status and buttons visible, enabled and outside hidden, inert or closed containers; the solution must become reachable when its `hidden` attribute is removed. An optional hint uses `details.practice-hint` with a descriptive summary. Do not nest practices, quizzes or other forms inside one another, override form submission attributes, or add extra input controls. Any additional button, such as a glossary term, needs `type="button"` so it cannot submit the practice. The builder rejects missing, duplicate or unusable required controls and malformed practice markup before producing the course.
 
 Translate practice questions, labels, hints, solutions, rubrics and custom button labels in `translations.zh`; common feedback is supplied by the template. Verify invalid input, wrong/correct numeric attempts, reflection self-assessment, reveal, reset, keyboard submission and language switching in the built course. Switching language must preserve the current response and revealed solution.
+
+## Concept evidence and cumulative review
+
+Concept review is optional. Declare the important assessable concepts in course JSON independently of the glossary, then map existing activities to them:
+
+```json
+{
+  "concepts": [
+    {"id": "reference-denominator", "title": "Choose the conditional reference group"}
+  ]
+}
+```
+
+A concept is a learning target, such as choosing a denominator; a glossary entry defines a term. They need not share IDs or have a one-to-one relationship. Add a reviewed `translations.zh` entry for every concept title in a bilingual course. Courses without `concepts` keep their existing behavior.
+
+Add `data-concept="reference-denominator"` and a stable `id` to each relevant `.quiz` or `form.practice`:
+
+```html
+<div class="quiz" id="library-denominator" data-concept="reference-denominator" data-answer="1">
+  <!-- Include the complete quiz controls, targeted hints and cited explanation shown above. -->
+</div>
+<form class="practice" id="clinic-review" data-concept="reference-denominator"
+      data-kind="numeric" data-answer="0.3" data-tolerance="0">
+  <!-- Include a complete new-scenario prompt, response, controls and cited solution. -->
+</form>
+```
+
+These abbreviated tags show the mapping only; they do not replace the required quiz or practice markup. Each activity maps to one declared concept. Every declared concept needs at least one graded multiple-choice or numeric activity. Reflection practices may map to the same concept to record self-assessment, but cannot supply graded evidence on their own. Put mappings on the activity, not a surrounding section, source link or glossary term. The builder discovers lecture/activity links and rejects unknown concepts, missing activity IDs and concepts without a graded activity. Keep course, lecture, concept and activity IDs stable across translations; assign a new activity ID when replacing a question with a materially different task so its evidence is not conflated with the old task.
+
+For a multi-lecture course, author at least one later-lecture activity that retrieves an earlier concept with changed numbers, context or reasoning. Keep the earlier concept ID and give the new activity a different ID. Write and verify the new question yourself: the template does not generate variants. Label new scenarios “Author-created cumulative review,” cite the earlier source rule in the solution and supply an optional targeted hint. Avoid repeating the exact question or placing its answer immediately before the review prompt. Record **concept → first practice → later changed-scenario practice → verified reasoning/source** in the coverage map. The demo's `clinic-review` revisits the reference group in the independence lecture; `bilingual-clinic-review` provides a separate translated review fragment.
+
+The generated review panel is available from the overview and every lecture. Its states describe observed activity interactions:
+
+| Evidence | Meaning and limits |
+|---|---|
+| Independently correct | A graded answer was correct without recorded help for that attempt or recent solution exposure. This is an operational label, not proof that the learner worked unaided. |
+| Used a hint | The learner opened a numeric hint or received a quiz hint after a wrong choice. |
+| Correct with support or repetition | A correct answer followed recorded help or a recent attempt on the same question. |
+| Still needs review | A graded answer was wrong. Reading or marking a chapter complete cannot replace this evidence. |
+| Viewed the solution | The learner chose to reveal the answer; this does not count as correct. |
+| Compared with key points | A reflection response was compared with its rubric; the prose is not automatically graded. |
+
+A correct answer's automatically displayed solution is also remembered, so resetting or reloading and repeating that question cannot immediately create another independent success. An unseen or different graded question is recommended ahead of repeating the last question when available. Recent errors or support use take priority over concepts that are not due. A first qualifying independent success recommends review the next day; further independent successes separated by at least 24 hours can extend the interval to 3, then 7 days. A later attempt on the same question needs a fresh page and no new help; leaving an already answered or helped form open overnight does not make it independent. Another question answered on the same day can add evidence without extending the interval again. Wrong answers, hints, voluntary solution views, supported repetitions and self-assessment restart the spacing sequence. These are transparent scheduling heuristics, not a validated memory model or an assessment of mastery.
+
+Evidence is recent local history, not a lifetime score. The template retains a bounded recent event history per activity; typed responses are not stored. It uses browser storage scoped to the course and browser origin. File-URL storage behavior differs by browser, and a launcher port change creates a different origin. Clearing browser data, changing browser/device or rebuilding to a different location may make history unavailable; it is not synced or backed up. If storage is blocked or full, the course still works with a temporary in-page history. The review feature needs no account, network or grading server. Reading progress stays separate, and hints or solutions outside mapped activities are not tracked.
+
+Verify independent and supported correct answers, wrong answers, hint use, voluntary reveal, reflection comparison and review links in the built course. Reload after solution exposure and confirm an immediate retry cannot advance the schedule. Check a different question and a later separated success, plus blocked storage and bilingual switching. Confirm every recommendation opens a real mapped activity and that no status or label calls the learner “mastered.”
 
 ## Optional prerequisite check
 

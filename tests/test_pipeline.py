@@ -101,6 +101,13 @@ class PipelineTests(unittest.TestCase):
             temporary_path = Path(temporary_dir)
             shutil.copytree(ROOT / "demo" / "input", temporary_path / "input")
             shutil.copy(ROOT / "demo" / "lecture-01.html", temporary_path / "lecture-01.html")
+            # Removing a lecture also removes concepts that only appear in that lecture.
+            fragment = (temporary_path / "lecture-01.html").read_text(encoding="utf-8")
+            course["concepts"] = [
+                concept
+                for concept in course.get("concepts", [])
+                if f'data-concept="{concept["id"]}"' in fragment
+            ]
             course_path = temporary_path / "course.json"
             course_path.write_text(json.dumps(course), encoding="utf-8")
             site_path = temporary_path / "site"

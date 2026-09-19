@@ -1,5 +1,37 @@
 # Validation
 
+## Concept evidence and spaced review — 2026-09-19
+
+- Issue #5 item 9 adds optional concept mappings and a review panel on the course
+  overview and each lecture. Reading position remains separate from recent quiz,
+  numeric-practice and reflection evidence; no state certifies mastery.
+- Independent correct answers, hints, supported repetitions, errors, voluntary
+  solution views and reflection comparisons have distinct records. Retry, reset,
+  reload and language switching do not erase recent help. A first independent
+  success suggests next-day review; successes at least 24 hours apart can extend
+  the suggestion to 3 and 7 days. Recent difficulty takes priority over overdue,
+  unattempted and upcoming concepts. These are scheduling heuristics.
+- Both demos now retrieve the earlier reference-group concept in a later clinic
+  scenario, with new numbers, optional support and a cited solution. The bilingual
+  review has its own fragment instead of reusing the first lesson. The verified
+  answer is 9/30 = 0.3; translations and mappings are recorded in the coverage map.
+- All 52 Python tests passed, including 12 new review-metadata checks and the
+  loopback launcher test. Both demos built and passed local resource/fragment
+  checks. Ruff lint/format and Prettier checks passed.
+- The existing English and bilingual offline browser suites passed. The dedicated
+  concept-review suite checks evidence distinctions, initially open hints, fresh
+  versus repeated attempts, file-navigation persistence, course isolation, controlled-clock
+  spacing, fresh/oldest recommendations, priority ordering, keyboard links to later
+  practice, all translated evidence states and malformed/denied/full storage.
+  Browser verification used installed Google Chrome on macOS, with network access
+  disabled; browser launch and the loopback test required sandbox escalation.
+- English review history and Chinese review panels were visually inspected, with
+  Chinese layout/overflow checks at 1024 and 1440 pixels. Storage failures leave a
+  clearly labeled in-page record and do not block learning. File storage remains
+  browser-dependent, origin-scoped and unsynced; typed answers are not persisted.
+- These are functional and synthetic-content checks, not student trials or
+  evidence that this schedule improves retention.
+
 ## Combined hints and practice regression — 2026-09-19
 
 - PR #8 incorporates main through `1d591dc`, preserving the targeted quiz hints,

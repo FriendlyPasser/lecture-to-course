@@ -29,8 +29,8 @@
     {
       "id": "review",
       "title": "Review",
-      "summary": "Try the same exercise again.",
-      "file": "bilingual-lecture.html"
+      "summary": "Apply an earlier idea in a new clinic scenario.",
+      "file": "bilingual-review.html"
     }
   ],
   "translations": {
@@ -40,7 +40,6 @@
       "An original bilingual example for offline interaction checks.": "用于离线交互验证的原创双语示例。",
       "Synthetic teaching example, not a teacher lecture.": "原创教学示例，并非教师课件。",
       "Choose the reference group.": "选择参照群体。",
-      "Try the same exercise again.": "再次尝试这道练习。",
       "Probability within the group specified by a condition.": "在给定条件所限定的群体中计算的概率。",
       "Conditioning changes the reference group": "条件改变了参照群体",
       "Start with everyone, then keep only the people who satisfy the condition.": "从所有人出发，再只保留满足条件的人。",
@@ -130,7 +129,27 @@
       "Adding the group sizes counts a person who does both more than once. Which people belong in both groups at the same time?": "把两个群体的人数相加，会重复计算两项活动都参加的人。哪些人同时属于这两个群体？",
       "You have counted everyone doing at least one activity. How is that different from belonging to both groups?": "你统计的是至少参加一项活动的所有人。这与同时属于两个群体有什么区别？",
       "Using the entire club includes members who do not meet the given condition. Which words in the question restrict the group?": "使用整个俱乐部的人数，会把不满足给定条件的成员也算进去。题目中的哪些词限定了参照群体？",
-      "Multiplying the counts does not measure a share. How could you compare the blue count with the total instead?": "把两个数量相乘，不能得到所占比例。你可以怎样比较蓝色计数片的数量与总数量？"
+      "Multiplying the counts does not measure a share. How could you compare the blue count with the total instead?": "把两个数量相乘，不能得到所占比例。你可以怎样比较蓝色计数片的数量与总数量？",
+      "Choose the conditional reference group": "选择条件概率的参照群体",
+      "Apply an earlier idea in a new clinic scenario.": "在新的诊所情境中运用先前学过的概念。",
+      "Return to an earlier idea in a new setting": "在新情境中回顾先前的概念",
+      "The earlier lesson used a club and a garden. Now choose the reference group for clinic appointments. Try to retrieve the method before reopening the earlier explanation; an optional hint and a complete solution remain available.": "前一课使用了俱乐部和花园的例子。这次请为诊所预约选择参照群体。在重新查看先前讲解之前，先尝试回忆方法；需要时仍可打开提示或完整解答。",
+      "Follow-up appointments among morning appointments": "上午预约中的复诊预约",
+      "Author-created cumulative review · New setting and numbers.": "自编累积复习题 · 使用新的情境与数字。",
+      "A clinic recorded 120 appointments. Thirty were in the morning, and 9 of those morning appointments were follow-ups. Select one morning appointment uniformly at random. What is the probability that it was a follow-up? Enter the exact probability.": "某诊所记录了 120 次预约，其中 30 次在上午，上午预约中有 9 次是复诊。从上午预约中等可能地随机选取一次，它是复诊预约的概率是多少？请输入精确概率。",
+      "Probability (no units; decimal, fraction, or percentage)": "概率（无单位；可用小数、分数或百分比）",
+      "Hint: identify the group selected from": "提示：明确抽取范围",
+      "Which appointments could be selected under the stated condition? Use the size of that eligible group, rather than every appointment recorded, as the denominator.": "按照题目给出的条件，哪些预约可能被抽中？分母应统计符合条件的群体，而不是记录中的全部预约。",
+      "Let F mean follow-up and M mean morning. There are 30 eligible morning appointments and 9 satisfy both conditions, so P(F | M) = (9/120)/(30/120) = 9/30 = 0.3 = 30%, exactly. P(M) = 30/120 is positive; uniform selection justifies the count ratio. No independence assumption is needed.": "用 F 表示复诊，M 表示上午。符合条件的上午预约有 30 次，其中 9 次同时满足上午和复诊两个条件，因此 P(F | M) = (9/120)/(30/120) = 9/30 = 0.3 = 30%，这是精确结果。P(M) = 30/120 为正；等可能抽取使次数之比能表示这里的概率。不需要独立性假设。",
+      "Dividing 9 by 120 gives the joint share of appointments that were both morning and follow-up. Dividing 30 by 120 gives the morning share. Neither gives the follow-up share within morning appointments.": "9 除以 120 得到全部预约中既在上午又是复诊的比例，30 除以 120 得到上午预约占全部预约的比例。两者都不是上午预约内部的复诊比例。",
+      "Earlier rule · Lecture 1, p. 2": "先前的规则 · 第 1 讲，第 2 页",
+      "Name the group before choosing a denominator in the next problem too. A correct calculation here is evidence from one activity, not proof that the concept is mastered.": "下一题也应先明确参照群体，再选择分母。这里计算正确只提供了一次练习的证据，并不能证明已经掌握这个概念。"
     }
-  }
+  },
+  "concepts": [
+    {
+      "id": "reference-denominator",
+      "title": "Choose the conditional reference group"
+    }
+  ]
 }
