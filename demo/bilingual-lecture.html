@@ -126,6 +126,57 @@
     Let C mean playing chess and T mean playing tennis. The club counts stay fixed: P(C) = 10/40 and
     P(T ∩ C) = 4/40.
   </p>
+  <div class="panel" id="club-formula-meaning">
+    <h3>Worked example: words → numbers → symbols</h3>
+    <p>
+      C and T name events, not counts. P gives a probability with no units; the event after |
+      selects the reference group.
+    </p>
+    <table>
+      <caption>
+        The same club in three forms
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Plain language</th>
+          <th scope="col">Numbers and their origin</th>
+          <th scope="col">Symbols</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">All club members</th>
+          <td>40: the club total</td>
+          <td>The whole reference set</td>
+        </tr>
+        <tr>
+          <th scope="row">Play both tennis and chess</th>
+          <td>4 of 40: the stated overlap</td>
+          <td>P(T ∩ C) = 4/40</td>
+        </tr>
+        <tr>
+          <th scope="row">Play chess</th>
+          <td>10 of 40: the eligible group</td>
+          <td>P(C) = 10/40</td>
+        </tr>
+        <tr>
+          <th scope="row">Play tennis among chess players</th>
+          <td>4 of 10: the same overlap within chess players</td>
+          <td>P(T | C) = 4/10</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Interpretation assumption: select a club member uniformly, giving each member the same chance.
+      Treat the stated counts as exact; they do not predict every future member.
+    </p>
+    <p>
+      The following equality is the definition of conditional probability when P(C) &gt; 0.
+      Cancelling 40 is exact algebra, and 4/10 = 0.4 = 40% is exact. No independence assumption or
+      rounding is needed.
+    </p>
+    <a data-source="s1" data-page="2">Underlying rule · page 2</a>
+  </div>
   <div class="equation">
     <p>P(T | C) = P(T ∩ C) / P(C) = (4/40) / (10/40) = 4/10 = 40%.</p>
     <p>
@@ -143,4 +194,116 @@
     source example and our new club case.
   </p>
   <a data-source="s1" data-page="2">Source calculation · page 2</a>
+</section>
+<section id="conditional-transfer">
+  <h2>From a worked example to your own solution</h2>
+  <form
+    class="practice"
+    id="club-completion"
+    data-kind="numeric"
+    data-answer="0.6"
+    data-tolerance="0"
+  >
+    <h3>Complete the next step: still within the club</h3>
+    <p class="muted">Author-created exercise · A variation on the club case.</p>
+    <p>
+      Among chess players, what is the probability of not playing tennis? The first step is
+      complete: 10 − 4 = 6 chess players do not play tennis. Choose the missing denominator in P(not
+      T | C) = 6 / ?, then enter the resulting probability.
+    </p>
+    <label for="club-completion-response"
+      >Probability (no units; enter a decimal, fraction, or percentage)</label
+    >
+    <input
+      class="practice-response"
+      id="club-completion-response"
+      type="text"
+      inputmode="decimal"
+    />
+    <details class="practice-hint">
+      <summary>Hint: name the eligible group</summary>
+      <p>
+        The event after the bar is still C. Keep all chess players in the denominator, including
+        those who play tennis.
+      </p>
+    </details>
+    <button class="practice-check" type="submit">Check answer</button>
+    <button class="practice-reveal" type="button">Show solution</button>
+    <button class="practice-reset" type="button">Start again</button>
+    <p class="practice-status" role="status"></p>
+    <div class="practice-solution" hidden>
+      <p>
+        Use the 10 chess players as the reference group. Of these, 6 do not play tennis, so 6/10 =
+        0.6 = 60%, exactly. The denominator is positive. Check: 0.6 + 0.4 = 1 because every chess
+        player either plays tennis or does not.
+      </p>
+      <a data-source="s1" data-page="2">Underlying rule · page 2</a>
+    </div>
+  </form>
+  <form
+    class="practice"
+    id="garden-independent"
+    data-kind="numeric"
+    data-answer="0.3333333333333333"
+    data-tolerance="0.0005"
+  >
+    <h3>Try independently: a new garden problem</h3>
+    <p class="muted">Author-created exercise · A new setting using the same rule.</p>
+    <p>
+      A garden has 45 plants. Of the 15 plants in shade, 5 are flowering. One shaded plant is
+      selected uniformly at random. What is the probability that it is flowering? Set up the
+      calculation yourself, then round the probability to three decimal places.
+    </p>
+    <label for="garden-independent-response"
+      >Probability (no units; decimal, fraction, or percentage; accepted within 0.0005)</label
+    >
+    <input
+      class="practice-response"
+      id="garden-independent-response"
+      type="text"
+      inputmode="decimal"
+    />
+    <button class="practice-check" type="submit">Check answer</button>
+    <button class="practice-reveal" type="button">Show solution</button>
+    <button class="practice-reset" type="button">Start again</button>
+    <p class="practice-status" role="status"></p>
+    <div class="practice-solution" hidden>
+      <p>
+        Let F mean flowering and H mean in shade. Restrict attention to 15 shaded plants; 5 are
+        flowering. P(F | H) = (5/45)/(15/45) = 5/15 = 1/3 ≈ 0.333. The fractions are exact; only the
+        final decimal is rounded. P(H) = 15/45 &gt; 0, and uniform selection makes the count ratio
+        appropriate.
+      </p>
+      <p>
+        Using 5/45 would give the joint share of shaded, flowering plants in the whole garden. Using
+        15/45 would give the shaded share. Neither answers the question within shaded plants.
+      </p>
+      <a data-source="s1" data-page="2">Underlying rule · page 2</a>
+    </div>
+  </form>
+  <form class="practice" id="garden-reflection" data-kind="reflection">
+    <h3>Explain your choice</h3>
+    <p>
+      In one or two sentences, explain why you used your denominator in the garden problem, when the
+      ratio is defined, and which part of your answer is approximate.
+    </p>
+    <label for="garden-reflection-response">Your explanation</label>
+    <textarea class="practice-response" id="garden-reflection-response" rows="3"></textarea>
+    <button class="practice-check" type="submit">Compare with key points</button>
+    <button class="practice-reveal" type="button">Show solution</button>
+    <button class="practice-reset" type="button">Start again</button>
+    <p class="practice-status" role="status"></p>
+    <div class="practice-solution" hidden>
+      <p>
+        Self-check: did you name shaded plants as the eligible group, explain that 15 is positive,
+        and distinguish exact 1/3 from rounded 0.333? The total of 45 cancels. Uniform selection is
+        an assumption about how the plant is chosen, not an algebraic conclusion.
+      </p>
+      <p>
+        This comparison is for your own evaluation; the website does not grade the meaning of your
+        explanation.
+      </p>
+      <a data-source="s1" data-page="2">Underlying rule · page 2</a>
+    </div>
+  </form>
 </section>

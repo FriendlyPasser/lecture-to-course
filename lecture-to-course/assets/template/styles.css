@@ -29,7 +29,8 @@ a {
   text-underline-offset: 4px;
 }
 button,
-input {
+input,
+textarea {
   font: inherit;
 }
 button {
@@ -39,6 +40,8 @@ button:focus-visible,
 a:focus-visible,
 summary:focus-visible,
 input:focus-visible,
+textarea:focus-visible,
+.practice-solution:focus-visible,
 .quiz:focus-visible {
   outline: 3px solid #2c715c;
   outline-offset: 4px;
@@ -280,14 +283,16 @@ details[open] summary {
   text-decoration: underline dotted;
   text-underline-offset: 4px;
 }
-.quiz {
+.quiz,
+.practice {
   margin: 26px 0;
   background: #fffdf8;
   border: 1px solid var(--line);
   padding: 26px;
   scroll-margin-top: 80px;
 }
-.quiz h3 {
+.quiz h3,
+.practice h3 {
   margin-top: 0;
 }
 .options {
@@ -318,6 +323,64 @@ details[open] summary {
 }
 .quiz-status {
   font-weight: 650;
+}
+.practice label {
+  display: block;
+  font-weight: 600;
+  margin: 18px 0 8px;
+}
+.practice-response {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  color: var(--ink);
+  background: white;
+  border: 1px solid var(--muted);
+  border-radius: 3px;
+}
+textarea.practice-response {
+  min-height: 110px;
+  resize: vertical;
+}
+.practice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.practice button {
+  padding: 8px 14px;
+  margin: 8px 6px 0 0;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
+}
+.practice button.practice-check {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+.practice button:hover {
+  border-color: var(--accent);
+}
+.practice-status {
+  font-weight: 600;
+}
+.practice[data-result='correct'] .practice-status {
+  color: var(--green);
+}
+.practice[data-result='invalid'] .practice-status,
+.practice[data-result='incorrect'] .practice-status {
+  color: var(--accent);
+}
+.practice-response[aria-invalid='true'] {
+  border-color: var(--accent);
+}
+.practice-solution {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  margin-top: 20px;
 }
 .explanation {
   border-top: 1px solid var(--line);

@@ -3,6 +3,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { checkPrerequisites } = require('./prerequisites.cjs');
+const { checkPractice } = require('./practice.cjs');
 const localDir = path.resolve(__dirname, '../.local');
 process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(localDir, 'cache/playwright');
 const { chromium } = require(path.join(localDir, 'node_modules/playwright'));
@@ -28,6 +29,10 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
       await checkPrerequisites(page, {
         bilingual: true,
         screenshot: path.join(reviewDir, `prerequisites-zh-${width}.png`),
+      });
+      await checkPractice(page, {
+        bilingual: true,
+        screenshot: path.join(reviewDir, `practice-zh-${width}.png`),
       });
       const toggle = page.locator('.language-toggle');
       await page.locator('#reference-answer summary').click();
@@ -77,13 +82,15 @@ const reviewDir = path.resolve(process.argv[3] ?? path.join(localDir, 'demo/bili
     });
     await page.goto(base + '?lang=en');
     await checkPrerequisites(page, { bilingual: true });
+    await checkPractice(page, { bilingual: true });
     await page.locator('.language-toggle').click();
     await page.locator('a.next').click();
     assert.equal(await page.locator('html').getAttribute('lang'), 'zh-Hans');
     assert.deepEqual(errors, []);
     console.log(
       'PASS bilingual offline switching, optional checks, refresher/return focus, fixed button, ' +
-        'quiz/detail state, glossary, both widths, navigation, reload and blocked storage',
+        'typed answers, practice feedback/hint/solution state, self-assessment, quiz/detail state, ' +
+        'glossary, both widths, navigation, reload and blocked storage',
     );
   } finally {
     await browser.close();

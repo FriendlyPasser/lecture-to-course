@@ -162,6 +162,58 @@
     probability cannot be used as this formula's denominator. The survey has P(S) = 40/100, so the
     condition is satisfied.
   </p>
+  <div class="panel" id="survey-formula-meaning">
+    <h3>Worked example: words → numbers → symbols</h3>
+    <p>
+      Read each row across to connect the question to the formula. E and S name events, not counts;
+      P gives a probability with no units.
+    </p>
+    <table>
+      <caption>
+        The same survey in three forms
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Plain language</th>
+          <th scope="col">Numbers and their origin</th>
+          <th scope="col">Symbols</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">All surveyed students</th>
+          <td>100: the survey total</td>
+          <td>The whole reference set</td>
+        </tr>
+        <tr>
+          <th scope="row">Take both economics and statistics</th>
+          <td>24 of 100: the overlap shown in the survey</td>
+          <td>P(E ∩ S) = 24/100</td>
+        </tr>
+        <tr>
+          <th scope="row">Take statistics</th>
+          <td>40 of 100: the eligible group</td>
+          <td>P(S) = 40/100</td>
+        </tr>
+        <tr>
+          <th scope="row">Take economics among statistics students</th>
+          <td>24 of 40: keep the same overlap, change the reference group</td>
+          <td>P(E | S) = 24/40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Interpretation assumption: choose one of these 100 surveyed students uniformly, so every
+      student has the same chance of selection. Treat the recorded counts as exact for this
+      calculation; they do not establish the probability for every future student.
+    </p>
+    <p>
+      The equality below is the definition of conditional probability, valid when P(S) &gt; 0.
+      Cancelling the common total is exact algebra, and 24/40 = 0.60 = 60% is exact here. No
+      independence assumption or rounding is used.
+    </p>
+    <a data-source="s1" data-page="2">Source formula and condition · p. 2</a>
+  </div>
   <div class="equation">
     <math display="block" aria-label="P of E given S equals P of E intersect S divided by P of S">
       <mi>P</mi><mo>(</mo><mi>E</mi><mo>|</mo><mi>S</mi><mo>)</mo><mo>=</mo>
@@ -235,6 +287,115 @@
     </div>
     <button class="retry" hidden>Try again</button>
   </div>
+  <form
+    class="practice"
+    id="survey-completion"
+    data-kind="numeric"
+    data-answer="0.4"
+    data-tolerance="0"
+  >
+    <h3>Complete the next step: still within the survey</h3>
+    <p class="muted">Author-created exercise · A variation on the source survey.</p>
+    <p>
+      Among statistics students, what is the probability of not taking economics? Start with the
+      completed count: 40 − 24 = 16 statistics students do not take economics. Choose the missing
+      denominator in P(not E | S) = 16 / ?, then enter the resulting probability.
+    </p>
+    <label for="survey-completion-response"
+      >Probability (no units; enter a decimal, fraction, or percentage)</label
+    >
+    <input
+      class="practice-response"
+      id="survey-completion-response"
+      type="text"
+      inputmode="decimal"
+    />
+    <details class="practice-hint">
+      <summary>Hint: name the eligible group</summary>
+      <p>
+        The event after the bar is still S. Keep all statistics students in the denominator,
+        including those who take economics.
+      </p>
+    </details>
+    <button class="practice-check" type="submit">Check answer</button>
+    <button class="practice-reveal" type="button">Show solution</button>
+    <button class="practice-reset" type="button">Start again</button>
+    <p class="practice-status" role="status"></p>
+    <div class="practice-solution" hidden>
+      <p>
+        The reference group is the 40 statistics students, not the 100 students in the survey. Its
+        16 non-economics students give 16/40 = 0.4 = 40%, exactly. The denominator is positive. As a
+        check, 0.4 + 0.6 = 1 because the two groups partition S.
+      </p>
+      <a data-source="s1" data-page="2">Underlying rule · p. 2</a>
+    </div>
+  </form>
+  <form
+    class="practice"
+    id="library-independent"
+    data-kind="numeric"
+    data-answer="0.3333333333333333"
+    data-tolerance="0.0005"
+  >
+    <h3>Try independently: choose the group in a new setting</h3>
+    <p class="muted">Author-created exercise · Another library, with new counts.</p>
+    <p>
+      A different library has 90 books. Of 21 borrowed books, 7 need repair. One borrowed book is
+      selected uniformly at random. What is the probability that it needs repair? Set up the
+      calculation yourself, then round the probability to three decimal places.
+    </p>
+    <label for="library-independent-response"
+      >Probability (no units; decimal, fraction, or percentage; accepted within 0.0005)</label
+    >
+    <input
+      class="practice-response"
+      id="library-independent-response"
+      type="text"
+      inputmode="decimal"
+    />
+    <button class="practice-check" type="submit">Check answer</button>
+    <button class="practice-reveal" type="button">Show solution</button>
+    <button class="practice-reset" type="button">Start again</button>
+    <p class="practice-status" role="status"></p>
+    <div class="practice-solution" hidden>
+      <p>
+        Let R mean needing repair and B mean borrowed. We restrict attention to 21 borrowed books,
+        of which 7 need repair: P(R | B) = (7/90)/(21/90) = 7/21 = 1/3 ≈ 0.333. The fractions are
+        exact; only the final decimal is rounded. P(B) = 21/90 &gt; 0, and uniform selection makes
+        the count ratio appropriate.
+      </p>
+      <p>
+        Using 7/90 would answer the joint question about all books. Using 21/90 would measure the
+        borrowed share. Neither answers the question within borrowed books.
+      </p>
+      <a data-source="s1" data-page="2">Underlying rule · p. 2</a>
+    </div>
+  </form>
+  <form class="practice" id="library-reflection" data-kind="reflection">
+    <h3>Explain your choice</h3>
+    <p>
+      In one or two sentences, explain why you used your denominator in the new library problem,
+      when the ratio is defined, and which part of your answer is approximate.
+    </p>
+    <label for="library-reflection-response">Your explanation</label>
+    <textarea class="practice-response" id="library-reflection-response" rows="3"></textarea>
+    <button class="practice-check" type="submit">Compare with key points</button>
+    <button class="practice-reveal" type="button">Show solution</button>
+    <button class="practice-reset" type="button">Start again</button>
+    <p class="practice-status" role="status"></p>
+    <div class="practice-solution" hidden>
+      <p>
+        Self-check: did you name borrowed books as the eligible group, explain that 21 is positive,
+        and distinguish exact 1/3 from rounded 0.333? The total of 90 cancels. Uniform selection is
+        an assumption about how the book is chosen, not an algebraic conclusion.
+      </p>
+      <p>
+        This comparison is for your own evaluation; the website does not grade the meaning of your
+        explanation.
+      </p>
+      <a data-source="s1" data-page="2">Underlying rule · p. 2</a>
+    </div>
+  </form>
   <p class="muted">Author-created exercise · A new situation using the same rule.</p>
   <div class="quiz" id="transfer-quiz" data-answer="2">
     <h3>

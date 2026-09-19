@@ -144,6 +144,121 @@ const courseText = (en) =>
       buttons[0].focus();
     });
   });
+  // Parse only written numbers, fractions and percentages; never evaluate expressions.
+  function numericResponse(value) {
+    const decimal = '[+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?';
+    const match = value
+      .trim()
+      .match(new RegExp(`^(${decimal})(?:\\s*/\\s*(${decimal}))?\\s*(%)?$`));
+    if (!match) return null;
+    const numerator = Number(match[1]);
+    const denominator = match[2] === undefined ? 1 : Number(match[2]);
+    if (!Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator === 0)
+      return null;
+    const result = numerator / denominator / (match[3] ? 100 : 1);
+    return Number.isFinite(result) ? result : null;
+  }
+  let practiceId = 0;
+  function ensurePracticeId(element) {
+    if (!element.id) {
+      let id;
+      do id = 'practice-feedback-' + ++practiceId;
+      while (document.getElementById(id));
+      element.id = id;
+    }
+    return element.id;
+  }
+  document.querySelectorAll('form.practice').forEach((practice) => {
+    const response = practice.querySelector('.practice-response'),
+      status = practice.querySelector('.practice-status'),
+      solution = practice.querySelector('.practice-solution'),
+      reveal = practice.querySelector('.practice-reveal');
+    const reflection = practice.dataset.kind === 'reflection';
+    const expected = Number(practice.dataset.answer);
+    const tolerance = Number(practice.dataset.tolerance ?? '0.000001');
+    let feedback = '';
+    practice.noValidate = true;
+    response.setAttribute(
+      'aria-describedby',
+      [response.getAttribute('aria-describedby'), ensurePracticeId(status)]
+        .filter(Boolean)
+        .join(' '),
+    );
+    reveal.setAttribute('aria-controls', ensurePracticeId(solution));
+    reveal.setAttribute('aria-expanded', 'false');
+    function setFeedback(message, result) {
+      feedback = message;
+      status.textContent = courseText(message);
+      if (result) practice.dataset.result = result;
+      else delete practice.dataset.result;
+    }
+    function showSolution() {
+      solution.hidden = false;
+      reveal.setAttribute('aria-expanded', 'true');
+    }
+    practice.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const value = reflection ? response.value.trim() : numericResponse(response.value);
+      if (value === null || value === '') {
+        setFeedback(
+          reflection
+            ? 'Write a short explanation before comparing with the key points.'
+            : 'Enter a finite number, fraction, or percentage (for example, 0.4, 2/5, or 40%).',
+          'invalid',
+        );
+        response.setAttribute('aria-invalid', 'true');
+        response.focus();
+        return;
+      }
+      response.removeAttribute('aria-invalid');
+      if (reflection) {
+        showSolution();
+        setFeedback(
+          'Compare your explanation with the key points. This is self-assessment, not an automatic score.',
+          'self-assessment',
+        );
+      } else {
+        // Allow floating-point roundoff at an authored absolute-tolerance boundary.
+        const roundoff = 4 * Number.EPSILON * Math.max(Math.abs(value), Math.abs(expected));
+        const difference = Math.abs(value - expected);
+        const correct =
+          Number.isFinite(difference) &&
+          (difference <= tolerance || difference - tolerance <= roundoff);
+        if (correct) showSolution();
+        setFeedback(
+          correct
+            ? 'Correct — compare your steps with the solution.'
+            : 'Not yet. Check your steps and try again, or show the solution.',
+          correct ? 'correct' : 'incorrect',
+        );
+      }
+    });
+    reveal.addEventListener('click', () => {
+      showSolution();
+      response.removeAttribute('aria-invalid');
+      setFeedback('Solution shown. Compare the reasoning, then try a fresh attempt.', 'review');
+      focusAt(solution, 'nearest');
+    });
+    practice.querySelector('.practice-reset').addEventListener('click', () => {
+      response.value = '';
+      response.removeAttribute('aria-invalid');
+      solution.hidden = true;
+      reveal.setAttribute('aria-expanded', 'false');
+      practice.querySelectorAll('details.practice-hint').forEach((hint) => (hint.open = false));
+      setFeedback('');
+      response.focus();
+    });
+    response.addEventListener('input', () => {
+      response.removeAttribute('aria-invalid');
+      setFeedback(
+        solution.hidden ? '' : 'Solution shown. Compare the reasoning, then try a fresh attempt.',
+        solution.hidden ? undefined : 'review',
+      );
+    });
+    addEventListener('course-language-change', () => {
+      status.textContent = courseText(feedback);
+    });
+  });
   const progress = document.querySelector('progress'),
     label = document.querySelector('.reading');
   if (progress) {

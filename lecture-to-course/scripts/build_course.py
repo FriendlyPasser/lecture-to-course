@@ -4,11 +4,30 @@
 import argparse
 import html
 import json
+import math
 import re
 import shutil
 from html.parser import HTMLParser
 from pathlib import Path
 from string import Template
+
+VOID_TAGS = {
+    "area",
+    "base",
+    "br",
+    "col",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr",
+}
+NUMBER = re.compile(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?")
 
 
 def esc(x):
@@ -66,7 +85,6 @@ class Fragment(HTMLParser):
             "embed",
             "link",
             "base",
-            "form",
             "meta",
         ):
             raise ValueError(f"Forbidden fragment tag: {tag}")
@@ -75,26 +93,32 @@ class Fragment(HTMLParser):
                 raise ValueError(f"Forbidden attribute: {k}")
             if k in ("src", "href", "xlink:href", "poster") and v and not v.startswith("#"):
                 local(v)
-        classes = a.get("class", "").split()
-        node = {"tag": tag, "attrs": a, "classes": classes, "ancestors": tuple(self.element_nodes)}
+        classes = (a.get("class") or "").split()
+        if (
+            "practice" in classes
+            or any("practice" in parent["classes"] for parent in self.element_nodes)
+        ) and len(a) != len(attrs):
+            raise ValueError("Practice markup cannot contain duplicate attributes")
+        if tag == "form" and "practice" not in classes:
+            raise ValueError("Only practice forms are supported")
+        if "practice" in classes and tag != "form":
+            raise ValueError("Practice must be a form")
+        if ("practice" in classes or "quiz" in classes) and any(
+            "practice" in parent["classes"] or "quiz" in parent["classes"]
+            for parent in self.element_nodes
+        ):
+            raise ValueError("Nested practices and quizzes unsupported")
+        node = {
+            "tag": tag,
+            "attrs": a,
+            "classes": classes,
+            "ancestors": tuple(self.element_nodes),
+            "text": [],
+            "closed": tag in VOID_TAGS,
+        }
         self.nodes.append(node)
         # Container depths keep nested option markup from closing the quiz early.
-        if tag not in (
-            "area",
-            "base",
-            "br",
-            "col",
-            "embed",
-            "hr",
-            "img",
-            "input",
-            "link",
-            "meta",
-            "param",
-            "source",
-            "track",
-            "wbr",
-        ):
+        if tag not in VOID_TAGS:
             self.elements.append(tag)
             self.element_nodes.append(node)
         if "id" in a:
@@ -153,7 +177,16 @@ class Fragment(HTMLParser):
             + ">"
         )
 
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag not in VOID_TAGS:
+            self.handle_endtag(tag)
+
     def handle_endtag(self, tag):
+        if any("practice" in node["classes"] for node in self.element_nodes) and (
+            not self.elements or self.elements[-1] != tag
+        ):
+            raise ValueError("Practice markup must have correctly nested closing tags")
         if tag == "h2" and self.heading:
             self.chapters.append((self.section, "".join(self.headingtext)))
             self.heading = False
@@ -161,6 +194,7 @@ class Fragment(HTMLParser):
             self.section = None
         if tag in self.elements:
             index = len(self.elements) - 1 - self.elements[::-1].index(tag)
+            self.element_nodes[index]["closed"] = True
             del self.elements[index:]
             del self.element_nodes[index:]
             if self.options_depth is not None and len(self.elements) < self.options_depth:
@@ -172,21 +206,42 @@ class Fragment(HTMLParser):
 
     def handle_data(self, data):
         self.parts.append(data)
+        self.record_text(data)
         if self.heading:
             self.headingtext.append(data)
 
     def handle_entityref(self, name):
         self.parts.append("&" + name + ";")
+        self.record_text(html.unescape("&" + name + ";"))
         if self.heading:
             self.headingtext.append(html.unescape("&" + name + ";"))
 
     def handle_charref(self, name):
         self.parts.append("&#" + name + ";")
+        self.record_text(html.unescape("&#" + name + ";"))
         if self.heading:
             self.headingtext.append(html.unescape("&#" + name + ";"))
 
     def handle_comment(self, data):
         pass
+
+    def record_text(self, text):
+        if self.element_nodes:
+            self.element_nodes[-1]["text"].append(text)
+
+    def descendants(self, node):
+        return [
+            child
+            for child in self.nodes
+            if any(ancestor is node for ancestor in child["ancestors"])
+        ]
+
+    def text_content(self, node, visible=False):
+        return "".join(
+            "".join(child["text"])
+            for child in [node, *self.descendants(node)]
+            if not visible or not self.blocked((*child["ancestors"], child))
+        ).strip()
 
     @staticmethod
     def blocked(nodes, collapsible=False):
@@ -257,6 +312,141 @@ class Fragment(HTMLParser):
                 if self.blocked((*target["ancestors"], target)):
                     raise ValueError(f"Precheck skip target is unreachable: {href}")
 
+    def validate_practices(self):
+        for practice in (node for node in self.nodes if "practice" in node["classes"]):
+            attrs = practice["attrs"]
+            name = attrs.get("id")
+            if not name or self.blocked((*practice["ancestors"], practice)):
+                raise ValueError("Practice needs a unique id and must be reachable")
+            kind = attrs.get("data-kind")
+            if kind not in ("numeric", "reflection"):
+                raise ValueError(f"Practice needs numeric or reflection data-kind: {name}")
+            if kind == "numeric":
+                for key, default in (("data-answer", ""), ("data-tolerance", "1e-6")):
+                    value = attrs.get(key, default)
+                    if (
+                        not isinstance(value, str)
+                        or not NUMBER.fullmatch(value.strip())
+                        or not math.isfinite(float(value))
+                        or (key == "data-tolerance" and float(value) < 0)
+                    ):
+                        raise ValueError(f"Practice has invalid {key}: {name}")
+            elif "data-answer" in attrs or "data-tolerance" in attrs:
+                raise ValueError(f"Reflection practice cannot have numeric answer metadata: {name}")
+
+            children = self.descendants(practice)
+            for node in [practice, *children]:
+                if not node["closed"]:
+                    raise ValueError(f"Practice markup has an unclosed element: {name}")
+                submission_attrs = (
+                    {"action", "method", "target", "enctype"}
+                    if node["tag"] == "form"
+                    else {
+                        "form",
+                        "formaction",
+                        "formmethod",
+                        "formtarget",
+                        "formenctype",
+                        "formnovalidate",
+                    }
+                    if node["tag"] in ("input", "textarea", "button", "select")
+                    else set()
+                )
+                if submission_attrs & node["attrs"].keys():
+                    raise ValueError(f"Practice cannot override local form behavior: {name}")
+
+            def component(classname, tag):
+                matches = [node for node in children if classname in node["classes"]]
+                if len(matches) != 1 or matches[0]["tag"] != tag:
+                    raise ValueError(f"Practice needs one {tag}.{classname}: {name}")
+                return matches[0]
+
+            def reachable(node):
+                return not (
+                    self.blocked((*node["ancestors"], node))
+                    or "disabled" in node["attrs"]
+                    or (node["attrs"].get("aria-disabled") or "").lower() == "true"
+                    or re.fullmatch(
+                        r"-0*[1-9][0-9]*", (node["attrs"].get("tabindex") or "").strip()
+                    )
+                    or any(
+                        ancestor["tag"] == "fieldset" and "disabled" in ancestor["attrs"]
+                        for ancestor in node["ancestors"]
+                    )
+                )
+
+            response = component("practice-response", "input" if kind == "numeric" else "textarea")
+            if (
+                not response["attrs"].get("id")
+                or not reachable(response)
+                or "readonly" in response["attrs"]
+                or (
+                    kind == "numeric"
+                    and (
+                        (response["attrs"].get("type") or "").lower() != "text"
+                        or (response["attrs"].get("inputmode") or "").lower() != "decimal"
+                    )
+                )
+            ):
+                raise ValueError(f"Practice needs an enabled, visible response with an id: {name}")
+            labels = [
+                node
+                for node in children
+                if node["tag"] == "label"
+                and node["attrs"].get("for") == response["attrs"]["id"]
+                and reachable(node)
+                and self.text_content(node, visible=True)
+            ]
+            if not labels:
+                raise ValueError(f"Practice response needs a visible associated label: {name}")
+            buttons = []
+            for classname, button_type in (
+                ("practice-check", "submit"),
+                ("practice-reveal", "button"),
+                ("practice-reset", "button"),
+            ):
+                button = component(classname, "button")
+                if (
+                    (button["attrs"].get("type") or "").lower() != button_type
+                    or not reachable(button)
+                    or not self.text_content(button, visible=True)
+                ):
+                    raise ValueError(f"Practice needs a visible {button_type} {classname}: {name}")
+                buttons.append(button)
+            if len({id(node) for node in [response, *buttons]}) != 4:
+                raise ValueError(f"Practice controls must be separate elements: {name}")
+            if any(
+                (
+                    node["tag"] in ("input", "textarea", "select")
+                    or (
+                        node["tag"] == "button"
+                        and (node["attrs"].get("type") or "").lower() != "button"
+                    )
+                )
+                and not any(node is control for control in [response, *buttons])
+                for node in children
+            ):
+                raise ValueError(f"Practice has unsupported extra form controls: {name}")
+            status = component("practice-status", "p")
+            if (
+                status["attrs"].get("role") != "status"
+                or not reachable(status)
+                or self.text_content(status)
+            ):
+                raise ValueError(f"Practice needs an initially empty, visible status: {name}")
+            solution = component("practice-solution", "div")
+            if (
+                "hidden" not in solution["attrs"]
+                or "inert" in solution["attrs"]
+                or (solution["attrs"].get("aria-hidden") or "").lower() == "true"
+                or self.blocked(solution["ancestors"])
+                or not self.text_content(solution)
+            ):
+                raise ValueError(f"Practice needs an initially hidden, reachable solution: {name}")
+            for hint in (node for node in children if "practice-hint" in node["classes"]):
+                if hint["tag"] != "details":
+                    raise ValueError(f"Practice hint must be details: {name}")
+
     def finish(self):
         if not self.chapters:
             raise ValueError("Lecture must contain a section with h2")
@@ -266,6 +456,7 @@ class Fragment(HTMLParser):
             if not {"explanation", "retry", "quiz-status"}.issubset(q["required"]):
                 raise ValueError("Quiz missing feedback, explanation, or retry")
         self.validate_prerequisites()
+        self.validate_practices()
         return "".join(self.parts)
 
 

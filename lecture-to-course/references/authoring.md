@@ -55,6 +55,61 @@ The builder escapes metadata and validates IDs, source pages, citations, term re
 
 Visual direction: warm ivory paper, charcoal type, burnt-orange accent, serif chapter titles, readable system body font, a narrow left navigation rail and a visible right glossary tab. Desktop only; do not add mobile breakpoints or a backend. Use the site's `panel`, `split`, `stat`, `flow`, `muted` and `eyebrow` classes for restrained diagrams and summaries.
 
+## Typed practice
+
+Use `.practice` when a student should produce an answer instead of selecting an option. State the task, units, rounding rule and any assumptions before the response field. Include full reasoning in the solution, with citations for the underlying source concept. Label new scenarios “Author-created exercise”. A hint is optional and opens only when the student chooses it; a wrong attempt never locks the lesson or automatically opens a hint or solution.
+
+Numeric practice checks a single value against an absolute tolerance:
+
+```html
+<form class="practice" id="blue-share" data-kind="numeric" data-answer="0.4" data-tolerance="0.001">
+  <h3>What fraction of the counters is blue?</h3>
+  <p>Author-created exercise · Four of ten counters are blue. Give a proportion, fraction or percentage.</p>
+  <label for="blue-share-response">Your answer</label>
+  <input class="practice-response" id="blue-share-response" type="text" inputmode="decimal">
+  <button class="practice-check" type="submit">Check answer</button>
+  <button class="practice-reveal" type="button">Show solution</button>
+  <button class="practice-reset" type="button">Start again</button>
+  <p class="practice-status" role="status"></p>
+  <details class="practice-hint">
+    <summary>Hint</summary>
+    <p>Divide the number of blue counters by the total number of counters.</p>
+  </details>
+  <div class="practice-solution" hidden>
+    <p>The whole group contains ten counters. Four are blue, so the proportion is 4 / 10 = 0.4 = 40%.
+      <a data-source="s1" data-page="2">Source concept · p. 2</a></p>
+  </div>
+</form>
+```
+
+`data-answer` is the expected numeric value. `data-tolerance` is a nonnegative absolute error bound and defaults to `0.000001` when omitted; zero requires an exact numeric match apart from floating-point roundoff. Both attributes must contain finite decimal numbers; scientific notation is supported. Write `0.4`, not `40%` or `2/5`, in `data-answer`. Student responses accept finite decimals, simple fractions with a nonzero denominator, and a trailing `%` after either form; for example, `0.4`, `2/5` and `40%` represent the same value. Do not use expression evaluation, variable names or units in the response field. Empty or invalid input receives guidance to enter a valid number. A valid attempt receives correct/try-again feedback; a correct answer also reveals the solution. The student can edit and resubmit. Select a tolerance that matches the question's rounding instructions.
+
+For explanations, derivations or responses that need judgment, use reflection practice. It collects the student's attempt and reveals a reference answer or rubric for self-assessment; it never labels the response correct or incorrect:
+
+```html
+<form class="practice" id="denominator-reason" data-kind="reflection">
+  <h3>Explain your denominator</h3>
+  <p>Author-created exercise · Explain why the denominator changes when we condition on a group.</p>
+  <label for="denominator-response">Your explanation</label>
+  <textarea class="practice-response" id="denominator-response" rows="4"></textarea>
+  <button class="practice-check" type="submit">Compare with key points</button>
+  <button class="practice-reveal" type="button">Show solution</button>
+  <button class="practice-reset" type="button">Start again</button>
+  <p class="practice-status" role="status"></p>
+  <div class="practice-solution" hidden>
+    <p>Self-assessment: did you identify the conditioned group, explain that it becomes the reference group,
+      and use only its members in the denominator? Compare each point with your own explanation.
+      <a data-source="s1" data-page="2">Source concept · p. 2</a></p>
+  </div>
+</form>
+```
+
+A reflection uses one `textarea.practice-response` and must not have `data-answer` or `data-tolerance`. Submitting a nonempty response reveals the rubric; submitting an empty response asks the student to write an attempt. The reveal button is available immediately for either kind, including before an attempt, and moves focus to the solution. Reset clears the response and feedback, hides the solution, closes optional hints and returns focus to the response. Neither kind saves responses or scores, and a correct numeric response is feedback on one calculation, not a mastery claim. Reloading starts a fresh attempt. All behavior runs locally, with no grading service or custom author script.
+
+Give every practice form and response a unique lowercase slug ID. Each form requires exactly one response, one visible `label` whose `for` matches the response ID, and the three separate buttons with the exact classes and types shown above. Numeric responses require `type="text" inputmode="decimal"`; do not use `type="number"`, which cannot accept fractions or percentages. Include exactly one initially empty `p.practice-status` with `role="status"`, and one nonempty `div.practice-solution` with `hidden`. Keep the form, labels, response, status and buttons visible, enabled and outside hidden, inert or closed containers; the solution must become reachable when its `hidden` attribute is removed. An optional hint uses `details.practice-hint` with a descriptive summary. Do not nest practices, quizzes or other forms inside one another, override form submission attributes, or add extra input controls. Any additional button, such as a glossary term, needs `type="button"` so it cannot submit the practice. The builder rejects missing, duplicate or unusable required controls and malformed practice markup before producing the course.
+
+Translate practice questions, labels, hints, solutions, rubrics and custom button labels in `translations.zh`; common feedback is supplied by the template. Verify invalid input, wrong/correct numeric attempts, reflection self-assessment, reveal, reset, keyboard submission and language switching in the built course. Switching language must preserve the current response and revealed solution.
+
 ## Optional prerequisite check
 
 Place a `<section class="precheck" id="prerequisites">` with an h2 before the first main section when the course needs prior knowledge. Use ordinary quizzes with unique IDs. Add `data-prerequisite="fraction-refresher"` to map a diagnostic quiz to a same-lecture `<details class="prerequisite" id="fraction-refresher">`; each target needs a summary and a hidden return button inside its supplementary explanation:

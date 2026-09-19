@@ -20,8 +20,8 @@ Courses support English–Chinese explanations and quizzes, a language switch fi
 | While studying | In your course |
 |---|---|
 | “Am I missing a prerequisite?” | An optional short check points to the specific refresher you need, then returns you to the question. |
-| “Why does this formula work?” | An intuitive explanation, a small example, and the steps connecting them to the formula. |
-| “I understand this example. Can I do another?” | New scenarios with feedback explaining both the answer and the tempting mistakes. |
+| “Why does this formula work?” | Plain-language meaning, concrete numbers and symbols connected step by step, with assumptions and approximations explained. |
+| “I understand this example. Can I do another?” | A worked example, a missing step to complete, then an independent problem with numeric entry or a short explanation and a reference solution. |
 | “What does this term mean?” | A searchable English–Chinese glossary beside the lesson. |
 | “Where was this in the lecture?” | Links back to the original PDF's physical page numbers. |
 | “Can I review this later?” | A local website you can reopen offline, with chapters, formulas and the source PDFs included. |
@@ -121,7 +121,7 @@ The skill follows the same principles across subjects:
 
 1. **Map concepts and prerequisites.** Keep lecture boundaries and source coverage. Check necessary prior knowledge briefly, with optional focused refreshers and a direct skip to the lesson.
 2. **Build understanding through connected problems.** Use a running case when related concepts suit it: each next idea addresses a problem the previous step leaves open. Keep core derivations, conditions and teacher examples visible.
-3. **Practice and trace back.** Ask learners to explain, check applicability and try a variation. Cite the source concept, and label new examples and extra background clearly.
+3. **Practice and trace back.** Reduce support from a worked example to a missing step and an independent variation. Let learners enter numbers or explain their reasoning, with reference solutions and retry. Cite the source concept, and label new examples and extra background clearly.
 
 The lesson structure adapts to the material. There is no fixed chapter count or requirement to turn every idea into an animation.
 
