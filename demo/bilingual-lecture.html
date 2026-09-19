@@ -1,3 +1,39 @@
+<ul class="objectives">
+  <li>
+    Choose the reference group and explain a conditional probability in counts and probabilities.
+  </li>
+</ul>
+<nav class="learning-route" aria-label="Learning route">
+  <p><strong>Learning route</strong></p>
+  <p>
+    Use fractions and overlapping groups to move from a question to a calculation, a rule, and
+    independent application.
+  </p>
+  <ol>
+    <li>
+      <a href="#conditional-intuition">How does the condition choose the group?</a>
+      <p>Identify the eligible members before choosing a denominator.</p>
+    </li>
+    <li>
+      <a href="#conditional-practice">Which group belongs in the denominator?</a>
+      <p>Apply that group choice to the club case so the count ratio has a meaning.</p>
+    </li>
+    <li>
+      <a href="#conditional-general-rule">How can probabilities recover the same answer?</a>
+      <p>Rewrite the count ratio to explain the formula and its positive-denominator condition.</p>
+    </li>
+    <li>
+      <a href="#conditional-exploration">How does changing the overlap change the probability?</a>
+      <p>Vary the overlap with fixed group totals to explain which part of the fraction changes.</p>
+    </li>
+    <li>
+      <a href="#conditional-transfer">Can you choose the group without worked steps?</a>
+      <p>
+        Complete a club calculation, then apply the rule independently and explain your choices.
+      </p>
+    </li>
+  </ol>
+</nav>
 <section class="precheck" id="prerequisites">
   <h2>Before you begin: two useful building blocks</h2>
   <p>This optional check covers fractions and overlapping groups. Review only what you need.</p>
@@ -85,8 +121,15 @@
     </div>
   </details>
 </section>
-<section id="conditional-intuition">
-  <h2>Conditioning changes the reference group</h2>
+<section id="conditional-intuition" tabindex="-1">
+  <h2>How does the condition choose the group?</h2>
+  <ul class="objectives">
+    <li>Identify the group selected by a condition in the survey and club examples.</li>
+  </ul>
+  <p class="section-context">
+    A fraction compares a part with a whole. Use that familiar idea, reviewed in the optional check,
+    to ask which whole the condition selects.
+  </p>
   <p>Start with everyone, then keep only the people who satisfy the condition.</p>
   <p>A conditional probability uses that smaller reference group as its denominator.</p>
   <button class="term" data-term="conditional">Conditional probability</button>
@@ -101,14 +144,23 @@
   </details>
   <p class="muted">Author-created running example</p>
   <p>Of 40 club members, 10 play chess. Of those 10 chess players, 4 also play tennis.</p>
-  <p>
+  <p class="section-next">
     The club wants to offer tennis sessions to chess players. We know who plays both, but which
     group should we compare those four members with?
+    <a href="#conditional-practice">Use the question to choose the denominator.</a>
   </p>
-  <a href="#conditional-practice">Use the question to choose the denominator.</a>
 </section>
-<section id="conditional-practice">
-  <h2>Choose the denominator</h2>
+<section id="conditional-practice" tabindex="-1">
+  <h2>Which group belongs in the denominator?</h2>
+  <ul class="objectives">
+    <li>
+      Choose the club denominator and explain why counting all members answers a different question.
+    </li>
+  </ul>
+  <p class="section-context">
+    The condition has selected the chess players. Combine that group choice with the overlap idea:
+    count members who play both activities within the selected group.
+  </p>
   <p>Author-created exercise</p>
   <p>Keep the same club: 40 members, 10 chess players, and 4 playing both chess and tennis.</p>
   <p>We want the probability of playing tennis given that the member plays chess.</p>
@@ -132,16 +184,26 @@
     </div>
     <button class="retry" hidden>Try again</button>
   </div>
-  <p>
+  <p class="section-next">
     We can now count 4 out of 10. But if a report gives only probabilities, how can we recover that
     same answer?
+    <a href="#conditional-general-rule"
+      >Turn the club counts into the conditional probability formula.</a
+    >
   </p>
-  <a href="#conditional-general-rule"
-    >Turn the club counts into the conditional probability formula.</a
-  >
 </section>
-<section id="conditional-general-rule">
-  <h2>The same club, expressed as probabilities</h2>
+<section id="conditional-general-rule" tabindex="-1">
+  <h2>How can probabilities recover the same answer?</h2>
+  <ul class="objectives">
+    <li>
+      Recover 4/10 from probability shares and explain why the conditioning probability must be
+      positive.
+    </li>
+  </ul>
+  <p class="section-context">
+    The club exercise gave 4/10 by counting within the chess group. Keep the same group while
+    rewriting both counts as shares of all 40 members.
+  </p>
   <p>
     Let C mean playing chess and T mean playing tennis. The club counts stay fixed: P(C) = 10/40 and
     P(T ∩ C) = 4/40.
@@ -214,9 +276,24 @@
     source example and our new club case.
   </p>
   <a data-source="s1" data-page="2">Source calculation · page 2</a>
+  <p class="section-next">
+    The formula recovers the count ratio. What if the overlap changes while the reference group
+    stays fixed?
+    <a href="#conditional-exploration">Predict a change, then explore the club diagram.</a>
+  </p>
 </section>
-<section id="conditional-exploration">
-  <h2>Explore a change without changing the group sizes</h2>
+<section id="conditional-exploration" tabindex="-1">
+  <h2>How does changing the overlap change the probability?</h2>
+  <ul class="objectives">
+    <li>
+      Predict and explain a changed conditional probability while preserving the group totals.
+    </li>
+  </ul>
+  <p class="section-context">
+    The formula identified the overlap as the numerator and the chess group as the denominator. Use
+    that distinction to predict what changes when the overlap varies but both group totals stay
+    fixed.
+  </p>
   <p class="muted">
     Author-created what-if diagram · Extend the club example by assuming 16 of the 40 members play
     tennis in total. This new total is an added modeling choice, not a count from the source PDF.
@@ -292,9 +369,25 @@
     self-checking and are not scored.
   </p>
   <a data-source="s1" data-page="2">Underlying rule · page 2</a>
+  <p class="section-next">
+    The formula recovers the count ratio. Can you keep choosing the group as the worked steps are
+    removed?
+    <a href="#conditional-transfer">Complete the club calculation, then try a new setting.</a>
+  </p>
 </section>
-<section id="conditional-transfer">
-  <h2>From a worked example to your own solution</h2>
+<section id="conditional-transfer" tabindex="-1">
+  <h2>Can you choose the group without worked steps?</h2>
+  <ul class="objectives">
+    <li>
+      Complete the club calculation and solve the garden problem by choosing the reference group.
+    </li>
+    <li>Explain why the ratio is defined and distinguish exact fractions from rounded decimals.</li>
+  </ul>
+  <p class="section-context">
+    The worked example connected words, counts, and symbols while keeping the chess group fixed. Use
+    that reasoning first with a completed counting step, then without intermediate steps in a new
+    setting.
+  </p>
   <form
     class="practice"
     id="club-completion"
@@ -404,4 +497,8 @@
       <a data-source="s1" data-page="2">Underlying rule · page 2</a>
     </div>
   </form>
+  <p class="section-next">
+    With a new condition, which group would become the denominator, and would its probability be
+    positive? Use those two checks before applying the rule again.
+  </p>
 </section>

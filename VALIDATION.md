@@ -1,5 +1,17 @@
 # Validation
 
+## Combined learning routes and explorations — 2026-09-19
+
+- PR #10 incorporates main through `bb2e1fd`, retaining question-led sections,
+  route navigation and translated learning guidance alongside the overlap diagrams.
+  Both exploration sections join their lesson's route and transition chain, with
+  section objectives, prior-knowledge connections and keyboard-focusable targets.
+- All 54 Python tests passed. Both rebuilt courses passed local resource checks,
+  and both offline browser suites passed at 1024 and 1440 pixels, exercising route
+  and bridge links, bilingual guidance, diagram invariants and preserved notes,
+  as well as the existing quizzes, typed practice, glossary and blocked storage.
+  Ruff, Prettier and skill validation passed.
+
 ## Predict–operate–explain diagrams — 2026-09-19
 
 - Issue #5 item 5 is implemented as an optional offline overlap exploration.
@@ -27,6 +39,31 @@
 - These are functional and synthetic-content checks, not evidence of improved
   learning outcomes. Student predictions and explanations are ungraded and are
   not saved by the course.
+
+## Question-led sections and learning routes — 2026-09-19
+
+- Issue #5 item 3 is implemented in the skill workflow, teaching/authoring guides,
+  reusable styles and both synthetic courses. The ten existing core sections in
+  the three lesson fragments retain their IDs and lecture boundaries, with guiding
+  questions, visible objectives, prior-knowledge connections and next-question
+  bridges. Optional learning routes explain the sequence through native links;
+  no new course JSON fields, runtime scripts or completion gates were introduced.
+- All 40 Python tests passed, including the local HTTP launcher regression. Both
+  courses built and passed resource/fragment checks. Ruff, Prettier and the skill
+  validator passed.
+- Both offline direct-file browser suites passed at 1024 and 1440 pixels. New
+  coverage verifies keyboard route/bridge navigation, destination focus and
+  visible headings, sidebar target consistency, translated route labels and
+  accessible names, and English–Chinese roundtrips for objectives and transitions.
+  Existing quiz, hint, typed-practice, prerequisite, glossary and blocked-storage
+  checks also passed with no page errors. The final revision incorporates PR #8
+  and includes its independent-practice section in the bilingual learning route.
+- English and Chinese learning-route screenshots were visually reviewed at both
+  widths, along with the lesson and transition layout at 1024 pixels. Independent
+  content review checked the objective/dependency map, translation equivalence,
+  preserved source citations, worked examples and formula conditions. These checks
+  establish synthetic-content consistency and navigation behavior, not measured
+  learning gains or accuracy on unseen teacher PDFs.
 
 ## Combined hints and practice regression — 2026-09-19
 
