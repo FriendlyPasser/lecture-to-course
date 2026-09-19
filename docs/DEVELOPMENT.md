@@ -10,6 +10,7 @@ lecture-to-course/       Reusable skill package
   agents/               Skill interface metadata
   scripts/              PDF indexing, rendering, site building and validation
   assets/template/      Offline website and local launchers
+  assets/review/        Local teaching-review and learner-trial record templates
   references/           Teaching, authoring and browser-opening guidance
 demo/                   Self-authored probability example
   input/                Two synthetic PDFs, four pages total
@@ -66,6 +67,8 @@ node tests/bilingual.cjs .local/work/bilingual-v2 .local/work/bilingual-v2-revie
 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can select an installed Chrome/Chromium executable. Tests use offline mode and direct file addresses, including targeted wrong-option hints, retry with the hint retained, explicit answer reveal, legacy quizzes, optional prerequisite checks, targeted refreshers, keyboard return, and bilingual state preservation. Practice checks cover typed decimals, fractions and percentages; malformed and non-finite input; inclusive absolute tolerances and the default tolerance; independent form state; optional hints; explicit solution reveal; reset and focus; and reflection self-assessment. Both desktop widths and blocked storage are exercised. Bilingual checks preserve unfinished text, feedback, hints and revealed solutions while switching languages. Both browser scripts accept a generated site directory followed by a screenshot directory. Default screenshots go under `.local/demo/review/` and `.local/demo/bilingual-review/`; Python tests separately verify the local HTTP launcher.
 
 GitHub Actions runs style checks, Python tests, the synthetic demo build, resource checks and offline browser interactions. See [VALIDATION.md](../VALIDATION.md) for recorded results and their limits.
+
+Teaching acceptance is recorded separately in the [demo review](../demo/teaching-review.md). When lesson content changes, recheck its objective-to-explanation/example/assessment links and criteria, then update the relevant content findings and trial tasks. The [trial plan](../demo/learner-trial.md) supplies new problems and rubrics; automated checks do not execute a student trial or establish learning outcomes. Keep actual participant records under `.local/`, outside the generated site and public fixtures.
 
 ## Format changes
 

@@ -124,6 +124,7 @@ The skill follows the same principles across subjects:
 1. **Map concepts and prerequisites.** Keep lecture boundaries and source coverage. Check necessary prior knowledge briefly, with optional focused refreshers and a direct skip to the lesson.
 2. **Build understanding through connected problems.** Use a running case when related concepts suit it: each next idea addresses a problem the previous step leaves open. Keep core derivations, conditions and teacher examples visible.
 3. **Practice and trace back.** Reduce support from a worked example to a missing step and an independent variation. Let learners enter numbers or explain their reasoning, with reference solutions and retry. Cite the source concept, and label new examples and extra background clearly.
+4. **Review the teaching and collect feedback.** Map each core objective to its explanation, worked example and assessment. Use a local trial record for the first unclear sentence, independent reasoning, a new problem and a delayed follow-up. Report technical checks, content review and observed learning separately.
 
 The lesson structure adapts to the material. There is no fixed chapter count or requirement to turn every idea into an animation.
 
@@ -135,6 +136,8 @@ The lesson structure adapts to the material. There is no fixed chapter count or 
 - **Offline after generation.** The output uses local HTML, CSS, JavaScript and native MathML. There is no backend or hosted math renderer.
 
 See the [teaching guide](lecture-to-course/references/teaching.md) and [validation results](VALIDATION.md) for the standards and current checks. Reading progress shows where you are in the lesson; it does not claim to measure mastery.
+
+The [demo teaching review](demo/teaching-review.md) records objective coverage and content gaps; its [student trial plan](demo/learner-trial.md) contains fresh tasks and facilitator rubrics. No student trial has been run, so these materials do not establish learning gains. Reusable [review and feedback templates](lecture-to-course/references/teaching-review.md) are included with the skill.
 
 ## Explore and contribute
 

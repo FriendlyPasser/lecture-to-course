@@ -66,3 +66,9 @@ Students should be able to retry with their latest hint visible or explicitly re
 Prefer diagrams for relationships and processes, paired views for a controlled change, and tables for comparisons. Label what stays fixed in before/after examples. Use readable labels and adjacent text that conveys the essential relationship without relying on color. No visual-percentage requirement, compulsory animation or metaphor.
 
 Glossary entries use the English term as the main label, a conventional Simplified Chinese equivalent, and a short English definition consistent with the lecture. Include specialized abbreviations and symbols when helpful. Avoid confident Chinese translations when terminology is ambiguous; retain alternatives with context.
+
+## Review the teaching and learn from trials
+
+Use [teaching-review.md](teaching-review.md) to turn the coverage map into an objective-level audit: locate the explanation, worked example and assessment, and describe the reasoning a satisfactory response must show. A link to an exercise alone does not show that it tests the objective. Check for skipped steps, undefined notation, misleading analogies and absent application or transfer; record gaps even when every source page is covered.
+
+Report technical checks, content judgments and learner observations separately. A prepared trial can ask where the learner first loses the explanation, then observe a key-step explanation, a new problem and a delayed parallel problem. Preserve the original response before hints or solution access, and use the feedback to revise the precise passage and recheck the affected objective. No trial means no observed learning result; the linked templates support that state without blocking delivery.

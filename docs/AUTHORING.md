@@ -88,6 +88,16 @@ For quizzes with hints, confirm each wrong choice shows its own prompt without e
 
 For prerequisite checks, verify skip, the wrong-answer link to the correct refresher, return to the originating question, and the same flow after language switching. In a quiz with hints, retry should preserve its refresher link and return route; a correct answer should clear them. Read the running case's transitions to confirm that the next concept answers the problem just raised. The static checker can identify common resource problems, but cannot establish teaching accuracy or learning outcomes.
 
+## 5. Review the teaching and prepare a student trial
+
+Follow the [teaching review guide](../lecture-to-course/references/teaching-review.md). Copy the [review template](../lecture-to-course/assets/review/teaching-review-template.md) and [learner-trial template](../lecture-to-course/assets/review/learner-trial-template.md) into your private working folder beside the coverage map, outside the generated site.
+
+For every core learning objective, identify the exact explanation, worked example and question that tests it, with a criterion for the reasoning a satisfactory answer should show. Review omitted steps, symbols and conditions, analogy limits, and application and transfer practice. Mark missing or inadequate evidence as a gap rather than passing it because a link exists. The [completed synthetic content review](../demo/teaching-review.md) shows both supported objectives and an outstanding assessment gap.
+
+Prepare a voluntary trial using the [demo trial plan](../demo/learner-trial.md) as an example. Record the first sentence a learner cannot follow verbatim, its location and language, then capture their explanation and new-problem attempt before offering help. Separate initial responses, hints and answer reveals. Schedule a fresh parallel problem after an agreed interval and record the actual elapsed time and intervening practice. If no learner participates or returns, report that evidence as not collected. Invitations are prepared text for the course owner to use, not automatic messages.
+
+Keep three separate results: **technical checks**, **content review**, and **observed learner evidence**. A prepared study, a simulated learner, or a successful browser test cannot count as a student result. Record feedback, the proposed correction, the changed version and follow-up evidence so revisions can be traced. Share the review summary and prepared trial materials with the course; keep raw participant notes locally under `.local/`.
+
 ## Open and share the output
 
 The generated site includes local HTML, scripts, styles, the original PDFs and selected assets. It needs no Node.js, API key, CDN or online service to read.
