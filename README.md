@@ -29,7 +29,7 @@ Interactive diagrams can guide students through **predict → operate → explai
 | “How do these ideas connect?” | Question-led sections state their goals and build on earlier results; a short learning route links the steps when useful. |
 | “Why does this formula work?” | Plain-language meaning, concrete numbers and symbols connected step by step, with assumptions and approximations explained. |
 | “I understand this example. Can I do another?” | A worked example, a missing step to complete, then an independent problem with numeric entry or a short explanation and a reference solution. |
-| “What does this term mean?” | A searchable English–Chinese glossary beside the lesson. |
+| “What does this term mean?” | A searchable English–Chinese glossary with optional plain-language explanations, course examples and comparisons of easily confused concepts. |
 | “Where was this in the lecture?” | Links back to the original PDF's physical page numbers. |
 | “What should I revisit?” | A concept-review panel prioritizes errors and support use, suggests review dates, and links to another question when available. |
 | “Can I review this later?” | A local website you can reopen offline, with chapters, formulas and the source PDFs included. |

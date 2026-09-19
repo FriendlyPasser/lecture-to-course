@@ -5,6 +5,7 @@ const { pathToFileURL } = require('node:url');
 const { checkPrerequisites, checkSharedPrerequisite } = require('./prerequisites.cjs');
 const { checkPractice, checkPracticeTolerance } = require('./practice.cjs');
 const { checkQuizHints } = require('./quiz-hints.cjs');
+const { checkGlossary, checkGlossaryLayout } = require('./glossary.cjs');
 const {
   checkExploration,
   checkExplorationIsolation,
@@ -48,24 +49,7 @@ async function main() {
     await checkLearningRoute(page, { screenshot: path.join(reviewDir, 'learning-route-1440.png') });
     await checkPrerequisites(page, { screenshot: path.join(reviewDir, 'prerequisites-1440.png') });
 
-    // Glossary terms support focus, keyboard dismissal, and Chinese search.
-    await page.locator('[data-term="conditional"]').click();
-    assert.equal(await page.locator('.drawer').isVisible(), true);
-    assert.equal(
-      await page
-        .locator('#term-conditional')
-        .evaluate((element) => element === document.activeElement),
-      true,
-    );
-    await page.keyboard.press('Escape');
-    assert.equal(await page.locator('.drawer').isVisible(), false);
-    await page.locator('.glossary-tab').click();
-    await page.locator('#term-search').fill('条件');
-    assert.equal(await page.locator('.glossary-item:visible').count(), 1);
-    await page.screenshot({ path: path.join(reviewDir, 'glossary.png') });
-    await page.locator('#term-search').fill('no such term');
-    assert.equal(await page.locator('.empty').isVisible(), true);
-    await page.keyboard.press('Escape');
+    await checkGlossary(page, { screenshot: path.join(reviewDir, 'glossary.png') });
 
     // Worked examples and quizzes remain usable without a network connection.
     const explanation = page.locator('#denominator-explanation');
@@ -106,6 +90,9 @@ async function main() {
         });
       }
       await checkPractice(page, { screenshot: path.join(reviewDir, `practice-${width}.png`) });
+      await checkGlossaryLayout(page, {
+        screenshot: path.join(reviewDir, `glossary-${width}.png`),
+      });
       await page.evaluate(() => scrollTo(0, 0));
       assert.equal(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
@@ -162,6 +149,7 @@ async function main() {
     await page.reload();
     await checkPrerequisites(page);
     await checkPractice(page);
+    await checkGlossary(page);
     await page.locator('.glossary-tab').click();
     assert.equal(await page.locator('.drawer').isVisible(), true);
     await page.keyboard.press('Escape');
@@ -184,6 +172,7 @@ async function main() {
     assert.deepEqual(errors, []);
     console.log(
       'PASS: offline file navigation, glossary, keyboard, search, quizzes, retry, ' +
+        'contextual definitions/examples/comparisons, filtered comparison navigation, focus trap, ' +
         'optional prerequisite checks, targeted refreshers, return focus, shared targets, ' +
         'typed practice, numeric validation/tolerance, hints, self-assessment, reveal/reset, ' +
         'targeted hints, explicit reveal, legacy quizzes, incomplete hints, independent quiz state, ' +

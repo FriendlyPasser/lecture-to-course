@@ -16,7 +16,29 @@
       "id": "conditional",
       "en": "Conditional probability",
       "zh": "条件概率",
-      "definition": "Probability within the group specified by a condition."
+      "definition": "The probability of an event within a specified conditioning event of positive probability.",
+      "plain_language": "Keep only the members who meet the condition, then find the requested share within that group.",
+      "example": "Author-created club case: 4 of the 10 chess players also play tennis, so P(T | C) = 4/10 = 0.40. The denominator 10 is positive.",
+      "confused_with": [
+        {
+          "term": "joint",
+          "distinction": "Both count the same 4 members, but conditional P(T | C) uses the 10 chess players; joint P(T ∩ C) uses all 40 club members. Their values are 0.40 and 0.10."
+        }
+      ]
+    },
+    {
+      "id": "joint",
+      "en": "Joint probability",
+      "zh": "联合概率",
+      "definition": "The probability that both events occur.",
+      "plain_language": "Count the members who satisfy both descriptions, then compare them with the whole club.",
+      "example": "Author-created club case: 4 of all 40 members play both chess and tennis, so P(T ∩ C) = 4/40 = 0.10.",
+      "confused_with": [
+        {
+          "term": "conditional",
+          "distinction": "Joint probability asks about both activities across the whole club; conditional probability asks about tennis among chess players. Keep the numerator 4, but change the denominator from 40 to 10."
+        }
+      ]
     }
   ],
   "lectures": [
@@ -40,9 +62,7 @@
       "An original bilingual example for offline interaction checks.": "用于离线交互验证的原创双语示例。",
       "Synthetic teaching example, not a teacher lecture.": "原创教学示例，并非教师课件。",
       "Choose the reference group.": "选择参照群体。",
-      "Probability within the group specified by a condition.": "在给定条件所限定的群体中计算的概率。",
       "Start with everyone, then keep only the people who satisfy the condition.": "从所有人出发，再只保留满足条件的人。",
-      "A conditional probability uses that smaller reference group as its denominator.": "条件概率使用这个更小的参照群体作为分母。",
       "Source · page 1": "来源 · 第 1 页",
       "The condition tells us which group to count within.": "条件告诉我们应在哪个群体内进行计数。",
       "Of 40 club members, 10 play chess. Of those 10 chess players, 4 also play tennis.": "40 名俱乐部成员中有 10 人下棋，这 10 人中有 4 人也打网球。",
@@ -187,7 +207,21 @@
       "Choose the conditional reference group and justify its denominator in a new clinic problem.": "在新的诊所问题中选择条件概率的参照群体，并说明分母的依据。",
       "Try an earlier idea in a new clinic setting.": "在新的诊所情境中尝试运用先前学过的概念。",
       "Revisit how the rule keeps the reference group.": "回顾公式如何保持参照群体不变。",
-      "Name the group before choosing a denominator in the next problem too. A correct calculation here is evidence from one activity, not proof that the concept is mastered. With another condition, which group would you use?": "下一题也应先明确参照群体，再选择分母。这里计算正确只提供了一次练习的证据，并不能证明已经掌握这个概念。如果换一个给定条件，你会使用哪个群体？"
+      "Name the group before choosing a denominator in the next problem too. A correct calculation here is evidence from one activity, not proof that the concept is mastered. With another condition, which group would you use?": "下一题也应先明确参照群体，再选择分母。这里计算正确只提供了一次练习的证据，并不能证明已经掌握这个概念。如果换一个给定条件，你会使用哪个群体？",
+      "The probability of an event within a specified conditioning event of positive probability.": "在概率为正的给定条件事件内，某个事件发生的概率。",
+      "Keep only the members who meet the condition, then find the requested share within that group.": "先只保留满足条件的成员，再计算这个群体内所求的比例。",
+      "Author-created club case: 4 of the 10 chess players also play tennis, so P(T | C) = 4/10 = 0.40. The denominator 10 is positive.": "自编俱乐部案例：10 名下棋成员中有 4 人也打网球，因此 P(T | C) = 4/10 = 0.40。分母 10 为正。",
+      "Both count the same 4 members, but conditional P(T | C) uses the 10 chess players; joint P(T ∩ C) uses all 40 club members. Their values are 0.40 and 0.10.": "两者的分子都是同样的 4 人，但条件概率 P(T | C) 以下棋的 10 人为分母，联合概率 P(T ∩ C) 以俱乐部全部 40 人为分母，结果分别为 0.40 和 0.10。",
+      "The probability that both events occur.": "两个事件同时发生的概率。",
+      "Count the members who satisfy both descriptions, then compare them with the whole club.": "数出同时满足两种描述的成员，再与俱乐部全体成员比较。",
+      "Author-created club case: 4 of all 40 members play both chess and tennis, so P(T ∩ C) = 4/40 = 0.10.": "自编俱乐部案例：全部 40 名成员中有 4 人既下棋又打网球，因此 P(T ∩ C) = 4/40 = 0.10。",
+      "Joint probability asks about both activities across the whole club; conditional probability asks about tennis among chess players. Keep the numerator 4, but change the denominator from 40 to 10.": "联合概率问的是整个俱乐部中两项活动都参加的比例，条件概率问的是下棋成员中打网球的比例。分子保持为 4，分母则从 40 变为 10。",
+      "A": "这里的",
+      "conditional probability": "条件概率（conditional probability）",
+      "uses that smaller reference group as its denominator.": "使用这个更小的参照群体作为分母。",
+      "The": "这里的",
+      "joint probability": "联合概率（joint probability）",
+      "uses all 40 club members: P(T ∩ C) = 4/40 = 0.10. It asks what share of members do both activities, not the tennis share among chess players.": "以俱乐部全体 40 名成员为参照群体：P(T ∩ C) = 4/40 = 0.10。它表示全体成员中两项活动都参加的比例，而不是下棋成员中打网球的比例。"
     }
   },
   "concepts": [

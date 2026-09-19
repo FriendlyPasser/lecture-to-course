@@ -17,7 +17,8 @@ const courseText = (en) =>
     panel.querySelector('.empty').hidden = count > 0;
   }
   function open(trigger, id) {
-    opener = trigger;
+    // Following a comparison stays inside the drawer; Escape returns to the lesson.
+    if (!panel.contains(trigger)) opener = trigger;
     panel.hidden = false;
     tab.setAttribute('aria-expanded', 'true');
     search.value = '';
@@ -25,8 +26,8 @@ const courseText = (en) =>
     if (id) {
       const item = items.find((x) => x.id === 'term-' + id);
       if (item) {
-        item.focus();
-        item.scrollIntoView({ block: 'nearest' });
+        item.focus({ preventScroll: true });
+        item.scrollIntoView({ block: 'start' });
         return;
       }
     }
