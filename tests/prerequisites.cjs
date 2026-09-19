@@ -7,8 +7,10 @@ const { fileURLToPath, pathToFileURL } = require('node:url');
 async function quizState(quiz) {
   return quiz.evaluate((element) => ({
     result: element.dataset.result ?? null,
+    revealed: element.dataset.revealed ?? null,
     explanationHidden: element.querySelector('.explanation').hidden,
     retryHidden: element.querySelector('.retry').hidden,
+    hints: [...element.querySelectorAll('.quiz-hint')].map((hint) => hint.hidden),
     options: [...element.querySelectorAll('.options button')].map((button) => ({
       disabled: button.disabled,
       correct: button.classList.contains('correct'),
@@ -27,16 +29,31 @@ async function answer(page, quiz, correct) {
   await button.focus();
   await page.keyboard.press('Enter');
   assert.equal(await quiz.getAttribute('data-result'), correct ? 'correct' : 'incorrect');
-  assert.equal(await quiz.locator('.explanation').isVisible(), true);
+  const enhanced = (await quiz.locator('.quiz-hint').count()) > 0;
+  assert.equal(await quiz.locator('.explanation').isVisible(), correct || !enhanced);
   assert.equal(await quiz.locator('.prerequisite-review').isVisible(), !correct);
+  if (enhanced) {
+    await assertFocused(quiz.locator('.quiz-status'));
+    if (!correct) {
+      assert.equal(await quiz.locator('.options .correct').count(), 0);
+      assert.equal(await quiz.locator('.quiz-hint:visible').count(), 1);
+      await page.keyboard.press('Tab');
+      await assertFocused(quiz.locator('.prerequisite-review'));
+      await page.keyboard.press('Tab');
+      await assertFocused(quiz.locator('.show-explanation'));
+      await page.keyboard.press('Tab');
+      await assertFocused(quiz.locator('.retry'));
+    }
+  }
 }
 
 async function openRefresher(page, quiz) {
   const target = await quiz.getAttribute('data-prerequisite');
   const refresher = page.locator(`details[id="${target}"]`);
   const before = await quizState(quiz);
-  const review = quiz.locator('.explanation a.prerequisite-review');
+  const review = quiz.locator('a.prerequisite-review');
   assert.equal(await review.getAttribute('href'), '#' + target);
+  assert.equal(await quiz.locator('.explanation .prerequisite-review').count(), 0);
   await review.focus();
   await page.keyboard.press('Enter');
   assert.equal(await refresher.getAttribute('open'), '');
@@ -57,6 +74,10 @@ async function returnToQuiz(page, refresher, quiz) {
   await page.keyboard.press('Tab');
   await assertFocused(quiz.locator('.prerequisite-review'));
   await page.keyboard.press('Tab');
+  if (await quiz.locator('.show-explanation:visible').count()) {
+    await assertFocused(quiz.locator('.show-explanation'));
+    await page.keyboard.press('Tab');
+  }
   await assertFocused(quiz.locator('.retry'));
 }
 
@@ -114,7 +135,7 @@ async function checkPrerequisites(page, { bilingual = false, screenshot } = {}) 
       '6 人阅读，4 人游泳，其中 2 人两项活动都参加。阅读者与游泳者的交集中有几人？',
     );
     assert.equal(
-      await first.locator('.explanation p').first().innerText(),
+      (await first.locator('.explanation p').first().textContent()).trim(),
       '用部分除以整体：3/12 = 0.25 = 25%。3 乘以 12 得到 36，并不是所占比例；75% 则表示其余 9 枚非蓝色计数片的比例。',
     );
     assert.equal(
@@ -145,13 +166,17 @@ async function checkPrerequisites(page, { bilingual = false, screenshot } = {}) 
 
   await returnToQuiz(page, firstRefresher, first);
   await first.locator('.retry').click();
-  assert.equal(await first.locator('.prerequisite-review').isVisible(), false);
-  assert.equal(await firstRefresher.locator('.prerequisite-return').isVisible(), false);
+  assert.equal(await first.locator('.prerequisite-review').isVisible(), true);
+  assert.equal(await first.locator('.quiz-hint:visible').count(), 1);
+  assert.equal(await first.locator('.explanation').isVisible(), false);
+  assert.equal(await firstRefresher.locator('.prerequisite-return').isVisible(), true);
   assert.deepEqual(await quizState(second), secondBefore);
   await answer(page, first, true);
   await second.locator('.retry').click();
-  assert.deepEqual(await quizState(second), initial[1]);
-  assert.equal(await second.locator('.prerequisite-review').isVisible(), false);
+  const retryState = await quizState(second);
+  assert.deepEqual({ ...retryState, hints: initial[1].hints }, initial[1]);
+  assert.equal(await second.locator('.quiz-hint:visible').count(), 1);
+  assert.equal(await second.locator('.prerequisite-review').isVisible(), true);
   assert.equal(await first.getAttribute('data-result'), 'correct');
   assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
 }
@@ -183,6 +208,8 @@ async function checkSharedPrerequisite(page) {
     await first.locator('.retry').click();
     await returnToQuiz(page, refresher, second);
     await second.locator('.retry').click();
+    assert.equal(await refresher.locator('.prerequisite-return').isVisible(), true);
+    await answer(page, second, true);
     assert.equal(await refresher.locator('.prerequisite-return').isVisible(), false);
   } finally {
     await page.goto(originalURL);

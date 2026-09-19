@@ -1,5 +1,14 @@
 # Validation
 
+## Combined hints and practice regression — 2026-09-19
+
+- PR #8 incorporates main through `1d591dc`, preserving the targeted quiz hints,
+  retry/reveal behavior and navigation synchronization alongside typed practice.
+- All 40 Python tests passed. Both regenerated demos passed local resource checks,
+  and both offline browser suites passed at 1024 and 1440 pixels, including hints,
+  numeric/reflection responses, language switching, keyboard focus and blocked
+  storage. Ruff, Prettier and skill validation passed.
+
 ## Formula explanations and scaffolded practice — 2026-09-19
 
 - Issue #5 items 4 and 6 are implemented in the teaching guidance, reusable
@@ -26,6 +35,43 @@
 - These are synthetic content and functional checks. They do not establish
   improved learning outcomes or replace student trials; practice responses and
   scores are not persisted or treated as mastery evidence.
+
+## Browser navigation synchronization — 2026-09-19
+
+- The first push check for PR #7 failed when the bilingual test reloaded while
+  Chromium was still replacing the page after a next-lecture click. The companion
+  pull-request check for the same commit passed.
+- Browser tests now wait for the expected destination URL and its load event
+  before reading the new page or reloading it. The bilingual test also verifies
+  the destination lecture and language before and after reload, including the
+  blocked-storage path, so the source page cannot satisfy the assertion.
+- The English offline browser suite passed, and the full bilingual offline suite
+  passed five consecutive local runs. Formatting checks passed. No fixed sleeps,
+  suppressed errors or automatic test retries were added.
+
+## Targeted quiz hints and retry — 2026-09-19
+
+- Issue #5 item 7 is implemented through optional per-wrong-option hints. Wrong
+  attempts withhold the correct choice and full solution; retry retains the latest
+  hint. Students can explicitly reveal the answer before or after attempting a
+  question, without an unanswered reveal being marked correct. Hint-free quizzes
+  retain their existing behavior.
+- All 28 Python tests passed, including hint indexes, readable content, reachable
+  feedback controls and legacy compatibility. Both synthetic courses built and
+  passed local resource checks. Ruff and Prettier checks passed.
+- Both offline direct-file browser suites passed. Coverage includes specific hint
+  selection and replacement, retry, correct and revealed answers, unanswered
+  reveals, partial hint coverage, legacy quizzes, independent question states,
+  prerequisite review/return routing, Enter/Space/Tab focus, and denied storage.
+  English–Chinese switching preserves hint, retry, revealed and correct states.
+- Hint and solution screenshots were visually reviewed at 1024 and 1440 pixels
+  in English and Chinese. Both generated local launchers also passed browser
+  hint/retry/answer checks over loopback HTTP with external requests blocked;
+  the bilingual launcher preserved the active hint when switching languages.
+  No browser page errors occurred and the local servers were stopped.
+- All 15 wrong options across the demo fragments have reviewed, specific prompts;
+  the bilingual fixture translates all five of its hints. These checks establish
+  functionality and synthetic-content consistency, not measured learning gains.
 
 ## Prerequisite checks and running cases — 2026-09-19
 

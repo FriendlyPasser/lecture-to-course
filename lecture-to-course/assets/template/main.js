@@ -84,23 +84,51 @@ const courseText = (en) =>
       focusAt(quiz, 'start');
     });
   });
-  document.querySelectorAll('.quiz').forEach((quiz) => {
+  document.querySelectorAll('.quiz').forEach((quiz, quizIndex) => {
     const buttons = [...quiz.querySelectorAll('.options button')],
       answer = Number(quiz.dataset.answer),
       explanation = quiz.querySelector('.explanation'),
       retry = quiz.querySelector('.retry'),
-      status = quiz.querySelector('.quiz-status');
+      status = quiz.querySelector('.quiz-status'),
+      hints = [...quiz.querySelectorAll('.quiz-hint')],
+      targeted = hints.length > 0;
     const refresher = quiz.dataset.prerequisite
       ? document.getElementById(quiz.dataset.prerequisite)
       : null;
-    let review;
+    let review, reveal;
+    let selected = null,
+      revealed = false,
+      lastHint = null,
+      needsReview = false;
+    function ensureId(element, suffix) {
+      if (element.id) return element.id;
+      const base = 'quiz-' + quizIndex + '-' + suffix;
+      let id = base;
+      while (document.getElementById(id)) id += '-auto';
+      element.id = id;
+      return id;
+    }
+    if (targeted) {
+      status.tabIndex = -1;
+      status.setAttribute('role', 'status');
+      status.setAttribute('aria-atomic', 'true');
+      hints.forEach((hint, index) => ensureId(hint, 'hint-' + index));
+      reveal = document.createElement('button');
+      reveal.type = 'button';
+      reveal.className = 'show-explanation';
+      reveal.setAttribute('aria-controls', ensureId(explanation, 'explanation'));
+      reveal.addEventListener('click', () => {
+        revealed = true;
+        render();
+        status.focus();
+      });
+    }
     if (refresher) {
       review = document.createElement('a');
       review.className = 'prerequisite-review';
       review.href = '#' + refresher.id;
-      review.textContent = courseText('Review this prerequisite');
       review.hidden = true;
-      explanation.append(review);
+      retry.before(review);
       review.addEventListener('click', (event) => {
         event.preventDefault();
         prerequisiteOrigins.set(refresher, quiz);
@@ -109,40 +137,76 @@ const courseText = (en) =>
         focusAt(refresher.querySelector(':scope > summary'));
       });
     }
-    buttons.forEach((button, index) =>
-      button.addEventListener('click', () => {
-        buttons.forEach((b, i) => {
-          b.disabled = true;
-          b.classList.toggle('correct', i === answer);
-        });
-        button.classList.toggle('incorrect', index !== answer);
-        status.textContent = courseText(
-          index === answer ? 'Correct — here is why.' : 'Not quite — compare the reasoning below.',
-        );
-        quiz.dataset.result = index === answer ? 'correct' : 'incorrect';
-        explanation.hidden = false;
-        retry.hidden = false;
-        if (review) review.hidden = index === answer;
-      }),
-    );
-    retry.addEventListener('click', () => {
-      buttons.forEach((b) => {
-        b.disabled = false;
-        b.classList.remove('correct', 'incorrect');
+    if (reveal) retry.before(reveal);
+    function render() {
+      const answered = selected !== null,
+        correct = answered && selected === answer,
+        solutionVisible = revealed || correct || (!targeted && answered),
+        visibleHint = targeted && !solutionVisible ? lastHint : null;
+      buttons.forEach((button, index) => {
+        button.disabled = answered || revealed;
+        button.classList.toggle('correct', solutionVisible && index === answer);
+        button.classList.toggle('incorrect', answered && !correct && index === selected);
       });
-      status.textContent = '';
-      delete quiz.dataset.result;
-      explanation.hidden = true;
-      retry.hidden = true;
+      hints.forEach((hint) => (hint.hidden = hint !== visibleHint));
+      if (visibleHint) status.setAttribute('aria-describedby', visibleHint.id);
+      else status.removeAttribute('aria-describedby');
+      let message = '';
+      if (revealed) message = 'Answer revealed — compare the reasoning below.';
+      else if (correct) message = 'Correct — here is why.';
+      else if (answered) {
+        message = !targeted
+          ? 'Not quite — compare the reasoning below.'
+          : visibleHint
+            ? 'Not quite — use the hint and try again.'
+            : 'Not quite — try again or view the full explanation.';
+      } else if (targeted && needsReview) {
+        message = visibleHint
+          ? 'Try again using the hint.'
+          : 'Try again or view the full explanation.';
+      }
+      status.textContent = courseText(message);
+      if (answered) quiz.dataset.result = correct ? 'correct' : 'incorrect';
+      else delete quiz.dataset.result;
+      if (revealed) quiz.dataset.revealed = 'true';
+      else delete quiz.dataset.revealed;
+      explanation.hidden = !solutionVisible;
+      retry.hidden = !answered && !revealed;
+      if (reveal) {
+        reveal.textContent = courseText('Show full explanation');
+        reveal.hidden = solutionVisible;
+        reveal.setAttribute('aria-expanded', String(solutionVisible));
+      }
       if (review) {
-        review.hidden = true;
-        if (prerequisiteOrigins.get(refresher) === quiz) {
+        review.textContent = courseText('Review this prerequisite');
+        review.hidden = !needsReview;
+        if (!needsReview && prerequisiteOrigins.get(refresher) === quiz) {
           prerequisiteOrigins.delete(refresher);
           refresher.querySelector('.prerequisite-return').hidden = true;
         }
       }
+    }
+    buttons.forEach((button, index) =>
+      button.addEventListener('click', () => {
+        selected = index;
+        revealed = false;
+        needsReview = index !== answer;
+        lastHint = needsReview
+          ? hints.find((hint) => Number(hint.dataset.option) === index) || null
+          : null;
+        render();
+        if (targeted) status.focus();
+      }),
+    );
+    retry.addEventListener('click', () => {
+      selected = null;
+      revealed = false;
+      if (!targeted) needsReview = false;
+      render();
       buttons[0].focus();
     });
+    render();
+    addEventListener('course-language-change', render);
   });
   // Parse only written numbers, fractions and percentages; never evaluate expressions.
   function numericResponse(value) {
@@ -281,16 +345,6 @@ const courseText = (en) =>
   }
   addEventListener('course-language-change', () => {
     filter();
-    document.querySelectorAll('.prerequisite-review').forEach((link) => {
-      link.textContent = courseText('Review this prerequisite');
-    });
-    document.querySelectorAll('.quiz[data-result]').forEach((quiz) => {
-      quiz.querySelector('.quiz-status').textContent = courseText(
-        quiz.dataset.result === 'correct'
-          ? 'Correct — here is why.'
-          : 'Not quite — compare the reasoning below.',
-      );
-    });
   });
   const sections = [...document.querySelectorAll('main section[id]')];
   function highlight() {

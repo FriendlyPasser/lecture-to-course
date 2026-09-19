@@ -32,6 +32,26 @@ The first primary lesson and the bilingual fixture each start with two optional 
 
 Each wrong answer offers its own refresher, with a return to the originating question. Directly opening a refresher is also possible. None of these outcomes is a mastery assessment.
 
+## Hints for plausible wrong choices
+
+Every wrong option in the primary demo and bilingual fixture has a hidden, author-created hint. The hints use the existing concepts without adding source claims or changing the verified answers. They identify a reasoning step to revisit and withhold the correct option and final calculation; full solutions remain in the explanations. The bilingual fixture includes reviewed Chinese translations for all five of its hints.
+
+| Quiz / wrong option index | Misconception addressed by the hint |
+|---|---|
+| Fraction checks / 1 | Multiplying counts instead of comparing a part with the whole |
+| Fraction checks / 2 | Counting the complement instead of the requested color |
+| Intersection checks / 0 | Adding group sizes and double-counting the overlap |
+| Intersection checks / 2 | Counting at least one activity instead of requiring both |
+| `survey-quiz` / 0 | Using all students instead of reconsidering the conditioning group |
+| `survey-quiz` / 2 | Measuring the conditioning event alone instead of the event requested within it |
+| `transfer-quiz` / 0 | Including books outside the group named in the question |
+| `transfer-quiz` / 1 | Counting borrowed books instead of damaged books in the selected group; the matching percentage does not validate the reasoning |
+| `independence-quiz-question` / 1 | Treating nonempty events as enough to decide independence |
+| `independence-quiz-question` / 2 | Treating different subject labels as evidence of dependence |
+| `bilingual-quiz` / 0 | Counting the whole club despite the question's condition |
+
+On an incorrect attempt, only the matching hint is shown; the correct choice and explanation remain hidden until a correct attempt or an explicit reveal. Retry retains the latest hint, and another wrong choice replaces it. Students can reveal the solution before answering without receiving a correct grade. The prerequisite refresher link and return route remain available after a wrong answer and through retry, and clear after a correct answer. These interactions provide another opportunity to reason and do not establish learning outcomes.
+
 ## Running-case connections
 
 | Case step | Problem still unresolved | Next concept or action | Source / new provenance |

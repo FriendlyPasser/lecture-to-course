@@ -155,7 +155,12 @@ class Fragment(HTMLParser):
         if "quiz" in classes:
             if self.quiz:
                 raise ValueError("Nested quizzes unsupported")
-            self.quiz = {"answer": int(a["data-answer"]), "options": 0, "required": set()}
+            self.quiz = {
+                "answer": int(a["data-answer"]),
+                "options": 0,
+                "required": set(),
+                "node": node,
+            }
             self.quizzes.append(self.quiz)
             self.quiz_depth = len(self.elements)
         if self.quiz:
@@ -253,6 +258,107 @@ class Fragment(HTMLParser):
             or (node["tag"] == "details" and (collapsible or "open" not in node["attrs"]))
             for node in nodes
         )
+
+    @staticmethod
+    def hint_blocked(nodes, revealing=None):
+        return any(
+            ("hidden" in node["attrs"] and node is not revealing)
+            or "inert" in node["attrs"]
+            or (node["attrs"].get("aria-hidden") or "").strip().lower() == "true"
+            or node["tag"] == "template"
+            or (node["tag"] == "details" and "open" not in node["attrs"])
+            for node in nodes
+        )
+
+    def validate_hints(self):
+        quizzes = {id(quiz["node"]): quiz for quiz in self.quizzes}
+        indexes = {}
+        for node in self.nodes:
+            if "quiz-hint" not in node["classes"]:
+                if "data-option" in node["attrs"]:
+                    raise ValueError("data-option requires a quiz-hint")
+                continue
+            owner = next(
+                (
+                    ancestor
+                    for ancestor in reversed(node["ancestors"])
+                    if "quiz" in ancestor["classes"]
+                ),
+                None,
+            )
+            if owner is None:
+                raise ValueError("Quiz hint must belong to a quiz")
+            quiz = quizzes[id(owner)]
+            value = node["attrs"].get("data-option") or ""
+            if not re.fullmatch(r"[0-9]+", value):
+                raise ValueError("Quiz hint needs an integer data-option")
+            index = int(value)
+            if not 0 <= index < quiz["options"] or index == quiz["answer"]:
+                raise ValueError("Quiz hint must target an incorrect option in range")
+            seen = indexes.setdefault(id(owner), set())
+            if index in seen:
+                raise ValueError("Duplicate quiz hint option")
+            seen.add(index)
+            if "hidden" not in node["attrs"]:
+                raise ValueError("Quiz hint must be initially hidden")
+            containers = (*node["ancestors"], node)
+            if any(
+                {"options", "explanation", "quiz-status", "retry"}.intersection(ancestor["classes"])
+                or (ancestor is not node and "quiz-hint" in ancestor["classes"])
+                for ancestor in containers
+            ):
+                raise ValueError(
+                    "Quiz hint must be outside options, feedback controls, explanations, and other hints"
+                )
+            if self.hint_blocked(containers, revealing=node):
+                raise ValueError("Quiz hint is unreachable")
+            readable = []
+            for child in self.nodes:
+                if child is node:
+                    readable.extend(child["text"])
+                elif any(ancestor is node for ancestor in child["ancestors"]):
+                    context = (*child["ancestors"][len(node["ancestors"]) + 1 :], child)
+                    if not self.hint_blocked(context):
+                        readable.extend(child["text"])
+            if not "".join(readable).strip():
+                raise ValueError("Quiz hint needs readable text")
+        for owner in indexes:
+            self.validate_hint_feedback(quizzes[owner]["node"])
+
+    def validate_hint_feedback(self, quiz):
+        descendants = [
+            node for node in self.nodes if any(ancestor is quiz for ancestor in node["ancestors"])
+        ]
+        for component in ("quiz-status", "retry", "explanation"):
+            matches = [node for node in descendants if component in node["classes"]]
+            if len(matches) != 1:
+                raise ValueError(f"Hinted quiz needs exactly one {component}")
+            node = matches[0]
+            initially_hidden = component != "quiz-status"
+            if ("hidden" in node["attrs"]) != initially_hidden:
+                state = "hidden" if initially_hidden else "visible"
+                raise ValueError(f"Hinted quiz {component} must be initially {state}")
+            ancestors = node["ancestors"][len(quiz["ancestors"]) + 1 :]
+            context = (*ancestors, node)
+            if component == "retry" and (
+                node["tag"] != "button"
+                or "disabled" in node["attrs"]
+                or any(
+                    parent["tag"] == "fieldset" and "disabled" in parent["attrs"]
+                    for parent in ancestors
+                )
+            ):
+                raise ValueError("Hinted quiz retry must be an enabled button")
+            forbidden = {"options", "quiz-hint", "quiz-status", "retry", "explanation"}
+            if (
+                self.hint_blocked(context, revealing=node if initially_hidden else None)
+                or any(parent["tag"] == "details" for parent in ancestors)
+                or any(forbidden.intersection(parent["classes"]) for parent in ancestors)
+                or (forbidden - {component}).intersection(node["classes"])
+            ):
+                raise ValueError(
+                    f"Hinted quiz {component} is unreachable or nested in other feedback"
+                )
 
     def validate_prerequisites(self):
         for node in self.nodes:
@@ -455,6 +561,7 @@ class Fragment(HTMLParser):
                 raise ValueError("Invalid quiz answer/options")
             if not {"explanation", "retry", "quiz-status"}.issubset(q["required"]):
                 raise ValueError("Quiz missing feedback, explanation, or retry")
+        self.validate_hints()
         self.validate_prerequisites()
         self.validate_practices()
         return "".join(self.parts)

@@ -75,6 +75,224 @@ class FragmentValidationTests(unittest.TestCase):
         self.assertEqual(parser.chapters, [("chapter", "A & B → C")])
         self.assertIn("A &#38; B &#x2192; C", result)
 
+    def hinted_quiz(self, hints):
+        return self.quiz.format(attributes="").replace(
+            '<p class="quiz-status">', hints + '<p class="quiz-status">'
+        )
+
+    def test_optional_hints_allow_partial_coverage_and_reused_indexes_across_quizzes(self):
+        hint = '<p class="quiz-hint" data-option="0" hidden>Compare <em>both</em> terms.</p>'
+        question = self.hinted_quiz(hint).replace(
+            "<button>Second</button>", "<button>Second</button><div><button>Third</button></div>"
+        )
+        self.assertIn(hint, self.parse(question + question))
+        # A hint may precede its options; the other wrong answer uses the runtime fallback.
+        before_options = question.replace(hint, "").replace(
+            '<div class="options">', hint + '<div class="options">'
+        )
+        self.parse(before_options)
+        self.parse(self.quiz.format(attributes=""))
+
+    def test_hints_require_unique_in_range_incorrect_integer_indexes(self):
+        for attribute in (
+            "",
+            "data-option",
+            'data-option=""',
+            'data-option=" "',
+            'data-option="-1"',
+            'data-option="+0"',
+            'data-option="0.0"',
+            'data-option="0junk"',
+            'data-option="1"',
+            'data-option="2"',
+        ):
+            hint = f'<p class="quiz-hint" {attribute} hidden>Review the terms.</p>'
+            with self.subTest(attribute=attribute), self.assertRaisesRegex(ValueError, "Quiz hint"):
+                self.parse(self.hinted_quiz(hint))
+        first = '<p class="quiz-hint" data-option="0" hidden>First hint.</p>'
+        second = '<p class="quiz-hint" data-option="00" hidden>Same option.</p>'
+        with self.assertRaisesRegex(ValueError, "Duplicate quiz hint"):
+            self.parse(self.hinted_quiz(first + second))
+
+    def test_hints_and_their_data_option_attribute_are_scoped(self):
+        hint = '<p class="quiz-hint" data-option="0" hidden>Review the terms.</p>'
+        for content in (hint, hint + self.quiz.format(attributes="")):
+            with (
+                self.subTest(content=content),
+                self.assertRaisesRegex(ValueError, "belong to a quiz"),
+            ):
+                self.parse(content)
+        for content in (
+            '<p data-option="0">Regular text.</p>',
+            self.hinted_quiz('<p data-option="0" hidden>Regular text.</p>'),
+            self.quiz.format(attributes="").replace(
+                "<button>First", '<button data-option="0">First'
+            ),
+        ):
+            with (
+                self.subTest(content=content),
+                self.assertRaisesRegex(ValueError, "requires a quiz-hint"),
+            ):
+                self.parse(content)
+
+    def test_hints_are_separate_from_options_explanations_and_other_hints(self):
+        hint = '<div class="quiz-hint" data-option="0" hidden>Review the terms.</div>'
+        question = self.quiz.format(attributes="")
+        for content in (
+            question.replace("<button>First", hint + "<button>First"),
+            question.replace("Reasoning", "<div>" + hint + "</div>"),
+            question.replace(
+                '<p class="quiz-status"></p>', '<div class="quiz-status">' + hint + "</div>"
+            ),
+            self.hinted_quiz(hint.replace('class="quiz-hint"', 'class="quiz-hint options"')),
+            self.hinted_quiz(hint.replace('class="quiz-hint"', 'class="quiz-hint explanation"')),
+        ):
+            with (
+                self.subTest(content=content),
+                self.assertRaisesRegex(ValueError, "outside options"),
+            ):
+                self.parse(content)
+        nested = self.hinted_quiz(
+            hint.replace(
+                "Review the terms.",
+                'Outer hint.<p class="quiz-hint" data-option="2" hidden>Nested hint.</p>',
+            )
+        ).replace("<button>Second</button>", "<button>Second</button><button>Third</button>")
+        with self.assertRaisesRegex(ValueError, "other hints"):
+            self.parse(nested)
+
+    def test_hints_start_hidden_and_can_be_revealed(self):
+        hint = '<p class="quiz-hint" data-option="0" hidden>Review the terms.</p>'
+        with self.assertRaisesRegex(ValueError, "initially hidden"):
+            self.parse(self.hinted_quiz(hint.replace(" hidden", "")))
+        for content in (
+            hint.replace(" hidden", " hidden inert"),
+            hint.replace(" hidden", ' hidden aria-hidden="true"'),
+            "<div hidden>" + hint + "</div>",
+            "<div inert>" + hint + "</div>",
+            '<div aria-hidden="true">' + hint + "</div>",
+            "<template>" + hint + "</template>",
+            "<details><summary>Hint</summary>" + hint + "</details>",
+        ):
+            with self.subTest(content=content), self.assertRaisesRegex(ValueError, "unreachable"):
+                self.parse(self.hinted_quiz(content))
+        with self.assertRaisesRegex(ValueError, "unreachable"):
+            self.parse("<div hidden>" + self.hinted_quiz(hint) + "</div>")
+        self.parse(self.hinted_quiz("<div>" + hint + "</div>"))
+
+    def test_hints_need_visible_text_including_decoded_character_references(self):
+        for contents in (
+            "",
+            " \n\t ",
+            "&nbsp;&#32;&#x20;",
+            "<!-- Text in comments is not a hint. -->",
+            '<img src="example.png" alt="Illustration">',
+            "<span hidden>Hidden words</span>",
+            '<span aria-hidden="true">Hidden words</span>',
+            "<span inert>Unavailable words</span>",
+            "<template>Unrendered words</template>",
+        ):
+            hint = f'<div class="quiz-hint" data-option="0" hidden>{contents}</div>'
+            with (
+                self.subTest(contents=contents),
+                self.assertRaisesRegex(ValueError, "readable text"),
+            ):
+                self.parse(self.hinted_quiz(hint))
+        for contents in (
+            "<span>&alpha;</span>",
+            "&#945;",
+            "&#x3b1;",
+            "<span hidden>Icon</span>Read this.",
+        ):
+            hint = f'<div class="quiz-hint" data-option="0" hidden>{contents}</div>'
+            with self.subTest(contents=contents):
+                self.parse(self.hinted_quiz(hint))
+
+    def test_hinted_quiz_feedback_must_be_unique_and_initially_usable(self):
+        hint = '<p class="quiz-hint" data-option="0" hidden>Review the terms.</p>'
+        question = self.hinted_quiz(hint)
+        components = (
+            '<p class="quiz-status"></p>',
+            '<button class="retry" hidden>Retry</button>',
+            '<div class="explanation" hidden>Reasoning</div>',
+        )
+        for component in components:
+            with (
+                self.subTest(component=component),
+                self.assertRaisesRegex(ValueError, "exactly one"),
+            ):
+                self.parse(question.replace(component, component * 2))
+        for content in (
+            question.replace('class="quiz-status"', 'class="quiz-status" hidden'),
+            question.replace('class="retry" hidden', 'class="retry"'),
+            question.replace('class="explanation" hidden', 'class="explanation"'),
+            question.replace('class="retry"', 'class="retry" disabled'),
+            question.replace(components[1], '<a class="retry" hidden>Retry</a>'),
+            question.replace(components[1], "<fieldset disabled>" + components[1] + "</fieldset>"),
+            question.replace('class="retry"', 'class="retry explanation"').replace(
+                components[2], ""
+            ),
+        ):
+            with self.subTest(content=content), self.assertRaisesRegex(ValueError, "Hinted quiz"):
+                self.parse(content)
+        wrapped = question
+        for component in components:
+            wrapped = wrapped.replace(
+                component, '<div class="feedback-group">' + component + "</div>"
+            )
+        self.parse(wrapped)
+
+    def test_hinted_quiz_feedback_cannot_be_hidden_inside_another_component(self):
+        hint = '<p class="quiz-hint" data-option="0" hidden>Review the terms.</p>'
+        question = self.hinted_quiz(hint)
+        status = '<p class="quiz-status"></p>'
+        retry = '<button class="retry" hidden>Retry</button>'
+        explanation = '<div class="explanation" hidden>Reasoning</div>'
+        for content in (
+            question.replace(retry, "").replace("Reasoning", "Reasoning" + retry),
+            question.replace(status, "").replace("Reasoning", status + "Reasoning"),
+            question.replace(retry, "").replace("Review the terms.", "Review the terms." + retry),
+            question.replace(explanation, "").replace(
+                '<div class="options">', '<div class="options">' + explanation
+            ),
+            question.replace(explanation, "").replace(
+                status, '<div class="quiz-status">' + explanation + "</div>"
+            ),
+            question.replace(retry, "").replace(
+                status, '<div class="quiz-status">' + retry + "</div>"
+            ),
+        ):
+            with self.subTest(content=content), self.assertRaisesRegex(ValueError, "Hinted quiz"):
+                self.parse(content)
+        for component in (status, retry, explanation):
+            for start, end in (
+                ("<div hidden>", "</div>"),
+                ("<div inert>", "</div>"),
+                ('<div aria-hidden="true">', "</div>"),
+                ("<details open><summary>More</summary>", "</details>"),
+                ("<template>", "</template>"),
+            ):
+                with (
+                    self.subTest(component=component, start=start),
+                    self.assertRaisesRegex(ValueError, "unreachable"),
+                ):
+                    self.parse(question.replace(component, start + component + end))
+            for attribute in (" inert", ' aria-hidden="true"'):
+                with (
+                    self.subTest(component=component, attribute=attribute),
+                    self.assertRaisesRegex(ValueError, "unreachable"),
+                ):
+                    self.parse(
+                        question.replace(component, component.replace(">", attribute + ">", 1))
+                    )
+        # Existing immediate-explanation quizzes may still place retry inside the solution.
+        legacy = (
+            self.quiz.format(attributes="")
+            .replace(retry, "")
+            .replace("Reasoning", "Reasoning" + retry)
+        )
+        self.parse(legacy)
+
     def test_optional_prerequisites_support_forward_and_shared_references(self):
         first = self.quiz.format(attributes='id="first" data-prerequisite="refresh"')
         second = self.quiz.format(attributes='id="second" data-prerequisite="refresh"')

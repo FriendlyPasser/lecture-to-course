@@ -125,7 +125,12 @@
       "Self-check: did you name shaded plants as the eligible group, explain that 15 is positive, and distinguish exact 1/3 from rounded 0.333? The total of 45 cancels. Uniform selection is an assumption about how the plant is chosen, not an algebraic conclusion.": "自查要点：是否明确阴凉处的植物是参照群体，说明分母 15 为正，并区分精确值 1/3 与四舍五入后的 0.333？总数 45 在运算中相消。等可能抽取是选择植物的方式所满足的假设，不是代数运算推导出的结论。",
       "This comparison is for your own evaluation; the website does not grade the meaning of your explanation.": "这些要点供你自行对照；网站不会自动判断你的文字解释是否正确。",
       "Probability (no units; decimal, fraction, or percentage; accepted within 0.0005)": "概率（无单位；可用小数、分数或百分比；允许误差为 0.0005）",
-      "Among chess players, what is the probability of not playing tennis? The first step is complete: 10 − 4 = 6 chess players do not play tennis. Choose the missing denominator in P(not T | C) = 6 / ?, then enter the resulting probability.": "下棋成员中，不打网球的概率是多少？第一步已完成：10 − 4 = 6 名下棋成员不打网球。请先补全 P(not T | C) = 6 / ? 中缺少的分母，再输入计算得到的概率。"
+      "Among chess players, what is the probability of not playing tennis? The first step is complete: 10 − 4 = 6 chess players do not play tennis. Choose the missing denominator in P(not T | C) = 6 / ?, then enter the resulting probability.": "下棋成员中，不打网球的概率是多少？第一步已完成：10 − 4 = 6 名下棋成员不打网球。请先补全 P(not T | C) = 6 / ? 中缺少的分母，再输入计算得到的概率。",
+      "Check which color your percentage counts. Is the question asking about blue counters or the counters left over?": "检查你的百分比统计了哪种颜色。题目问的是蓝色计数片，还是剩下的计数片？",
+      "Adding the group sizes counts a person who does both more than once. Which people belong in both groups at the same time?": "把两个群体的人数相加，会重复计算两项活动都参加的人。哪些人同时属于这两个群体？",
+      "You have counted everyone doing at least one activity. How is that different from belonging to both groups?": "你统计的是至少参加一项活动的所有人。这与同时属于两个群体有什么区别？",
+      "Using the entire club includes members who do not meet the given condition. Which words in the question restrict the group?": "使用整个俱乐部的人数，会把不满足给定条件的成员也算进去。题目中的哪些词限定了参照群体？",
+      "Multiplying the counts does not measure a share. How could you compare the blue count with the total instead?": "把两个数量相乘，不能得到所占比例。你可以怎样比较蓝色计数片的数量与总数量？"
     }
   }
 }

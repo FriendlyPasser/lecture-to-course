@@ -42,7 +42,8 @@ summary:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 .practice-solution:focus-visible,
-.quiz:focus-visible {
+.quiz:focus-visible,
+.quiz-status:focus-visible {
   outline: 3px solid #2c715c;
   outline-offset: 4px;
 }
@@ -382,17 +383,26 @@ textarea.practice-response {
   padding-top: 12px;
   margin-top: 20px;
 }
+.quiz-hint {
+  border-left: 3px solid var(--green);
+  background: var(--wash);
+  padding: 12px 16px;
+}
 .explanation {
   border-top: 1px solid var(--line);
   padding-top: 8px;
 }
 .retry,
+.show-explanation,
 .prerequisite-return {
   border: 0;
   border-bottom: 1px solid var(--accent);
   background: none;
   color: var(--accent);
   padding: 3px 0;
+}
+.show-explanation {
+  margin-right: 22px;
 }
 .prerequisite-return {
   margin-top: 18px;

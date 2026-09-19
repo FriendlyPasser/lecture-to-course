@@ -15,6 +15,8 @@
 
 课程支持中英文讲解与练习。右上角的语言切换按钮随滚动保持可见，右侧“术语”入口独立保留；切换时保留作答状态和阅读位置，并记住语言选择。编写方法见[双语内容约定](lecture-to-course/references/authoring.md#bilingual-lessons)。
 
+选择题可按错误选项提供针对性提示，重试时保留提示，也允许学生主动查看完整解析。切换语言时，提示与作答状态保持一致。编写方法见[测验提示约定](lecture-to-course/references/authoring.md#hints-before-the-full-answer)。
+
 ## 学习时能得到什么
 
 | 你遇到的问题 | 课程提供的帮助 |
